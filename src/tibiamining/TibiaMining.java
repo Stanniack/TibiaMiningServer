@@ -1,18 +1,26 @@
 package tibiamining;
 
-import characaterdata.AccountCharacters;
 import characaterdata.CharacterT;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TibiaMining {
 
    
     public static void main(String[] args) {
         CharacterT c = new SearchCharacter().searchChar("Kharsek");
-        //System.out.println(c);
+        //System.out.println(c.getSharedExpMinLevel());
+        //System.out.println(c.getSharedExpMaxLevel());
         
-        for (AccountCharacters a : c.getAccountCharacters()) {
-            System.out.println(a.getNumber());
+        for (String s : c.getLevelAdvances()) {
+            System.out.println(s);
         }
+        
+      
+        
+        
+        
+        //System.out.println(c);
     }
     
 }

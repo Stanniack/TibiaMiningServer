@@ -1,11 +1,10 @@
-
 package characaterdata;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class CharacterT {
+
     private String name;
     private String sex;
     private String vocation;
@@ -18,37 +17,64 @@ public class CharacterT {
     private String lastLogin;
     private String comment;
     private String accountStatus;
+    private String sharedExpMinLevel;
+    private String sharedExpMaxLevel;
     private List<String> achievments;
     private List<String> deaths;
     private AccountInformation accountInformation;
     private List<AccountCharacters> accountCharacters;
+    private List<String> levelAdvances;
 
-    
-    public CharacterT(){
+    public CharacterT() {
         this.accountInformation = new AccountInformation();
         this.achievments = new ArrayList<>();
         this.deaths = new ArrayList<>();
         this.accountCharacters = new ArrayList<>();
+        this.levelAdvances = new ArrayList<>();
     }
-    
+
     @Override
     public String toString() {
-        return  " Name: " + name 
-                + "\n sex: " 
-                + sex + "\n Vocation: " 
-                + vocation + "\n Level: " 
-                + level + "\n Achievement Points: " 
-                + achievementPoints + "\n World: " 
-                + world + "\n Residence: " 
-                + residence + "\n House: " 
-                + house + "\n Guild: " 
-                + guild + "\n Last Login: " 
-                + lastLogin + "\n Comment: " 
-                + comment + "\n Account Status: " 
-                + accountStatus + "\n Achievments: " 
-                + achievments + "\n Account Information: " 
-                + accountInformation.getTitle() + "\n Created:" + accountInformation.getDateCreate() + "\n Account Characters: " 
+        return " Name: " + name
+                + "\n sex: "
+                + sex + "\n Vocation: "
+                + vocation + "\n Level: "
+                + level + "\n Achievement Points: "
+                + achievementPoints + "\n World: "
+                + world + "\n Residence: "
+                + residence + "\n House: "
+                + house + "\n Guild: "
+                + guild + "\n Last Login: "
+                + lastLogin + "\n Comment: "
+                + comment + "\n Account Status: "
+                + accountStatus + "\n Achievments: "
+                + achievments + "\n Account Information: "
+                + accountInformation.getTitle() + "\n Created:" + accountInformation.getDateCreate() + "\n Account Characters: "
                 + accountCharacters;
+    }
+
+    public List<String> getLevelAdvances() {
+        return levelAdvances;
+    }
+
+    public void setLevelAdvances(List<String> levelAdvances) {
+        this.levelAdvances = levelAdvances;
+    }
+
+    public String getSharedExpMinLevel() {
+        return sharedExpMinLevel;
+    }
+
+    public String getSharedExpMaxLevel() {
+        return sharedExpMaxLevel;
+    }
+
+    public void setSharedExpMinLevel(String sharedExpMinLevel) {
+        this.sharedExpMinLevel = sharedExpMinLevel;
+    }
+
+    public void setSharedExpMaxLevel(String sharedExpMaxLevel) {
+        this.sharedExpMaxLevel = sharedExpMaxLevel;
     }
 
     public List<String> getDeaths() {
@@ -58,7 +84,6 @@ public class CharacterT {
     public void setDeaths(List<String> deaths) {
         this.deaths = deaths;
     }
-    
 
     public String getName() {
         return name;
@@ -179,7 +204,5 @@ public class CharacterT {
     public void setAccountCharacters(List<AccountCharacters> accountCharacters) {
         this.accountCharacters = accountCharacters;
     }
-    
-    
-}
 
+}
