@@ -1,5 +1,6 @@
 
-package characaterdata;
+package model;
+
 
 public class AccountCharacters {
     private String number;

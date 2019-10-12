@@ -1,18 +1,17 @@
-package tibiamining;
+package regrasdenegocio;
 
-import characaterdata.AccountCharacters;
-import characaterdata.CharacterT;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import model.CharacterT;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class SearchCharacter {
+public class SearchCharacterDESUSO {
 
     public CharacterT searchChar(String name) {
         CharacterT personagem = new CharacterT();

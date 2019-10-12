@@ -1,4 +1,5 @@
-package characaterdata;
+package model;
+
 
 public class AccountInformation {
     private String title;
