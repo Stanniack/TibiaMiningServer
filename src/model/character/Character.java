@@ -1,16 +1,19 @@
-package model;
+package model.character;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CharacterT {
+public class Character {
 
     private String name;
+    private String title;
     private String sex;
     private String vocation;
     private String level;
     private String achievementPoints;
     private String world;
+    private String formerWorld;
+    private List<FormerWorld> formerWorlds;
     private String residence;
     private String house;
     private String guild;
@@ -23,42 +26,23 @@ public class CharacterT {
     private List<String> deaths;
     private AccountInformation accountInformation;
     private List<AccountCharacters> accountCharacters;
-    private List<String> levelAdvances;
+    private List<LevelAdvance> levelAdvances;
+    private List<Guild> guilds;
+    private List<Comment> comments;
+    private List<House> houses;
+    private List<CharacterRanking> ranking;
 
-    public CharacterT() {
+    public Character() {
         this.accountInformation = new AccountInformation();
         this.achievments = new ArrayList<>();
         this.deaths = new ArrayList<>();
         this.accountCharacters = new ArrayList<>();
         this.levelAdvances = new ArrayList<>();
-    }
+        this.guilds = new ArrayList<>();
+        this.comments = new ArrayList<>();
+        this.ranking = new ArrayList<>();
+        this.formerWorlds = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return " Name: " + name
-                + "\n sex: "
-                + sex + "\n Vocation: "
-                + vocation + "\n Level: "
-                + level + "\n Achievement Points: "
-                + achievementPoints + "\n World: "
-                + world + "\n Residence: "
-                + residence + "\n House: "
-                + house + "\n Guild: "
-                + guild + "\n Last Login: "
-                + lastLogin + "\n Comment: "
-                + comment + "\n Account Status: "
-                + accountStatus + "\n Achievments: "
-                + achievments + "\n Account Information: "
-                + accountInformation.getTitle() + "\n Created:" + accountInformation.getDateCreate() + "\n Account Characters: "
-                + accountCharacters;
-    }
-
-    public List<String> getLevelAdvances() {
-        return levelAdvances;
-    }
-
-    public void setLevelAdvances(List<String> levelAdvances) {
-        this.levelAdvances = levelAdvances;
     }
 
     public String getSharedExpMinLevel() {
@@ -203,6 +187,70 @@ public class CharacterT {
 
     public void setAccountCharacters(List<AccountCharacters> accountCharacters) {
         this.accountCharacters = accountCharacters;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<LevelAdvance> getLevelAdvances() {
+        return levelAdvances;
+    }
+
+    public void setLevelAdvances(List<LevelAdvance> levelAdvances) {
+        this.levelAdvances = levelAdvances;
+    }
+
+    public List<Guild> getGuilds() {
+        return guilds;
+    }
+
+    public void setGuilds(List<Guild> guilds) {
+        this.guilds = guilds;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<House> getHouses() {
+        return houses;
+    }
+
+    public void setHouses(List<House> houses) {
+        this.houses = houses;
+    }
+
+    public List<CharacterRanking> getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(List<CharacterRanking> ranking) {
+        this.ranking = ranking;
+    }
+
+    public String getFormerWorld() {
+        return formerWorld;
+    }
+
+    public void setFormerWorld(String formerWorld) {
+        this.formerWorld = formerWorld;
+    }
+
+    public List<FormerWorld> getFormerWorlds() {
+        return formerWorlds;
+    }
+
+    public void setFormerWorlds(List<FormerWorld> formerWorlds) {
+        this.formerWorlds = formerWorlds;
     }
 
 }

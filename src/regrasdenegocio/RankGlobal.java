@@ -9,7 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import utils.PopulaMundos;
-import model.Character;
+import model.CharacterRank;
 
 public class RankGlobal {
 
@@ -32,7 +32,7 @@ public class RankGlobal {
     public void rankGlobal() {
         Long tempoInicial = System.currentTimeMillis();
         List<String> listaDeElementos = new ArrayList<>();
-        List<Character> listaDeChars = new ArrayList<>();
+        List<CharacterRank> listaDeChars = new ArrayList<>();
         List<String> mundos = PopulaMundos.populaMundos();
 
         for (int i = 0; i < TOTAL_WORLDS; i++) {
@@ -65,7 +65,7 @@ public class RankGlobal {
                         String valorConvertido = listaDeElementos.get(k + POINTS).replace(",", "");
                         Long valorCvtLong = Long.valueOf(valorConvertido);
 
-                        listaDeChars.add(new Character(
+                        listaDeChars.add(new CharacterRank(
                                 listaDeElementos.get(k),
                                 listaDeElementos.get(k + NAME),
                                 listaDeElementos.get(k + VOCATION),
@@ -96,7 +96,7 @@ public class RankGlobal {
 
     }// fim do metodo
 
-    private void exibeConteudo(List<Character> lista) {
+    private void exibeConteudo(List<CharacterRank> lista) {
         
         System.out.println("___________________________________________________");
         Collections.sort(lista);

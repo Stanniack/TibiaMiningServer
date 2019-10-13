@@ -1,6 +1,6 @@
 package tibiamining;
 
-import regrasdenegocio.SearchCharacterDESUSO;
+import regrasdenegocio.SearchCharacter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import regrasdenegocio.CheckOnline;
@@ -15,7 +15,7 @@ public class TibiaMining {
 //        }
 
 //        new SearchCharInformation().searchCharacter();
-//          new SearchCharacterDESUSO().searchChar("Panzt");
+//          new SearchCharacter().searchChar("Panzt");
 
 //        new CheckOnline().checkOnline();
 

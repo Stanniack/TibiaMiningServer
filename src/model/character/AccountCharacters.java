@@ -1,28 +1,15 @@
-
-package model;
-
+package model.character;
 
 public class AccountCharacters {
-    private String number;
+
     private String name;
     private String world;
     private String status;
 
-    public AccountCharacters(String number, String name, String world, String status) {
-        this.number = number;
+    public AccountCharacters(String name, String world, String status) {
         this.name = name;
         this.world = world;
         this.status = status;
-    }
-    
-    
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 
     public String getName() {
@@ -48,6 +35,5 @@ public class AccountCharacters {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    
+
 }

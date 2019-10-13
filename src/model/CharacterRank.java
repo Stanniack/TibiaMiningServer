@@ -1,6 +1,6 @@
 package model;
 
-public class Character implements Comparable<Character> {
+public class CharacterRank implements Comparable<CharacterRank> {
 
     private String rankWorld;
     private String world;
@@ -10,7 +10,7 @@ public class Character implements Comparable<Character> {
     private Long points;
     private String rankTibia;
 
-    public Character(String rankWorld, String name, String vocation, String level, Long points, String world) {
+    public CharacterRank(String rankWorld, String name, String vocation, String level, Long points, String world) {
         this.rankWorld = rankWorld;
         this.name = name;
         this.vocation = vocation;
@@ -19,7 +19,7 @@ public class Character implements Comparable<Character> {
         this.world = world;
     }
     
-    public Character (String name, String level, String vocation) {
+    public CharacterRank (String name, String level, String vocation) {
         this.name = name;
         this.level = level;
         this.vocation = vocation;
@@ -92,7 +92,7 @@ public class Character implements Comparable<Character> {
     }
 
     @Override
-    public int compareTo(Character outro) {
+    public int compareTo(CharacterRank outro) {
         if(this.points < outro.points){
             return 1;
         }
