@@ -18,7 +18,7 @@ public class Biridin {
     public static void main(String[] args) {
 
         //new CheckOnline().checkOnline();
-        model.character.Character c = new SearchCharacter().searchChar("Wynchesther");
+        model.character.Character c = new SearchCharacter().searchChar("Pa blim");
         System.out.println(
                   c.getName() + " "
                 + c.getTitle() + " "

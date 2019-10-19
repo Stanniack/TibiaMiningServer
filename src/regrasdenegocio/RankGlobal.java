@@ -29,7 +29,7 @@ public class RankGlobal {
     private static final int LEVEL = 3;
     private static final int POINTS = 4;
 
-    public void rankGlobal() {
+    public void rankGlobalExperience() {
         Long tempoInicial = System.currentTimeMillis();
         List<String> listaDeElementos = new ArrayList<>();
         List<CharacterRank> listaDeChars = new ArrayList<>();
@@ -91,8 +91,8 @@ public class RankGlobal {
         System.out.println("O tempo total para minerar todos os servidores foi de " + ((tempoFinal - tempoInicial) / 1000)
                 + " segundos");
 
-        /*  */
-        this.exibeConteudo(listaDeChars);
+        /* Exibir conteúdo */
+        //this.exibeConteudo(listaDeChars);
 
     }// fim do metodo
 

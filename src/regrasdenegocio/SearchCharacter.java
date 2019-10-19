@@ -3,8 +3,6 @@ package regrasdenegocio;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import model.character.Character;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,7 +31,6 @@ public class SearchCharacter {
                 listaDeElementos = elemento.getElementsByTag("td").eachText();
             }
 
-            //System.out.println(listaDeElementos);
 
             /* Trabalhando com a lista de elementos do Tibia.com*/
             for (int i = 1; i < listaDeElementos.size() - 2; i++) {
@@ -44,7 +41,7 @@ public class SearchCharacter {
                 } else if (listaDeElementos.get(i).toLowerCase().equals("former names:")) {
 
                     /* Pega todos os former names */
-                    int j = 0;
+                    int j = 1;
                     while (!listaDeElementos.get(i + j).toLowerCase().equals("title:")) {
                         // Resolvero  bang aqui
                         System.out.println(listaDeElementos.get(i + j));
@@ -134,10 +131,13 @@ public class SearchCharacter {
 
         } catch (IOException e) {
             System.out.println("Erro na conexão Jsoup: " + e);
+            
         } catch (java.lang.IllegalArgumentException e) {
             System.out.println("Url inválida: " + e);
+            
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Quebra de array: " + e);
+            
         }
 
         return personagem;

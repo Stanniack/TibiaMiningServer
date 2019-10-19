@@ -18,6 +18,7 @@ public class CheckOnline {
         List<String> mundos = PopulaMundos.populaMundos();
 
         while (true) {
+            
             for (int i = 0; i < PopulaMundos.populaMundos().size(); i++) {
                 String url = "https://www.tibia.com/community/?subtopic=worlds&world=" + mundos.get(i);
                 novos = 0;
@@ -53,6 +54,8 @@ public class CheckOnline {
 
                         /* Adiciona na lista o resultado*/
                         if (!listaDeChar.toString().contains(text)) {
+                            /* Regras de persistência aqui */
+                            
                             listaDeChar.add(text);
                             novos++;
                         }
