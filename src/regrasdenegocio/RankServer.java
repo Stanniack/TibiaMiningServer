@@ -9,7 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import utils.PopulaMundos;
+import utils.MockWorldsTibia;
 
 /**
  *
@@ -85,12 +85,12 @@ public class RankServer {
 
         List<Integer> listaDeLevels = new ArrayList<>();
 
-        for (int i = 0; i < PopulaMundos.populaMundos().size(); i++) {
+        for (int i = 0; i < MockWorldsTibia.getWorldsTibia().size(); i++) {
             List<String> listaDeElementos = new ArrayList<>();
             List<String> listaDePersonagens = new ArrayList<>();
             Long timeI = System.currentTimeMillis();
 
-            String url = "https://www.tibia.com/community/?subtopic=worlds&world=" + PopulaMundos.populaMundos().get(i);
+            String url = "https://www.tibia.com/community/?subtopic=worlds&world=" + MockWorldsTibia.getWorldsTibia().get(i);
 
             try {
                 Document arquivoHtml = Jsoup.connect(url).get();
@@ -136,7 +136,7 @@ public class RankServer {
 
                 Long timeF = System.currentTimeMillis();
 
-                System.out.println(((timeF - timeI) / 1000) + " segundos para " + PopulaMundos.populaMundos().get(i));
+                System.out.println(((timeF - timeI) / 1000) + " segundos para " + MockWorldsTibia.getWorldsTibia().get(i));
 
             } catch (IOException e) {
                 System.out.println("Erro de execução: " + e);

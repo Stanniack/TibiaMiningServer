@@ -1,6 +1,24 @@
-package model.character;
+package model;
 
+
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class AccountCharacters {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id_accountCharacters;
+    
+    @ManyToOne
+    @JoinColumn(name = "idCharacter", nullable = true)
+    private CharacterTibia character;
 
     private String name;
     private String world;

@@ -1,49 +1,81 @@
-package model.character;
+package model;
 
+
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
-public class Character {
+@Entity
+public class CharacterTibia implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idCharacter;
 
     private String name;
     private String title;
     private String sex;
     private String vocation;
     private String level;
-    private String achievementPoints;
-    private String world;
-    private String formerWorld;
-    private List<FormerWorld> formerWorlds;
     private String residence;
-    private String house;
-    private String guild;
     private String lastLogin;
-    private String comment;
     private String accountStatus;
     private String sharedExpMinLevel;
     private String sharedExpMaxLevel;
-    private List<String> achievments;
-    private List<String> deaths;
-    private AccountInformation accountInformation;
+
+    // Remover e abrir uma classe
+    //private List<String> deaths;
+
+    //private AccountInformation accountInformation;
+
+    /* P.s: usar sistema unidrecional quando as tabelas não forem fortes, usar bidrecional quando for usar cascade */
+    
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FormerWorld> formerWorlds;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AchievementPoints> achievements;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountCharacters> accountCharacters;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LevelAdvance> levelAdvances;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Guild> guilds;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<House> houses;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CharacterRanking> ranking;
 
-    public Character() {
-        this.accountInformation = new AccountInformation();
-        this.achievments = new ArrayList<>();
-        this.deaths = new ArrayList<>();
+    public CharacterTibia() {
+        //this.accountInformation = new AccountInformation();
+        this.achievements = new ArrayList<>();
+        //this.deaths = new ArrayList<>();
         this.accountCharacters = new ArrayList<>();
         this.levelAdvances = new ArrayList<>();
         this.guilds = new ArrayList<>();
         this.comments = new ArrayList<>();
         this.ranking = new ArrayList<>();
         this.formerWorlds = new ArrayList<>();
+        this.achievements = new ArrayList<>();
 
     }
+    
+    
 
     public String getSharedExpMinLevel() {
         return sharedExpMinLevel;
@@ -61,13 +93,13 @@ public class Character {
         this.sharedExpMaxLevel = sharedExpMaxLevel;
     }
 
-    public List<String> getDeaths() {
-        return deaths;
-    }
-
-    public void setDeaths(List<String> deaths) {
-        this.deaths = deaths;
-    }
+//    public List<String> getDeaths() {
+//        return deaths;
+//    }
+//
+//    public void setDeaths(List<String> deaths) {
+//        this.deaths = deaths;
+//    }
 
     public String getName() {
         return name;
@@ -101,44 +133,12 @@ public class Character {
         this.level = level;
     }
 
-    public String getAchievementPoints() {
-        return achievementPoints;
-    }
-
-    public void setAchievementPoints(String achievementPoints) {
-        this.achievementPoints = achievementPoints;
-    }
-
-    public String getWorld() {
-        return world;
-    }
-
-    public void setWorld(String world) {
-        this.world = world;
-    }
-
     public String getResidence() {
         return residence;
     }
 
     public void setResidence(String residence) {
         this.residence = residence;
-    }
-
-    public String getHouse() {
-        return house;
-    }
-
-    public void setHouse(String house) {
-        this.house = house;
-    }
-
-    public String getGuild() {
-        return guild;
-    }
-
-    public void setGuild(String guild) {
-        this.guild = guild;
     }
 
     public String getLastLogin() {
@@ -149,14 +149,6 @@ public class Character {
         this.lastLogin = lastLogin;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public String getAccountStatus() {
         return accountStatus;
     }
@@ -165,21 +157,13 @@ public class Character {
         this.accountStatus = accountStatus;
     }
 
-    public List<String> getAchievments() {
-        return achievments;
-    }
-
-    public void setAchievments(List<String> achievments) {
-        this.achievments = achievments;
-    }
-
-    public AccountInformation getAccountInformation() {
-        return accountInformation;
-    }
-
-    public void setAccountInformation(AccountInformation accountInformation) {
-        this.accountInformation = accountInformation;
-    }
+//    public AccountInformation getAccountInformation() {
+//        return accountInformation;
+//    }
+//
+//    public void setAccountInformation(AccountInformation accountInformation) {
+//        this.accountInformation = accountInformation;
+//    }
 
     public List<AccountCharacters> getAccountCharacters() {
         return accountCharacters;
@@ -237,20 +221,28 @@ public class Character {
         this.ranking = ranking;
     }
 
-    public String getFormerWorld() {
-        return formerWorld;
-    }
-
-    public void setFormerWorld(String formerWorld) {
-        this.formerWorld = formerWorld;
-    }
-
     public List<FormerWorld> getFormerWorlds() {
         return formerWorlds;
     }
 
     public void setFormerWorlds(List<FormerWorld> formerWorlds) {
         this.formerWorlds = formerWorlds;
+    }
+
+    public List<AchievementPoints> getAchievements() {
+        return achievements;
+    }
+
+    public void setAchievements(List<AchievementPoints> achievements) {
+        this.achievements = achievements;
+    }
+
+    public Integer getIdCharacter() {
+        return idCharacter;
+    }
+
+    public void setIdCharacter(Integer idCharacter) {
+        this.idCharacter = idCharacter;
     }
 
 }

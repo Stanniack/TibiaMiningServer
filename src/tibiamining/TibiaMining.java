@@ -1,26 +1,26 @@
 package tibiamining;
 
+import DAO.AbstractDAO;
+import javax.persistence.EntityManager;
 import regrasdenegocio.SearchCharacter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import regrasdenegocio.CheckOnline;
+import model.CharacterTibia;
+import model.FormerWorld;
+import utils.JPAUtil;
 
 public class TibiaMining {
 
     public static void main(String[] args) {
-//        CharacterT c = new SearchCharacter().searchChar("Kharsek");
-//
-//        for (String s : c.getLevelAdvances()) {
-//            System.out.println(s);
-//        }
 
-//        new SearchCharInformation().searchCharacter();
-//          new SearchCharacter().searchChar("Panzt");
-
-//        new CheckOnline().checkOnline();
-
+        CharacterTibia c = new CharacterTibia();
+        c.setName("teste2");
         
-    
+        EntityManager em = JPAUtil.getInstance();
+        
+        em.getTransaction().begin();
+        em.persist(c);
+        em.getTransaction().commit();
+        em.close();
 
     }
 

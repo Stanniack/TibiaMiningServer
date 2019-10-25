@@ -1,5 +1,4 @@
-package model.character;
-
+package model;
 
 public class AccountInformation {
     private String title;

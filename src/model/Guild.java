@@ -1,9 +1,27 @@
+package model;
 
-package model.character;
+
+
 
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
+@Entity
 public class Guild {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idGuild;
+    
+    @ManyToOne
+    @JoinColumn(name = "idCharacter", nullable = true)
+    private CharacterTibia character;
+    
     private String nameGuild;
     private String positionMemberGuild;
     private Calendar dateBegin;

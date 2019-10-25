@@ -4,9 +4,9 @@ package utils;
 import java.util.Arrays;
 import java.util.List;
 
-public class PopulaMundos {
+public class MockWorldsTibia {
     
-    public static List<String> populaMundos(){
+    public static List<String> getWorldsTibia(){
         List<String> worlds = Arrays.asList(
                 "Antica",
                 "Assombra",

@@ -8,7 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import utils.PopulaMundos;
+import utils.MockWorldsTibia;
 import model.CharacterRank;
 
 public class RankGlobal {
@@ -33,7 +33,7 @@ public class RankGlobal {
         Long tempoInicial = System.currentTimeMillis();
         List<String> listaDeElementos = new ArrayList<>();
         List<CharacterRank> listaDeChars = new ArrayList<>();
-        List<String> mundos = PopulaMundos.populaMundos();
+        List<String> mundos = MockWorldsTibia.getWorldsTibia();
 
         for (int i = 0; i < TOTAL_WORLDS; i++) {
 

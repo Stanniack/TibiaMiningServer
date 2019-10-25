@@ -93,7 +93,7 @@ public class SearchCharacter {
                     int j = 1;
 
                     while (!listaDeElementos.get(i + j).toLowerCase().equals("account information") && !listaDeElementos.get(i + j).toLowerCase().equals("search character")) {
-                        personagem.getAchievments().add(listaDeElementos.get(i + j));
+                        personagem.getAchievements().add(listaDeElementos.get(i + j));
                         j++;
                     }
 

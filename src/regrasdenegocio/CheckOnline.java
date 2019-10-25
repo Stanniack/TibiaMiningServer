@@ -7,20 +7,20 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import utils.PopulaMundos;
+import utils.MockWorldsTibia;
 
 public class CheckOnline {
 
-    private List<String> listaDeChar = new ArrayList<>();
+    private List<String> listCharacters = new ArrayList<>();
 
     public synchronized void checkOnline() {
         int novos;
-        List<String> mundos = PopulaMundos.populaMundos();
+        List<String> worldsTibia = MockWorldsTibia.getWorldsTibia();
 
         while (true) {
-            
-            for (int i = 0; i < PopulaMundos.populaMundos().size(); i++) {
-                String url = "https://www.tibia.com/community/?subtopic=worlds&world=" + mundos.get(i);
+
+            for (int i = 0; i < MockWorldsTibia.getWorldsTibia().size(); i++) {
+                String url = "https://www.tibia.com/community/?subtopic=worlds&world=" + worldsTibia.get(i);
                 novos = 0;
 
                 try {
@@ -53,10 +53,8 @@ public class CheckOnline {
                         text = text.replace("paladin", "");
 
                         /* Adiciona na lista o resultado*/
-                        if (!listaDeChar.toString().contains(text)) {
-                            /* Regras de persistência aqui */
-                            
-                            listaDeChar.add(text);
+                        if (!listCharacters.toString().contains(text)) {
+                            listCharacters.add(text);
                             novos++;
                         }
 
@@ -79,8 +77,8 @@ public class CheckOnline {
                         text = text.replace("paladin", "");
 
                         /* Adiciona na lista o resultado*/
-                        if (!listaDeChar.toString().contains(text)) {
-                            listaDeChar.add(text);
+                        if (!listCharacters.toString().contains(text)) {
+                            listCharacters.add(text);
                             novos++;
                         }
 
@@ -88,9 +86,10 @@ public class CheckOnline {
 
                     if (novos != 0) {
                         System.out.println(novos + " novos personagens.");
+                        /* Regra de persistência aqui */
                     }
 
-                    System.out.println("Servidor: " + mundos.get(i));
+                    System.out.println("Servidor: " + worldsTibia.get(i));
 
                 } catch (IOException e) {
                     System.out.println("Erro na execução." + e);

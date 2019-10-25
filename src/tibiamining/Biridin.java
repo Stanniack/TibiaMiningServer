@@ -18,20 +18,20 @@ public class Biridin {
     public static void main(String[] args) {
 
         //new CheckOnline().checkOnline();
-        model.character.Character c = new SearchCharacter().searchChar("Pa blim");
-        System.out.println(
-                  c.getName() + " "
-                + c.getTitle() + " "
-                + c.getSex() + " "
-                + c.getVocation() + " "
-                + c.getAchievementPoints() + " "
-                + c.getWorld() + " "
-                + c.getResidence() + " "
-                + c.getLastLogin() + " "
-                + c.getAccountStatus() + " "
-                + c.getAchievments().toString() + " "
-                + c.getDeaths() + " "
-        );
+//        model.character.Character c = new SearchCharacter().searchChar("Pa blim");
+//        System.out.println(
+//                  c.getName() + " "
+//                + c.getTitle() + " "
+//                + c.getSex() + " "
+//                + c.getVocation() + " "
+//                + c.getAchievementPoints() + " "
+//                + c.getWorld() + " "
+//                + c.getResidence() + " "
+//                + c.getLastLogin() + " "
+//                + c.getAccountStatus() + " "
+//                + c.getAchievements().toString() + " "
+//                + c.getDeaths() + " "
+//        );
 
     }
 
