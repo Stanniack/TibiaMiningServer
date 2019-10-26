@@ -3,6 +3,7 @@ package model;
 
 
 
+import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,10 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 @Entity
-public class LevelAdvance {
+public class LevelAdvance implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +24,13 @@ public class LevelAdvance {
     
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
-    private CharacterTibia character;
+    private Personagem personagem;
     
     private Double expDay;
     private int levelDay;
-    private Calendar day;
+    
+    @Temporal(TemporalType.DATE)
+    private Calendar dayAdvance;
 
     public Double getExpDay() {
         return expDay;
@@ -43,12 +48,12 @@ public class LevelAdvance {
         this.levelDay = levelDay;
     }
 
-    public Calendar getDay() {
-        return day;
+    public Calendar getDayAdvance() {
+        return dayAdvance;
     }
 
-    public void setDay(Calendar day) {
-        this.day = day;
+    public void setDayAdvance(Calendar dayAdvance) {
+        this.dayAdvance = dayAdvance;
     }
     
     

@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class CharacterTibia implements Serializable {
+public class Personagem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class CharacterTibia implements Serializable {
     private String title;
     private String sex;
     private String vocation;
-    private String level;
+    private String level_;
     private String residence;
     private String lastLogin;
     private String accountStatus;
@@ -32,46 +32,47 @@ public class CharacterTibia implements Serializable {
 
     // Remover e abrir uma classe
     //private List<String> deaths;
-
+    
     //private AccountInformation accountInformation;
 
     /* P.s: usar sistema unidrecional quando as tabelas não forem fortes, usar bidrecional quando for usar cascade */
     
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FormerWorld> formerWorlds;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AchievementPoints> achievements;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountCharacters> accountCharacters;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LevelAdvance> levelAdvances;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Guild> guilds;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment_> comments;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<House> houses;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CharacterRanking> ranking;
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ranking> ranking;
 
-    public CharacterTibia() {
+    public Personagem() {
         //this.accountInformation = new AccountInformation();
-        this.achievements = new ArrayList<>();
         //this.deaths = new ArrayList<>();
-        this.accountCharacters = new ArrayList<>();
+//        this.accountCharacters = new ArrayList<>();
         this.levelAdvances = new ArrayList<>();
         this.guilds = new ArrayList<>();
         this.comments = new ArrayList<>();
         this.ranking = new ArrayList<>();
         this.formerWorlds = new ArrayList<>();
         this.achievements = new ArrayList<>();
+        this.houses = new ArrayList<>();
+        this.ranking = new ArrayList<>();
 
     }
     
@@ -101,6 +102,7 @@ public class CharacterTibia implements Serializable {
 //        this.deaths = deaths;
 //    }
 
+    
     public String getName() {
         return name;
     }
@@ -125,12 +127,12 @@ public class CharacterTibia implements Serializable {
         this.vocation = vocation;
     }
 
-    public String getLevel() {
-        return level;
+    public String getLevel_() {
+        return level_;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public void setLevel_(String level_) {
+        this.level_ = level_;
     }
 
     public String getResidence() {
@@ -197,11 +199,11 @@ public class CharacterTibia implements Serializable {
         this.guilds = guilds;
     }
 
-    public List<Comment> getComments() {
+    public List<Comment_> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<Comment_> comments) {
         this.comments = comments;
     }
 
@@ -213,11 +215,11 @@ public class CharacterTibia implements Serializable {
         this.houses = houses;
     }
 
-    public List<CharacterRanking> getRanking() {
+    public List<Ranking> getRanking() {
         return ranking;
     }
 
-    public void setRanking(List<CharacterRanking> ranking) {
+    public void setRanking(List<Ranking> ranking) {
         this.ranking = ranking;
     }
 

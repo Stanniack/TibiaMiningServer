@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
   <!-- unidade de persistencia com o nome a ser definido -->
-  <persistence-unit name="tibiaminingDB">
+  <persistence-unit name="tibiamining">
     <!-- Implementação do JPA, no nosso caso Hibernate -->
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <!-- Aqui são listadas todas as entidades -->
-
     <class>model.FormerWorld</class>
-    <class>model.CharacterTibia</class>
-    <class>model.AccountCharacters</class>
+    <class>model.Personagem</class>
     <class>model.AchievementPoints</class>
-    <class>model.Comment</class>
+    <class>model.FormerWorld</class>
     <class>model.Guild</class>
     <class>model.House</class>
     <class>model.LevelAdvance</class>
-    
+    <class>model.Ranking</class>
+    <class>model.AccountCharacters</class>
+    <class>model.Comment_</class>
     <properties>
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/tcc"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/tibiamining"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.password" value=""/>
       <!-- Configurações específicas do Hibernate -->

@@ -3,6 +3,7 @@ package model;
 
 
 
+import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-public class Guild {
+public class Guild implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +23,14 @@ public class Guild {
     
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
-    private CharacterTibia character;
+    private Personagem personagem;
     
     private String nameGuild;
     private String positionMemberGuild;
+    
+    @Temporal(TemporalType.DATE)
     private Calendar dateBegin;
+    @Temporal(TemporalType.DATE)
     private Calendar dateLeave;
 
     public String getNameGuild() {

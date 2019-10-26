@@ -8,7 +8,7 @@ import javax.persistence.Persistence;
 public class JPAUtil {
     
     // CARREGA A UNIDADE DE PERSISTENCIA
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("tibiaminingDB");
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("tibiamining");
    
     // CONECTA COM O BANCO
     public static EntityManager getInstance(){

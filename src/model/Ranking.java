@@ -2,6 +2,7 @@ package model;
 
 
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,15 +11,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class CharacterRanking {
+public class Ranking implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCharacterRanking;
+    private Integer idRanking;
     
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
-    private CharacterTibia character;
+    private Personagem personagem;
 
     private int expWorld;
     private int expGlobal;

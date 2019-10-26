@@ -7,7 +7,6 @@ package tibiamining;
 
 import java.util.List;
 import regrasdenegocio.CheckOnline;
-import regrasdenegocio.SearchCharacter;
 
 /**
  *
