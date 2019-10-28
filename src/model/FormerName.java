@@ -1,6 +1,5 @@
+
 package model;
-
-
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -15,29 +14,29 @@ import javax.persistence.TemporalType;
 
 
 @Entity
-public class Comment_ implements Serializable {
+public class FormerName implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idComment;
+    private Integer idFormerName;
     
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
     
-    private String comment;
+    private String oldName;
     
     @Temporal(TemporalType.DATE)
     private Calendar dateBegin;
     @Temporal(TemporalType.DATE)
     private Calendar dateEnd;
 
-    public String getComment() {
-        return comment;
+    public String getOldName() {
+        return oldName;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setOldName(String oldName) {
+        this.oldName = oldName;
     }
 
     public Calendar getDateBegin() {
@@ -54,6 +53,14 @@ public class Comment_ implements Serializable {
 
     public void setDateEnd(Calendar dateEnd) {
         this.dateEnd = dateEnd;
+    }
+
+    public Integer getIdFormerName() {
+        return idFormerName;
+    }
+
+    public void setIdFormerName(Integer idFormerName) {
+        this.idFormerName = idFormerName;
     }
     
     

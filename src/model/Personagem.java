@@ -1,9 +1,8 @@
 package model;
 
-
-
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Personagem implements Serializable {
@@ -29,14 +30,15 @@ public class Personagem implements Serializable {
     private String accountStatus;
     private String sharedExpMinLevel;
     private String sharedExpMaxLevel;
-
-    // Remover e abrir uma classe
-    //private List<String> deaths;
+    private String titleAccountInformation;
     
-    //private AccountInformation accountInformation;
+    @Temporal(TemporalType.DATE)
+    private Calendar dateCreate;
+
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Death> deaths;
 
     /* P.s: usar sistema unidrecional quando as tabelas não forem fortes, usar bidrecional quando for usar cascade */
-    
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FormerWorld> formerWorlds;
 
@@ -61,9 +63,11 @@ public class Personagem implements Serializable {
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ranking> ranking;
 
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FormerName> formerNames;
+
     public Personagem() {
-        //this.accountInformation = new AccountInformation();
-        //this.deaths = new ArrayList<>();
+        this.deaths = new ArrayList<>();
 //        this.accountCharacters = new ArrayList<>();
         this.levelAdvances = new ArrayList<>();
         this.guilds = new ArrayList<>();
@@ -73,6 +77,7 @@ public class Personagem implements Serializable {
         this.achievements = new ArrayList<>();
         this.houses = new ArrayList<>();
         this.ranking = new ArrayList<>();
+        this.formerNames = new ArrayList<>();
 
     }
     
@@ -94,15 +99,6 @@ public class Personagem implements Serializable {
         this.sharedExpMaxLevel = sharedExpMaxLevel;
     }
 
-//    public List<String> getDeaths() {
-//        return deaths;
-//    }
-//
-//    public void setDeaths(List<String> deaths) {
-//        this.deaths = deaths;
-//    }
-
-    
     public String getName() {
         return name;
     }
@@ -166,7 +162,6 @@ public class Personagem implements Serializable {
 //    public void setAccountInformation(AccountInformation accountInformation) {
 //        this.accountInformation = accountInformation;
 //    }
-
     public List<AccountCharacters> getAccountCharacters() {
         return accountCharacters;
     }
@@ -245,6 +240,38 @@ public class Personagem implements Serializable {
 
     public void setIdCharacter(Integer idCharacter) {
         this.idCharacter = idCharacter;
+    }
+
+    public List<FormerName> getFormerNames() {
+        return formerNames;
+    }
+
+    public void setFormerNames(List<FormerName> formerNames) {
+        this.formerNames = formerNames;
+    }
+
+    public Calendar getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Calendar dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public String getTitleAccountInformation() {
+        return titleAccountInformation;
+    }
+
+    public void setTitleAccountInformation(String titleAccountInformation) {
+        this.titleAccountInformation = titleAccountInformation;
+    }
+
+    public List<Death> getDeaths() {
+        return deaths;
+    }
+
+    public void setDeaths(List<Death> deaths) {
+        this.deaths = deaths;
     }
 
 }
