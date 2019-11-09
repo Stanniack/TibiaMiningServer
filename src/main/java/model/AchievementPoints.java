@@ -1,7 +1,5 @@
 package model;
 
-
-
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
@@ -15,17 +13,17 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class AchievementPoints implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_achievementPoints;
-    
+
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
 
     private String achievmentPoints;
-    
+
     @Temporal(TemporalType.DATE)
     private Calendar day;
 
@@ -44,7 +42,5 @@ public class AchievementPoints implements Serializable {
     public void setDay(Calendar day) {
         this.day = day;
     }
-    
-    
 
 }

@@ -31,7 +31,7 @@ public class Personagem implements Serializable {
     private String sharedExpMinLevel;
     private String sharedExpMaxLevel;
     private String titleAccountInformation;
-    
+
     @Temporal(TemporalType.DATE)
     private Calendar dateCreate;
 
@@ -80,8 +80,6 @@ public class Personagem implements Serializable {
         this.formerNames = new ArrayList<>();
 
     }
-    
-    
 
     public String getSharedExpMinLevel() {
         return sharedExpMinLevel;

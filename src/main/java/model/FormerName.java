@@ -1,4 +1,3 @@
-
 package model;
 
 import java.io.Serializable;
@@ -12,24 +11,33 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 @Entity
 public class FormerName implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idFormerName;
-    
+
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
-    
+
     private String oldName;
-    
+
     @Temporal(TemporalType.DATE)
     private Calendar dateBegin;
     @Temporal(TemporalType.DATE)
     private Calendar dateEnd;
+
+    public FormerName(String oldName) {
+        this.oldName = oldName;
+    }
+
+    public FormerName(String oldName, Calendar dateBegin, Calendar dateEnd) {
+        this.oldName = oldName;
+        this.dateBegin = dateBegin;
+        this.dateEnd = dateEnd;
+    }
 
     public String getOldName() {
         return oldName;
@@ -62,6 +70,5 @@ public class FormerName implements Serializable {
     public void setIdFormerName(Integer idFormerName) {
         this.idFormerName = idFormerName;
     }
-    
-    
+
 }

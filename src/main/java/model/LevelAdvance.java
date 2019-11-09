@@ -1,8 +1,5 @@
 package model;
 
-
-
-
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
@@ -14,21 +11,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 @Entity
 public class LevelAdvance implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_levelAdvance;
-    
+
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
-    
+
     private Double expDay;
     private int levelDay;
-    
+
     @Temporal(TemporalType.DATE)
     private Calendar dayAdvance;
 
@@ -55,7 +51,5 @@ public class LevelAdvance implements Serializable {
     public void setDayAdvance(Calendar dayAdvance) {
         this.dayAdvance = dayAdvance;
     }
-    
-    
-    
+
 }

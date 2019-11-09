@@ -1,7 +1,5 @@
 package model;
 
-
-
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
@@ -13,26 +11,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 @Entity
 public class FormerWorld implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_formerWorld;
-    
+
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
-    
+
     private String world;
-    
+
     @Temporal(TemporalType.DATE)
     private Calendar dateBegin;
     @Temporal(TemporalType.DATE)
     private Calendar dateLeave;
-    
-    
 
     public String getWorld() {
         return world;
@@ -57,6 +52,5 @@ public class FormerWorld implements Serializable {
     public void setDateLeave(Calendar dateLeave) {
         this.dateLeave = dateLeave;
     }
-    
-    
+
 }

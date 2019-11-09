@@ -1,8 +1,5 @@
 package model;
 
-
-
-
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
@@ -16,18 +13,18 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Guild implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idGuild;
-    
+
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
-    
+
     private String nameGuild;
     private String positionMemberGuild;
-    
+
     @Temporal(TemporalType.DATE)
     private Calendar dateBegin;
     @Temporal(TemporalType.DATE)
@@ -64,7 +61,5 @@ public class Guild implements Serializable {
     public void setDateLeave(Calendar dateLeave) {
         this.dateLeave = dateLeave;
     }
-    
-    
-    
+
 }

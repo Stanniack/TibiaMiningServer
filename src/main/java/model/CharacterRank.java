@@ -18,8 +18,8 @@ public class CharacterRank implements Comparable<CharacterRank> {
         this.points = points;
         this.world = world;
     }
-    
-    public CharacterRank (String name, String level, String vocation) {
+
+    public CharacterRank(String name, String level, String vocation) {
         this.name = name;
         this.level = level;
         this.vocation = vocation;
@@ -93,14 +93,14 @@ public class CharacterRank implements Comparable<CharacterRank> {
 
     @Override
     public int compareTo(CharacterRank outro) {
-        if(this.points < outro.points){
+        if (this.points < outro.points) {
             return 1;
         }
-        
-        if(this.points > outro.points){
+
+        if (this.points > outro.points) {
             return -1;
         }
-            
+
         return 0;
     }
 

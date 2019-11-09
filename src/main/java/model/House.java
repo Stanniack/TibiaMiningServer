@@ -1,7 +1,5 @@
 package model;
 
-
-
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
@@ -15,16 +13,17 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class House implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idHouse;
-    
+
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
-    
+
     private String houseName;
-    
+
     @Temporal(TemporalType.DATE)
     private Calendar dateBid;
     @Temporal(TemporalType.DATE)
@@ -53,6 +52,5 @@ public class House implements Serializable {
     public void setDateLeave(Calendar dateLeave) {
         this.dateLeave = dateLeave;
     }
-    
-    
+
 }

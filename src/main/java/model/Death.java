@@ -10,15 +10,15 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Death implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idDeaths;
-    
+
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
-    
+
     private String death;
 
     public String getDeath() {
@@ -28,6 +28,5 @@ public class Death implements Serializable {
     public void setDeath(String death) {
         this.death = death;
     }
-    
-    
+
 }

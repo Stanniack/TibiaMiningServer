@@ -1,7 +1,5 @@
 package model;
 
-
-
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,11 +10,11 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Ranking implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idRanking;
-    
+
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
@@ -27,17 +25,17 @@ public class Ranking implements Serializable {
     private int vocationGlobal;
     private int mLWorld;
     private int mLGlobal;
-    private int swordWorld; 
-    private int swordGlobal; 
+    private int swordWorld;
+    private int swordGlobal;
     private int distanceWorld;
-    private int distanceGlobal; 
+    private int distanceGlobal;
     private int clubWorld;
-    private int clubGlobal; 
+    private int clubGlobal;
     private int axeWorld;
-    private int axeGlobal; 
-    private int shieldingWorld; 
+    private int axeGlobal;
+    private int shieldingWorld;
     private int shieldingGlobal;
-    private int fishingWorld; 
+    private int fishingWorld;
     private int fishingGlobal;
     private int achievmentWorld;
     private int achievmentGlobal;
@@ -219,6 +217,5 @@ public class Ranking implements Serializable {
     public void setLoyalityGlobal(int loyalityGlobal) {
         this.loyalityGlobal = loyalityGlobal;
     }
-    
-    
+
 }

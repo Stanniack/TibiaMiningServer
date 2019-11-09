@@ -1,7 +1,5 @@
 package model;
 
-
-
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,11 +10,11 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class AccountCharacters implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_accountCharacters;
-    
+
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
@@ -24,6 +22,9 @@ public class AccountCharacters implements Serializable {
     private String name;
     private String world;
     private String status;
+
+    public AccountCharacters() {
+    }
 
     public AccountCharacters(String name, String world, String status) {
         this.name = name;

@@ -1,5 +1,6 @@
 package regrasdenegocio;
 
+import DAO.AbstractDAO;
 import DAO.PersonagemDAO;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,79 +24,78 @@ public class DiscoverCharacter {
 
         try {
 
-            List<String> listaDeElementos = new ArrayList<>();
-            FormerName fn = new FormerName();
+            List<String> elementsList;
+            int idPers;
 
             String url = "https://www.tibia.com/community/?subtopic=characters&name=" + name;
 
+            /* Conecta com o domínio */
             Document document = Jsoup.connect(url).get();
 
-            Elements elementosEscolhidos = document.getElementsByClass("Content");
-
-            for (Element elemento : elementosEscolhidos) {
-                listaDeElementos = elemento.getElementsByTag("td").eachText();
-            }
+            /* Coloca os itens numa lista */
+            Elements chosenElements = document.getElementsByClass("Content");
+            elementsList = chosenElements.get(0).getElementsByTag("td").eachText();
 
             /* Trabalhando com a lista de elementos do Tibia.com*/
-            for (int i = 1; i < listaDeElementos.size() - 2; i++) {
+            for (int i = 1; i < elementsList.size() - 2; i++) {
 
-                if (listaDeElementos.get(i).toLowerCase().equals(listaDeElementos.get(i + afterTitle))) {
-                    String rName = new PersonagemDAO().searchName("");
+                if (elementsList.get(i).toLowerCase().equals("name:")) {
+                    /* É preciso persistir uma vez aqui*/
+                    personagem.setName(elementsList.get(i + afterTitle));
 
-                    personagem.setName(listaDeElementos.get(i + afterTitle));
-
-                } else if (listaDeElementos.get(i).toLowerCase().equals("former names:")) {
+                } else if (elementsList.get(i).toLowerCase().equals("former names:")) {
 
                     /* Pega todos os former names */
-                    String[] splitNames = listaDeElementos.get(i + afterTitle).trim().split(",");
+                    String[] splitNames = elementsList.get(i + afterTitle).trim().split(",");
 
                     for (String rname : splitNames) {
-
+                        /* Persiste aqui */
                     }
 
                     /* Regra de persistência */
-                } else if (listaDeElementos.get(i).toLowerCase().equals("title:")) {
-                    personagem.setTitle(listaDeElementos.get(i + afterTitle));
+                } else if (elementsList.get(i).toLowerCase().equals("title:")) {
+                    personagem.setTitle(elementsList.get(i + afterTitle));
 
-                } else if (listaDeElementos.get(i).toLowerCase().equals("sex:")) {
-                    personagem.setSex(listaDeElementos.get(i + afterTitle));
+                } else if (elementsList.get(i).toLowerCase().equals("sex:")) {
+                    personagem.setSex(elementsList.get(i + afterTitle));
 
-                } else if (listaDeElementos.get(i).toLowerCase().equals("vocation:")) {
-                    personagem.setVocation(listaDeElementos.get(i + afterTitle));
+                } else if (elementsList.get(i).toLowerCase().equals("vocation:")) {
+                    personagem.setVocation(elementsList.get(i + afterTitle));
 
-                } else if (listaDeElementos.get(i).toLowerCase().equals("level:")) {
-                    personagem.setLevel_(listaDeElementos.get(i + afterTitle));
+                } else if (elementsList.get(i).toLowerCase().equals("level:")) {
+                    personagem.setLevel_(elementsList.get(i + afterTitle));
 
-                } else if (listaDeElementos.get(i).toLowerCase().equals("achievement points:")) {
+                } else if (elementsList.get(i).toLowerCase().equals("achievement points:")) {
                     /* */
 
-                } else if (listaDeElementos.get(i).toLowerCase().equals("world:")) {
+                } else if (elementsList.get(i).toLowerCase().equals("world:")) {
                     /* */
-                } else if (listaDeElementos.get(i).toLowerCase().equals("former world:")) {
+                } else if (elementsList.get(i).toLowerCase().equals("former world:")) {
                     /* */
-                } else if (listaDeElementos.get(i).toLowerCase().equals("residence:")) {
-                    personagem.setResidence(listaDeElementos.get(i + afterTitle));
+                } else if (elementsList.get(i).toLowerCase().equals("residence:")) {
+                    personagem.setResidence(elementsList.get(i + afterTitle));
 
-                } else if (listaDeElementos.get(i).toLowerCase().equals("house:")) {
-                    /* */
-
-                } else if (listaDeElementos.get(i).toLowerCase().equals("guild membership:")) {
+                } else if (elementsList.get(i).toLowerCase().equals("house:")) {
                     /* */
 
-                } else if (listaDeElementos.get(i).toLowerCase().equals("last login:")) {
-                    personagem.setLastLogin(listaDeElementos.get(i + afterTitle));
-
-                } else if (listaDeElementos.get(i).toLowerCase().equals("comment:")) {
+                } else if (elementsList.get(i).toLowerCase().equals("guild membership:")) {
                     /* */
 
-                } else if (listaDeElementos.get(i).toLowerCase().equals("account atatus:")) {
-                    personagem.setAccountStatus(listaDeElementos.get(i + afterTitle));
+                } else if (elementsList.get(i).toLowerCase().equals("last login:")) {
+                    personagem.setLastLogin(elementsList.get(i + afterTitle));
 
-                } else if (listaDeElementos.get(i).toLowerCase().equals("account achievements")
-                        && !listaDeElementos.get(i + afterTitle).toLowerCase().equals("there are no achievements set to be displayed for this character.")) {
+                } else if (elementsList.get(i).toLowerCase().equals("comment:")) {
+                    /* */
+
+                } else if (elementsList.get(i).toLowerCase().equals("account atatus:")) {
+                    // está com problema
+                    personagem.setAccountStatus(elementsList.get(i + afterTitle));
+
+                } else if (elementsList.get(i).toLowerCase().equals("account achievements")
+                        && !elementsList.get(i + afterTitle).toLowerCase().equals("there are no achievements set to be displayed for this character.")) {
                     int j = 1;
 
-                    while (!listaDeElementos.get(i + j).toLowerCase().equals("account information") && !listaDeElementos.get(i + j).toLowerCase().equals("search character")) {
+                    while (!elementsList.get(i + j).toLowerCase().equals("account information") && !elementsList.get(i + j).toLowerCase().equals("search character")) {
                         //personagem.getAchievements().add(listaDeElementos.get(i + j));
                         /* */
                         j++;
@@ -104,10 +104,10 @@ public class DiscoverCharacter {
                     // Leva o laço ao elemento seguinte após o tratamento das informações pertencentes àquele dado
                     i += j;
 
-                } else if (listaDeElementos.get(i).toLowerCase().equals("character deaths")) {
+                } else if (elementsList.get(i).toLowerCase().equals("character deaths")) {
                     int j = 1;
 
-                    while (!listaDeElementos.get(i + j).toLowerCase().equals("search character") && !listaDeElementos.get(i + j).toLowerCase().equals("account information")) {
+                    while (!elementsList.get(i + j).toLowerCase().equals("search character") && !elementsList.get(i + j).toLowerCase().equals("account information")) {
 
                         /* */
                         //personagem.getDeaths().add(listaDeElementos.get(i + j) + " " + listaDeElementos.get(i + j + 1));
@@ -116,7 +116,7 @@ public class DiscoverCharacter {
 
                     i += j;
 
-                } else if (listaDeElementos.get(i).toLowerCase().equals("account information")) {
+                } else if (elementsList.get(i).toLowerCase().equals("account information")) {
 
                     //personagem.getAccountInformation().setTitle(listaDeElementos.get(i + 2));
                     //personagem.getAccountInformation().setDateCreate(listaDeElementos.get(i + 4));
@@ -133,6 +133,9 @@ public class DiscoverCharacter {
                     }
                 }*/
             }
+
+            //System.out.println(elementsList.toString());
+            new AbstractDAO<>(Personagem.class).insert(personagem);
 
         } catch (IOException e) {
             System.out.println("Erro na conexão Jsoup: " + e);

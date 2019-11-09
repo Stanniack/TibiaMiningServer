@@ -93,14 +93,13 @@ public class RankGlobal {
 
         /* Exibir conteúdo */
         //this.exibeConteudo(listaDeChars);
-
     }// fim do metodo
 
     private void exibeConteudo(List<CharacterRank> lista) {
-        
+
         System.out.println("___________________________________________________");
         Collections.sort(lista);
-        
+
         for (int i = 0; i < lista.size(); i++) {
             System.out.println((i + 1) + " " + lista.get(i).getName() + " " + lista.get(i).getLevel() + " "
                     + lista.get(i).getWorld());

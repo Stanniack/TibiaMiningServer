@@ -1,7 +1,5 @@
 package model;
 
-
-
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
@@ -13,20 +11,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 @Entity
 public class Comment_ implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idComment;
-    
+
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
-    
+
     private String comment;
-    
+
     @Temporal(TemporalType.DATE)
     private Calendar dateBegin;
     @Temporal(TemporalType.DATE)
@@ -55,6 +52,5 @@ public class Comment_ implements Serializable {
     public void setDateEnd(Calendar dateEnd) {
         this.dateEnd = dateEnd;
     }
-    
-    
+
 }

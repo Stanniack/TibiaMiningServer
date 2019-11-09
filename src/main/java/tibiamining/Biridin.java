@@ -18,7 +18,7 @@ public class Biridin {
 
     public static void main(String[] args) {
 
-        new DiscoverCharacter().searchChar("Pasasadasdasxs blim");
+        new DiscoverCharacter().searchChar("Pa Blim");
         //System.out.println(new PersonagemDAO().returnID("teste2"));
         
         
