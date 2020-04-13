@@ -32,7 +32,7 @@ public class PersonagemDAO {
         return nameReturn;
     }
 
-    public String returnID(String name) {
+    public int returnID(String name) {
         EntityManager em = JPAUtil.getInstance();
 
         String jpql = "SELECT idCharacter FROM Personagem p where name = :pName";
@@ -41,10 +41,10 @@ public class PersonagemDAO {
 
         query.setParameter("pName", name);
 
-        String idReturn = "no results";
+        int idReturn = -1;
 
         try {
-            idReturn = String.valueOf(query.getSingleResult());
+            idReturn = query.getSingleResult();
         } catch (NoResultException e) {
             System.out.println("Não possui resultados para este nome. ");
         }

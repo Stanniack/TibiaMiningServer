@@ -71,4 +71,15 @@ public class FormerName implements Serializable {
         this.idFormerName = idFormerName;
     }
 
+    public Personagem getPersonagem() {
+        return personagem;
+    }
+
+    public void setPersonagem(Personagem personagem) {
+        this.personagem = personagem;
+    }
+    
+    
+    
+
 }

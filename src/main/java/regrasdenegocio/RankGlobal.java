@@ -92,7 +92,7 @@ public class RankGlobal {
                 + " segundos");
 
         /* Exibir conteúdo */
-        //this.exibeConteudo(listaDeChars);
+        this.exibeConteudo(listaDeChars);
     }// fim do metodo
 
     private void exibeConteudo(List<CharacterRank> lista) {

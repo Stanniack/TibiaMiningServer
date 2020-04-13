@@ -20,11 +20,11 @@ public class Personagem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCharacter;
 
+    /////////////////////////////// deixar nome único
     private String name;
     private String title;
     private String sex;
     private String vocation;
-    private String level_;
     private String residence;
     private String lastLogin;
     private String accountStatus;
@@ -119,14 +119,6 @@ public class Personagem implements Serializable {
 
     public void setVocation(String vocation) {
         this.vocation = vocation;
-    }
-
-    public String getLevel_() {
-        return level_;
-    }
-
-    public void setLevel_(String level_) {
-        this.level_ = level_;
     }
 
     public String getResidence() {

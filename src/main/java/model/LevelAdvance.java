@@ -28,6 +28,19 @@ public class LevelAdvance implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar dayAdvance;
 
+    public LevelAdvance(Personagem personagem, Double expDay, int levelDay, Calendar dayAdvance) {
+        this.personagem = personagem;
+        this.expDay = expDay;
+        this.levelDay = levelDay;
+        this.dayAdvance = dayAdvance;
+    }
+
+    public LevelAdvance(Personagem personagem, int levelDay, Calendar dayAdvance) {
+        this.personagem = personagem;
+        this.levelDay = levelDay;
+        this.dayAdvance = dayAdvance;
+    }
+
     public Double getExpDay() {
         return expDay;
     }

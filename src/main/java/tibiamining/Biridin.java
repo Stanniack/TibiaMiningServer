@@ -5,10 +5,13 @@
  */
 package tibiamining;
 
+import DAO.FormerNameDAO;
 import DAO.PersonagemDAO;
 import java.util.List;
+import model.Personagem;
 import regrasdenegocio.CheckOnline;
-import regrasdenegocio.DiscoverCharacter;
+import regrasdenegocio.CheckCharacter;
+import regrasdenegocio.RankGlobal;
 
 /**
  *
@@ -18,10 +21,13 @@ public class Biridin {
 
     public static void main(String[] args) {
 
-        new DiscoverCharacter().searchChar("Pa Blim");
+        //new discoverCharacter().discoverCharacter("Pa Blim");
         //System.out.println(new PersonagemDAO().returnID("teste2"));
+        Personagem p = new CheckCharacter().discoverCharacter("Virallata");
         
-        
+//        System.out.println(new PersonagemDAO().returnID("dsdsdsds"));
+//        System.out.println("t: " + new FormerNameDAO().listAll("2"));
+//       
 
     }
 
