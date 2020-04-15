@@ -7,7 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import model.AccountCharacters;
+import model.AchievementPoints;
+import model.Death;
 import model.FormerName;
+import model.FormerWorld;
+import model.Guild;
+import model.House;
 import model.LevelAdvance;
 import model.Personagem;
 import org.jsoup.Jsoup;
@@ -48,8 +54,10 @@ public class CheckCharacter {
                 return null;
 
             } else {
+                
+                System.out.println(elementsList.toString());
                 for (int i = 1; i < elementsList.size() - trashEliminator; i++) {
-
+                    
                     /* Trabalhando com a lista de elementos do Tibia.com*/
                     if (elementsList.get(i).toLowerCase().equals("name:")) {
                         personagem.setName(elementsList.get(i + afterTitle));
@@ -85,58 +93,58 @@ public class CheckCharacter {
 
                     } else if (elementsList.get(i).toLowerCase().equals("level:")) {
 
-                        LevelAdvance la = new LevelAdvance(p, Integer.valueOf(elementsList.get(i + afterTitle)), 
+                        LevelAdvance la = new LevelAdvance(p, Integer.valueOf(elementsList.get(i + afterTitle)),
                                 Calendar.getInstance());
                         new AbstractDAO<>(LevelAdvance.class).insert(la);
+
                     } else if (elementsList.get(i).toLowerCase().equals("achievement points:")) {
-                        /* */
+
+                        AchievementPoints ap = new AchievementPoints(p, Integer.valueOf(elementsList.get(i + afterTitle)),
+                                Calendar.getInstance());
+                        new AbstractDAO<>(AchievementPoints.class).insert(ap);
 
                     } else if (elementsList.get(i).toLowerCase().equals("world:")) {
-                        /* */
+
+                        personagem.setWorld(elementsList.get(i + afterTitle));
+
                     } else if (elementsList.get(i).toLowerCase().equals("former world:")) {
-                        /* */
+
+                        FormerWorld fw = new FormerWorld(p, elementsList.get(i + afterTitle), Calendar.getInstance());
+                        new AbstractDAO<>(FormerWorld.class).insert(fw);
+
                     } else if (elementsList.get(i).toLowerCase().equals("residence:")) {
+
                         personagem.setResidence(elementsList.get(i + afterTitle));
 
                     } else if (elementsList.get(i).toLowerCase().equals("house:")) {
-                        /* */
+
+                        String[] nameHouse = elementsList.get(i + afterTitle).split(" is ");
+                        House h = new House(p, nameHouse[0], Calendar.getInstance());
+                        new AbstractDAO<>(House.class).insert(h);
 
                     } else if (elementsList.get(i).toLowerCase().equals("guild membership:")) {
-                        /* */
+
+                        String[] guildInfo = elementsList.get(i + afterTitle).split("of the");
+                        Guild g = new Guild(p, guildInfo[0], guildInfo[1], Calendar.getInstance());
+                        new AbstractDAO<>(Guild.class).insert(g);
 
                     } else if (elementsList.get(i).toLowerCase().equals("last login:")) {
                         personagem.setLastLogin(elementsList.get(i + afterTitle));
 
-                    } else if (elementsList.get(i).toLowerCase().equals("comment:")) {
-                        /* */
+                    }  else if (elementsList.get(i).toLowerCase().equals("account status:")) {
 
-                    } else if (elementsList.get(i).toLowerCase().equals("account atatus:")) {
-                        // está com problema
                         personagem.setAccountStatus(elementsList.get(i + afterTitle));
-
-                    } else if (elementsList.get(i).toLowerCase().equals("account achievements")
-                            && !elementsList.get(i + afterTitle).toLowerCase()
-                                    .equals("there are no achievements set to be displayed for this character.")) {
-                        int j = 1;
-
-                        while (!elementsList.get(i + j).toLowerCase().equals("account information") 
-                                && !elementsList.get(i + j).toLowerCase().equals("search character")) {
-                            //personagem.getAchievements().add(listaDeElementos.get(i + j));
-                            /* */
-                            j++;
-                        }
-
-                        // Leva o laço ao elemento seguinte após o tratamento das informações pertencentes àquele dado
-                        i += j;
 
                     } else if (elementsList.get(i).toLowerCase().equals("character deaths")) {
                         int j = 1;
 
-                        while (!elementsList.get(i + j).toLowerCase().equals("search character") 
+                        while (!elementsList.get(i + j).toLowerCase().equals("search character")
                                 && !elementsList.get(i + j).toLowerCase().equals("account information")) {
 
-                            /* */
-                            //personagem.getDeaths().add(listaDeElementos.get(i + j) + " " + listaDeElementos.get(i + j + 1));
+                            /* Regras de negócio */
+                            Death d = new Death(p, elementsList.get(i + j + 1), elementsList.get(i + j));
+                            new AbstractDAO<>(Death.class).insert(d);
+                            
                             j = j + 2;
                         }
 
@@ -144,20 +152,17 @@ public class CheckCharacter {
 
                     } else if (elementsList.get(i).toLowerCase().equals("account information")) {
 
-                        //personagem.getAccountInformation().setTitle(listaDeElementos.get(i + 2));
-                        //personagem.getAccountInformation().setDateCreate(listaDeElementos.get(i + 4));
-                    }
-                    /*else if (listaDeElementos.get(i).equals("Characters")) {
-                        int j = 1;
-                        while (!listaDeElementos.get(i + j).equals("Search Character")) {
-                                 personagem.getAccountCharacters().add(new AccountCharacters(
-                                listaDeElementos.get(i + j),
-                                listaDeElementos.get(i + j),
-                                listaDeElementos.get(i + j),
-                                listaDeElementos.get(i + j)));
-                                  j++;
-                        }
-                    }*/
+                        personagem.setTitleAccountInformation(elementsList.get(i + 2));
+                        personagem.setDateCreate(Calendar.getInstance());
+                    }  
+//                    } else if (elementsList.get(i).equals("Characters")) {
+//                        int j = 1;
+//                        
+//                        while (!elementsList.get(i + j).equals("Search Character")) {
+//                                
+//                                  j++;
+//                        }
+//                    }
 
                 } // fim FOR
 

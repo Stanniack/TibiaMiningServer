@@ -29,6 +29,21 @@ public class FormerWorld implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar dateLeave;
 
+    public FormerWorld(Personagem personagem, String world, Calendar dateBegin) {
+        this.personagem = personagem;
+        this.world = world;
+        this.dateBegin = dateBegin;
+    }
+
+    public FormerWorld(Personagem personagem, String world, Calendar dateBegin, Calendar dateLeave) {
+        this.personagem = personagem;
+        this.world = world;
+        this.dateBegin = dateBegin;
+        this.dateLeave = dateLeave;
+    }
+    
+    
+
     public String getWorld() {
         return world;
     }

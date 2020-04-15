@@ -26,10 +26,9 @@ public class Personagem implements Serializable {
     private String sex;
     private String vocation;
     private String residence;
+    private String world;
     private String lastLogin;
     private String accountStatus;
-    private String sharedExpMinLevel;
-    private String sharedExpMaxLevel;
     private String titleAccountInformation;
 
     @Temporal(TemporalType.DATE)
@@ -55,9 +54,6 @@ public class Personagem implements Serializable {
     private List<Guild> guilds;
 
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment_> comments;
-
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<House> houses;
 
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -71,7 +67,6 @@ public class Personagem implements Serializable {
 //        this.accountCharacters = new ArrayList<>();
         this.levelAdvances = new ArrayList<>();
         this.guilds = new ArrayList<>();
-        this.comments = new ArrayList<>();
         this.ranking = new ArrayList<>();
         this.formerWorlds = new ArrayList<>();
         this.achievements = new ArrayList<>();
@@ -79,22 +74,6 @@ public class Personagem implements Serializable {
         this.ranking = new ArrayList<>();
         this.formerNames = new ArrayList<>();
 
-    }
-
-    public String getSharedExpMinLevel() {
-        return sharedExpMinLevel;
-    }
-
-    public String getSharedExpMaxLevel() {
-        return sharedExpMaxLevel;
-    }
-
-    public void setSharedExpMinLevel(String sharedExpMinLevel) {
-        this.sharedExpMinLevel = sharedExpMinLevel;
-    }
-
-    public void setSharedExpMaxLevel(String sharedExpMaxLevel) {
-        this.sharedExpMaxLevel = sharedExpMaxLevel;
     }
 
     public String getName() {
@@ -184,14 +163,6 @@ public class Personagem implements Serializable {
         this.guilds = guilds;
     }
 
-    public List<Comment_> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment_> comments) {
-        this.comments = comments;
-    }
-
     public List<House> getHouses() {
         return houses;
     }
@@ -263,5 +234,15 @@ public class Personagem implements Serializable {
     public void setDeaths(List<Death> deaths) {
         this.deaths = deaths;
     }
+
+    public String getWorld() {
+        return world;
+    }
+
+    public void setWorld(String world) {
+        this.world = world;
+    }
+    
+    
 
 }

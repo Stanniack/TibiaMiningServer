@@ -30,6 +30,23 @@ public class Guild implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar dateLeave;
 
+    public Guild(Personagem personagem, String nameGuild, String positionMemberGuild, Calendar dateBegin) {
+        this.personagem = personagem;
+        this.nameGuild = nameGuild;
+        this.positionMemberGuild = positionMemberGuild;
+        this.dateBegin = dateBegin;
+    }
+
+    public Guild(Personagem personagem, String nameGuild, String positionMemberGuild, Calendar dateBegin, Calendar dateLeave) {
+        this.personagem = personagem;
+        this.nameGuild = nameGuild;
+        this.positionMemberGuild = positionMemberGuild;
+        this.dateBegin = dateBegin;
+        this.dateLeave = dateLeave;
+    }
+    
+    
+
     public String getNameGuild() {
         return nameGuild;
     }

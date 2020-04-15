@@ -22,17 +22,23 @@ public class AchievementPoints implements Serializable {
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
 
-    private String achievmentPoints;
+    private Integer achievementPoints;
 
     @Temporal(TemporalType.DATE)
     private Calendar day;
 
-    public String getAchievmentPoints() {
-        return achievmentPoints;
+    public AchievementPoints(Personagem personagem, Integer achievmentPoints, Calendar day) {
+        this.personagem = personagem;
+        this.achievementPoints = achievmentPoints;
+        this.day = day;
     }
 
-    public void setAchievmentPoints(String achievmentPoints) {
-        this.achievmentPoints = achievmentPoints;
+    public Integer getAchievmentPoints() {
+        return achievementPoints;
+    }
+
+    public void setAchievmentPoints(Integer achievmentPoints) {
+        this.achievementPoints = achievmentPoints;
     }
 
     public Calendar getDay() {

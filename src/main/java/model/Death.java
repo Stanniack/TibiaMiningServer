@@ -19,14 +19,37 @@ public class Death implements Serializable {
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
 
-    private String death;
+    private String deathInfo;
+    private String deathDate;
 
-    public String getDeath() {
-        return death;
+    public Death(Personagem personagem, String deathInfo, String deathDate) {
+        this.personagem = personagem;
+        this.deathInfo = deathInfo;
+        this.deathDate = deathDate;
     }
 
-    public void setDeath(String death) {
-        this.death = death;
+    public Personagem getPersonagem() {
+        return personagem;
+    }
+
+    public void setPersonagem(Personagem personagem) {
+        this.personagem = personagem;
+    }
+
+    public String getDeathInfo() {
+        return deathInfo;
+    }
+
+    public void setDeathInfo(String deathInfo) {
+        this.deathInfo = deathInfo;
+    }
+
+    public String getDeathDate() {
+        return deathDate;
+    }
+
+    public void setDeathDate(String deathDate) {
+        this.deathDate = deathDate;
     }
 
 }

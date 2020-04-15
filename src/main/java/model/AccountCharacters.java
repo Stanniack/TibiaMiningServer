@@ -21,15 +21,13 @@ public class AccountCharacters implements Serializable {
 
     private String name;
     private String world;
-    private String status;
 
     public AccountCharacters() {
     }
 
-    public AccountCharacters(String name, String world, String status) {
+    public AccountCharacters(String name, String world) {
         this.name = name;
         this.world = world;
-        this.status = status;
     }
 
     public String getName() {
@@ -46,14 +44,6 @@ public class AccountCharacters implements Serializable {
 
     public void setWorld(String world) {
         this.world = world;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
 }
