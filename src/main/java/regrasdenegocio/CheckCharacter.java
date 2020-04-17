@@ -154,15 +154,17 @@ public class CheckCharacter {
 
                         personagem.setTitleAccountInformation(elementsList.get(i + 2));
                         personagem.setDateCreate(Calendar.getInstance());
-                    }  
-//                    } else if (elementsList.get(i).equals("Characters")) {
-//                        int j = 1;
-//                        
-//                        while (!elementsList.get(i + j).equals("Search Character")) {
-//                                
-//                                  j++;
-//                        }
-//                    }
+                    
+                    } else if (elementsList.get(i).equals("Characters")) {
+                        int j = 1;
+                        
+                        while (!elementsList.get(i + j).equals("Search Character")) {
+                                System.out.println("teste: " + elementsList.get(i + j) + " " 
+                                        + elementsList.get(i + j + 1));
+                                
+                                j+=2;
+                        }
+                    }
 
                 } // fim FOR
 

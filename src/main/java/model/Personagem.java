@@ -64,7 +64,7 @@ public class Personagem implements Serializable {
 
     public Personagem() {
         this.deaths = new ArrayList<>();
-//        this.accountCharacters = new ArrayList<>();
+        this.accountCharacters = new ArrayList<>();
         this.levelAdvances = new ArrayList<>();
         this.guilds = new ArrayList<>();
         this.ranking = new ArrayList<>();
@@ -124,13 +124,6 @@ public class Personagem implements Serializable {
         this.accountStatus = accountStatus;
     }
 
-//    public AccountInformation getAccountInformation() {
-//        return accountInformation;
-//    }
-//
-//    public void setAccountInformation(AccountInformation accountInformation) {
-//        this.accountInformation = accountInformation;
-//    }
     public List<AccountCharacters> getAccountCharacters() {
         return accountCharacters;
     }
@@ -242,7 +235,5 @@ public class Personagem implements Serializable {
     public void setWorld(String world) {
         this.world = world;
     }
-    
-    
 
 }

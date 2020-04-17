@@ -16,7 +16,7 @@ public class Biridin {
 
     public static void main(String[] args) {
 
-        Personagem p = new CheckCharacter().discoverCharacter("Bobeek");
+        Personagem p = new CheckCharacter().discoverCharacter("Cyf Knight");
 
     }
 
