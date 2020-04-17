@@ -37,8 +37,8 @@ public class Ranking implements Serializable {
     private int shieldingGlobal;
     private int fishingWorld;
     private int fishingGlobal;
-    private int achievmentWorld;
-    private int achievmentGlobal;
+    private int achievementWorld;
+    private int achievementGlobal;
     private int loyalityWorld;
     private int loyalityGlobal;
 
@@ -186,20 +186,20 @@ public class Ranking implements Serializable {
         this.fishingGlobal = fishingGlobal;
     }
 
-    public int getAchievmentWorld() {
-        return achievmentWorld;
+    public int getAchievementWorld() {
+        return achievementWorld;
     }
 
-    public void setAchievmentWorld(int achievmentWorld) {
-        this.achievmentWorld = achievmentWorld;
+    public void setAchievementWorld(int achievmentWorld) {
+        this.achievementWorld = achievmentWorld;
     }
 
-    public int getAchievmentGlobal() {
-        return achievmentGlobal;
+    public int getAchievementGlobal() {
+        return achievementGlobal;
     }
 
-    public void setAchievmentGlobal(int achievmentGlobal) {
-        this.achievmentGlobal = achievmentGlobal;
+    public void setAchievementGlobal(int achievmentGlobal) {
+        this.achievementGlobal = achievmentGlobal;
     }
 
     public int getLoyalityWorld() {

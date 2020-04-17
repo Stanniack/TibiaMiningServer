@@ -22,6 +22,9 @@ public class Death implements Serializable {
     private String deathInfo;
     private String deathDate;
 
+    public Death() {
+    }
+
     public Death(Personagem personagem, String deathInfo, String deathDate) {
         this.personagem = personagem;
         this.deathInfo = deathInfo;

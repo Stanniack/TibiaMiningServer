@@ -31,6 +31,11 @@ public class Personagem implements Serializable {
     private String accountStatus;
     private String titleAccountInformation;
 
+    /* Data do personagme registrado no bd */
+    @Temporal(TemporalType.DATE)
+    private Calendar registerDate;
+
+    /* Data de criação do personagem no Tibia */
     @Temporal(TemporalType.DATE)
     private Calendar dateCreate;
 
@@ -234,6 +239,14 @@ public class Personagem implements Serializable {
 
     public void setWorld(String world) {
         this.world = world;
+    }
+
+    public Calendar getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Calendar registerDate) {
+        this.registerDate = registerDate;
     }
 
 }

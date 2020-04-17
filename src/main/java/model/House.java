@@ -29,6 +29,9 @@ public class House implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar dateLeave;
 
+    public House() {
+    }
+
     public House(Personagem personagem, String houseName, Calendar dateBid) {
         this.personagem = personagem;
         this.houseName = houseName;
@@ -41,7 +44,6 @@ public class House implements Serializable {
         this.dateBid = dateBid;
         this.dateLeave = dateLeave;
     }
-    
 
     public String getHouseName() {
         return houseName;

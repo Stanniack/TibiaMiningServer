@@ -30,6 +30,9 @@ public class Guild implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar dateLeave;
 
+    public Guild() {
+    }
+
     public Guild(Personagem personagem, String nameGuild, String positionMemberGuild, Calendar dateBegin) {
         this.personagem = personagem;
         this.nameGuild = nameGuild;
@@ -44,8 +47,6 @@ public class Guild implements Serializable {
         this.dateBegin = dateBegin;
         this.dateLeave = dateLeave;
     }
-    
-    
 
     public String getNameGuild() {
         return nameGuild;

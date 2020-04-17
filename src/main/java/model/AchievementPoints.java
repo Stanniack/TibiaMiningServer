@@ -27,6 +27,9 @@ public class AchievementPoints implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar day;
 
+    public AchievementPoints() {
+    }
+
     public AchievementPoints(Personagem personagem, Integer achievmentPoints, Calendar day) {
         this.personagem = personagem;
         this.achievementPoints = achievmentPoints;

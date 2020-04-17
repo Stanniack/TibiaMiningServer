@@ -5,15 +5,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import utils.JPAUtil;
 
-public class AbstractDAO<Generico> {
+public class AbstractDAO<Generic> {
 
-    private final Class<Generico> classe;
+    private final Class<Generic> classe;
 
-    public AbstractDAO(Class<Generico> classe) {
+    public AbstractDAO(Class<Generic> classe) {
         this.classe = classe;
     }
 
-    public void insert(Generico objeto) {
+    public void insert(Generic objeto) {
         EntityManager em = JPAUtil.getInstance();
         em.getTransaction().begin();
         em.persist(objeto);
@@ -21,7 +21,7 @@ public class AbstractDAO<Generico> {
         em.close();
     }
 
-    public void update(Generico objeto) {
+    public void update(Generic objeto) {
         EntityManager em = JPAUtil.getInstance();
         em.getTransaction().begin();
         em.merge(objeto);
@@ -32,45 +32,81 @@ public class AbstractDAO<Generico> {
     public void remove(Integer id) {
         EntityManager em = JPAUtil.getInstance();
         em.getTransaction().begin();
-        Generico objeto = em.find(classe, id);
+        Generic objeto = em.find(classe, id);
         em.remove(objeto);
         em.getTransaction().commit();
         em.close();
     }
 
-    public Generico searchForId(int id) {
+    public Generic searchById(int id) {
 
         EntityManager em = JPAUtil.getInstance();
-        Generico obj = em.find(classe, id);
+        Generic obj = em.find(classe, id);
         em.close();
 
         return obj;
     }
 
-    public List<Generico> listAll() {
+    public Generic searchByString(String string) {
+
+        EntityManager em = JPAUtil.getInstance();
+        Generic obj = em.find(classe, string);
+        em.close();
+
+        return obj;
+    }
+
+    public Generic searchLastRegisterById(int id) {
+
+        EntityManager em = JPAUtil.getInstance();
+        String jpql = "SELECT t FROM " + classe.getName() + " t WHERE idCharacter = "
+                + id + "order by datebegin DESC";
+        
+        TypedQuery<Generic> query = em.createQuery(jpql, classe);
+        query.setMaxResults(1);
+
+        Generic obj = query.getSingleResult();
+        em.close();
+
+        return obj;
+    }
+    
+    public Long countRegistersById(int id) {
+
+        EntityManager em = JPAUtil.getInstance();
+        String jpql = "SELECT COUNT(t) FROM " + classe.getName() + " t WHERE idCharacter = :pId";
+        
+        TypedQuery<Long> query = em.createQuery(jpql, Long.class);
+        query.setParameter("pId", id);
+
+        Long result = query.getSingleResult();
+        em.close();
+
+        return result;
+    }
+
+    public List<Generic> listAll() {
         EntityManager em = JPAUtil.getInstance();
 
         String jpql = "SELECT t FROM " + classe.getName() + " t";
 
-        TypedQuery<Generico> query = em.createQuery(jpql, classe);
+        TypedQuery<Generic> query = em.createQuery(jpql, classe);
 
-        List<Generico> lista = query.getResultList();
-
+        List<Generic> lista = query.getResultList();
         em.close();
 
         return lista;
     }
 
-    public List<Generico> listAll(int idCharacter) {
+    public List<Generic> listAll(int idCharacter) {
         EntityManager em = JPAUtil.getInstance();
 
         String jpql = "SELECT t FROM " + classe.getName() + " t " + "where idCharacter = :pId";
 
-        TypedQuery<Generico> query = em.createQuery(jpql, classe);
+        TypedQuery<Generic> query = em.createQuery(jpql, classe);
         query.setParameter("pId", idCharacter);
 
-        List<Generico> lista = query.getResultList();
-
+        List<Generic> lista = query.getResultList();
         em.close();
 
         return lista;

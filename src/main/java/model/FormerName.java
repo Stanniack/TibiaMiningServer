@@ -29,8 +29,7 @@ public class FormerName implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar dateEnd;
 
-    public FormerName(String oldName) {
-        this.oldName = oldName;
+    public FormerName() {
     }
 
     public FormerName(String oldName, Calendar dateBegin, Calendar dateEnd) {

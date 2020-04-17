@@ -5,6 +5,8 @@
  */
 package tibiamining;
 
+import DAO.AbstractDAO;
+import java.util.Calendar;
 import model.Personagem;
 import regrasdenegocio.CheckCharacter;
 
@@ -16,7 +18,8 @@ public class Biridin {
 
     public static void main(String[] args) {
 
-        Personagem p = new CheckCharacter().discoverCharacter("Cyf Knight");
+        Personagem p = new CheckCharacter().discoverCharacter("Gabes Sio");
+        p.setRegisterDate(Calendar.getInstance());
 
     }
 
