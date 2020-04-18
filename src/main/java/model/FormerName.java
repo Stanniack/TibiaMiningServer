@@ -38,6 +38,13 @@ public class FormerName implements Serializable {
         this.dateEnd = dateEnd;
     }
 
+    public FormerName(Personagem personagem, String oldName, Calendar dateBegin, Calendar dateEnd) {
+        this.personagem = personagem;
+        this.oldName = oldName;
+        this.dateBegin = dateBegin;
+        this.dateEnd = dateEnd;
+    }
+
     public String getOldName() {
         return oldName;
     }
@@ -77,8 +84,5 @@ public class FormerName implements Serializable {
     public void setPersonagem(Personagem personagem) {
         this.personagem = personagem;
     }
-    
-    
-    
 
 }

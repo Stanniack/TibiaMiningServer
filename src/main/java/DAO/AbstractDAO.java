@@ -50,32 +50,37 @@ public class AbstractDAO<Generic> {
     public Generic searchByString(String string) {
 
         EntityManager em = JPAUtil.getInstance();
-        Generic obj = em.find(classe, string);
+        
+        String jpql = "SELECT t FROM " + classe.getName() + " t WHERE name = :pString";
+
+        TypedQuery<Generic> query = em.createQuery(jpql, classe);
+        query.setParameter("pString", string);
+        
+        Generic obj = query.getSingleResult();
         em.close();
 
         return obj;
     }
 
-    public Generic searchLastRegisterById(int id) {
+    public Generic searchLastRegisterById(int id, String column) {
 
         EntityManager em = JPAUtil.getInstance();
         String jpql = "SELECT t FROM " + classe.getName() + " t WHERE idCharacter = "
-                + id + "order by datebegin DESC";
-        
+                + id + "order by " + column + " DESC";
+
         TypedQuery<Generic> query = em.createQuery(jpql, classe);
-        query.setMaxResults(1);
 
         Generic obj = query.getSingleResult();
         em.close();
 
         return obj;
     }
-    
+
     public Long countRegistersById(int id) {
 
         EntityManager em = JPAUtil.getInstance();
         String jpql = "SELECT COUNT(t) FROM " + classe.getName() + " t WHERE idCharacter = :pId";
-        
+
         TypedQuery<Long> query = em.createQuery(jpql, Long.class);
         query.setParameter("pId", id);
 

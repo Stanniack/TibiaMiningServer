@@ -77,7 +77,7 @@ public class CheckCharacter {
                             p.setIdCharacter(idCharacter);
                             
                             break;
-//                            
+                            
                         case "former names:":
                             /* Pega todos os former names */
                             String[] splitNames = elementsList.get(i + afterTitle).trim().split(",");
@@ -197,6 +197,7 @@ public class CheckCharacter {
         return personagem;
     }
 
+    //////////////////////////////////////////////////////////////////* Construir um facade para todos algoritmos */////////////////////////////////////////
     public Personagem updateCharacter(String name) {
         Personagem personagem = null;
 
@@ -221,10 +222,12 @@ public class CheckCharacter {
             } else {
                 
                 /* Se o char existir, inicia as chamadas do banco */
-                personagem = new AbstractDAO<>(Personagem.class).searchByString(name);
+                personagem = new PersonagemDAO().returnCharacterByName(name);
                 int idCharacter = new PersonagemDAO().returnID(name);
                 Personagem p = new Personagem();
                 p.setIdCharacter(idCharacter);
+                /* Atualizar apenas se o personagem teve alteração */
+                int flagUpdate = 0;
 
                 System.out.println(elementsList.toString());
                 for (int i = 1; i < elementsList.size() - trashEliminator; i++) {
@@ -236,60 +239,109 @@ public class CheckCharacter {
                             
                             /* Se o nome for diferente do bd, é que mudou de nick */
                             if (!personagem.getName().equals(elementsList.get(i + afterTitle))) {
+                                
+                                /* Coloca o antigo nick como formerName */
+                                /* Se for igual a 0 é porque não tem fns e esse será o primeiro fn */
+                                if ((new AbstractDAO<>(FormerName.class).countRegistersById(idCharacter)) == 0 ) {
+                                    
+                                    FormerName fn = new FormerName(p, name, personagem.getRegisterDate(), Calendar.getInstance());
+                                    new AbstractDAO<>(FormerName.class).insert(fn);
+                                    
+                                } else {
+                                    /* Senão, pega último dataEnd do fn */
+                                    FormerName fn0 = new AbstractDAO<>(FormerName.class).searchLastRegisterById(idCharacter, "datebegin");
+                                    FormerName fn = new FormerName(p, name, fn0.getDateEnd(), Calendar.getInstance());
+                                    new AbstractDAO<>(FormerName.class).insert(fn);
+                                }
+                                
                                 /* Atualiza novo nick */
                                 personagem.setName(elementsList.get(i + afterTitle));
                                 
-                                /* Coloca o antigo nick como formerName */
-                                
-                                
-                                FormerName fn = new FormerName(name, Calendar.getInstance(), Calendar.getInstance());
-                                /* Buscar a data de começo do último fn*/
-                                
-                                new AbstractDAO<>(FormerName.class).insert(fn);
+                                flagUpdate = 1;
+
                             }
-                            /* Retorna id para outras persistências */
                             
-                            break;
-                            
-                        case "former names:":
-                            /* Pega todos os former names */
-                            String[] splitNames = elementsList.get(i + afterTitle).trim().split(",");
-                            for (String rname : splitNames) {
-                                /* Regra de persistência bilateral*/
-                                FormerName fn = new FormerName(rname, Calendar.getInstance(), Calendar.getInstance());
-                                fn.setPersonagem(p);
-                                
-                                new AbstractDAO<>(FormerName.class).insert(fn);
-                                
-                            }   
                             break;
                             
                         case "title:":
-                            personagem.setTitle(elementsList.get(i + afterTitle));
+                            if (!personagem.getTitle().equals(elementsList.get(i + afterTitle))) {
+                                personagem.setTitle(elementsList.get(i + afterTitle));
+                                
+                                flagUpdate = 1;
+                            }
+                            
                             break;
                             
                         case "sex:":
-                            personagem.setSex(elementsList.get(i + afterTitle));
-                            break;
+                            if (!personagem.getSex().equals(elementsList.get(i + afterTitle))) {
+                                personagem.setSex(elementsList.get(i + afterTitle));
+                                
+                                flagUpdate = 1;
+                            }
                             
-                        case "vocation:":
-                            personagem.setVocation(elementsList.get(i + afterTitle));
                             break;
                             
                         case "level:":
-                            LevelAdvance la = new LevelAdvance(p, Integer.valueOf(elementsList.get(i + afterTitle)),
+                            
+                            /* Procura último level upado e compara com o atual level */
+                            LevelAdvance la0 = new AbstractDAO<>(LevelAdvance.class)
+                                    .searchLastRegisterById(idCharacter, "levelday");
+                            
+                            if (!String.valueOf(la0.getLevelDay()).equals(elementsList.get(i + afterTitle))) {
+                                /* Persiste novo level */
+                                LevelAdvance la = new LevelAdvance(p, Integer.valueOf(elementsList.get(i + afterTitle)),
                                     Calendar.getInstance());
-                            new AbstractDAO<>(LevelAdvance.class).insert(la);
+                                new AbstractDAO<>(LevelAdvance.class).insert(la);
+                                
+                                flagUpdate = 1;
+                            }
+                             
                             break;
                             
                         case "achievement points:":
-                            AchievementPoints ap = new AchievementPoints(p, Integer.valueOf(elementsList.get(i + afterTitle)),
+                            
+                            AchievementPoints ap0 = new AbstractDAO<>(AchievementPoints.class)
+                                    .searchLastRegisterById(idCharacter, "levelday");
+                            
+                            
+                            if (!String.valueOf(ap0.getAchievmentPoints()).equals(elementsList.get(i + afterTitle))) {
+                                
+                                AchievementPoints ap = new AchievementPoints(p, Integer.valueOf(elementsList.get(i + afterTitle)),
                                     Calendar.getInstance());
-                            new AbstractDAO<>(AchievementPoints.class).insert(ap);
+                                new AbstractDAO<>(AchievementPoints.class).insert(ap);
+                                
+                                flagUpdate = 1;
+                            }
+                            
                             break;
                             
                         case "world:":
-                            personagem.setWorld(elementsList.get(i + afterTitle));
+                            
+                            /* Se o world nome for diferente do bd, é que mudou de world */
+                            if (!personagem.getWorld().equals(elementsList.get(i + afterTitle))) {
+                                
+                                /* Coloca o antigo world como FormerWorld */
+                                /* Se for igual a 0 é porque não tem fws e esse será o primeiro fw */
+                                if ((new AbstractDAO<>(FormerWorld.class).countRegistersById(idCharacter)) == 0 ) {
+                                    FormerWorld fw = new FormerWorld(p, personagem.getWorld(), p.getRegisterDate(), 
+                                            Calendar.getInstance());
+                                    new AbstractDAO<>(FormerWorld.class).insert(fw);
+                                    
+                                } else {
+                                    /* Senão, pega último fn */
+                                    FormerWorld fw0 = new AbstractDAO<>(FormerWorld.class).searchLastRegisterById(idCharacter, "datebegin");
+                                    /* Adiciona novo fw */
+                                    FormerWorld fw = new FormerWorld(p, personagem.getWorld(), fw0.getDateLeave(), Calendar.getInstance());
+                                    new AbstractDAO<>(FormerWorld.class).insert(fw);
+                                }
+                                
+                                /* Atualiza novo world */
+                                personagem.setWorld(elementsList.get(i + afterTitle));
+                                
+                                flagUpdate = 1;
+
+                            }
+                            
                             break;
                             
                         case "former world:":
