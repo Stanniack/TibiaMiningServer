@@ -68,6 +68,7 @@ public class CheckCharacter {
                     switch (elementsList.get(i).toLowerCase()) {
                         
                         case "name:":
+                            
                             personagem.setName(elementsList.get(i + afterTitle));
                             /* Primeira persistência para salvar as tabelas fracas em relacionamento bilateral*/
                             new AbstractDAO<>(Personagem.class).insert(personagem);
@@ -79,6 +80,7 @@ public class CheckCharacter {
                             break;
                             
                         case "former names:":
+                            
                             /* Pega todos os former names */
                             String[] splitNames = elementsList.get(i + afterTitle).trim().split(",");
                             
@@ -94,63 +96,76 @@ public class CheckCharacter {
                             break;
                             
                         case "title:":
+                            
                             personagem.setTitle(elementsList.get(i + afterTitle));
                             break;
                             
                         case "sex:":
+                            
                             personagem.setSex(elementsList.get(i + afterTitle));
                             break;
                             
                         case "vocation:":
+                            
                             personagem.setVocation(elementsList.get(i + afterTitle));
                             break;
                             
                         case "level:":
+                            
                             LevelAdvance la = new LevelAdvance(p, Integer.valueOf(elementsList.get(i + afterTitle)),
                                     Calendar.getInstance());
                             new AbstractDAO<>(LevelAdvance.class).insert(la);
                             break;
                             
                         case "achievement points:":
+                            
                             AchievementPoints ap = new AchievementPoints(p, Integer.valueOf(elementsList.get(i + afterTitle)),
                                     Calendar.getInstance());
                             new AbstractDAO<>(AchievementPoints.class).insert(ap);
                             break;
                             
                         case "world:":
+                            
                             personagem.setWorld(elementsList.get(i + afterTitle));
                             break;
                             
                         case "former world:":
+                            
                             FormerWorld fw = new FormerWorld(p, elementsList.get(i + afterTitle), Calendar.getInstance(), Calendar.getInstance());
                             new AbstractDAO<>(FormerWorld.class).insert(fw);
                             break;
                             
                         case "residence:":
+                            
                             personagem.setResidence(elementsList.get(i + afterTitle));
                             break;
                             
                         case "house:":
+                            
                             String[] nameHouse = elementsList.get(i + afterTitle).split(" is ");
-                            House h = new House(p, nameHouse[0], Calendar.getInstance(), Calendar.getInstance());
+                            House h = new House(p, nameHouse[0], Calendar.getInstance());
                             new AbstractDAO<>(House.class).insert(h);
                             break;
                             
                         case "guild membership:":
+                            
                             String[] guildInfo = elementsList.get(i + afterTitle).split("of the");
                             Guild g = new Guild(p, guildInfo[1], guildInfo[0], Calendar.getInstance(), Calendar.getInstance());
                             new AbstractDAO<>(Guild.class).insert(g);
                             break;
                             
                         case "last login:":
+                            
                             personagem.setLastLogin(elementsList.get(i + afterTitle));
                             break;
                             
                         case "account status:":
+                            
                             personagem.setAccountStatus(elementsList.get(i + afterTitle));
                             break;
                             
                         case "character deaths":
+                            
                             int j = 1;
                             while (!elementsList.get(i + j).toLowerCase().equals("search character")
                                     && !elementsList.get(i + j).toLowerCase().equals("account information")) {
@@ -164,8 +179,10 @@ public class CheckCharacter {
                             break;
                             
                         case "account information":
+                            
                             personagem.setTitleAccountInformation(elementsList.get(i + 2));
-                            personagem.setDateCreate(Calendar.getInstance());
+                            personagem.setDateCreate(elementsList.get(i + 4));
+                            
                             break;
                             
                         default:
@@ -197,6 +214,7 @@ public class CheckCharacter {
         return personagem;
     }
 
+    /* Esse método só funciona para personagens que já existem no bando de dados! */
     //////////////////////////////////////////////////////////////////* Construir um facade para todos algoritmos */////////////////////////////////////////
     public Personagem updateCharacter(String name) {
         Personagem personagem = null;
@@ -344,51 +362,139 @@ public class CheckCharacter {
                             
                             break;
                             
-                        case "former world:":
-                            FormerWorld fw = new FormerWorld(p, elementsList.get(i + afterTitle), Calendar.getInstance());
-                            new AbstractDAO<>(FormerWorld.class).insert(fw);
-                            break;
-                            
                         case "residence:":
-                            personagem.setResidence(elementsList.get(i + afterTitle));
+                            
+                            if (!personagem.getResidence().equals(elementsList.get(i + afterTitle))) {
+                                personagem.setResidence(elementsList.get(i + afterTitle));
+                                
+                                flagUpdate = 1;
+                            }
+                            
                             break;
                             
                         case "house:":
+                            
+                            List<String> houses = new AbstractDAO<>(House.class)
+                                    .listAll(String.valueOf(idCharacter), "nameHouse");
+                            List <String> housesNovas = new ArrayList<>();
+                                                       
                             String[] nameHouse = elementsList.get(i + afterTitle).split(" is ");
-                            House h = new House(p, nameHouse[0], Calendar.getInstance());
-                            new AbstractDAO<>(House.class).insert(h);
+                            housesNovas.add(nameHouse[0]);
+                            
+                            /* Se não cocntém é porque é house nova */
+                            if (!houses.contains(nameHouse[0])) {
+                                House h = new House(p, nameHouse[0], Calendar.getInstance());
+                                
+                                /* Adc nova house */
+                                new AbstractDAO<>(House.class).insert(h);
+                            }
+                            
+                            for (String house : houses) {
+                                
+                                if (!housesNovas.contains(house)) {
+                                    
+                                    House h = new AbstractDAO<>(House.class)
+                                            .searchObjectByColumn("housename", house);
+                                    h.setDateLeave(Calendar.getInstance());
+                                    
+                                    /* Atualiza House */
+                                    new AbstractDAO<>(House.class).update(h);
+                                }
+                            }
+                            
+                            
                             break;
                             
                         case "guild membership:":
+                            
+                            
+                            Guild oldGuild = new AbstractDAO<>(Guild.class).searchLastRegisterById(idCharacter, "datebegin");
                             String[] guildInfo = elementsList.get(i + afterTitle).split("of the");
-                            Guild g = new Guild(p, guildInfo[0], guildInfo[1], Calendar.getInstance());
-                            new AbstractDAO<>(Guild.class).insert(g);
+                            
+                            /* Se a guilda for diferente do último registro, é que mudou de guilda */
+                            if (!oldGuild.getNameGuild().equals(guildInfo[0])) {
+                                
+                                /* Guild nova */
+                                Guild newGuild = new Guild(p, guildInfo[0], guildInfo[1], Calendar.getInstance());
+                                new AbstractDAO<>(Guild.class).insert(newGuild);
+                                
+                                /* Atualiza data de saída da velha guild */
+                                oldGuild.setDateLeave(Calendar.getInstance());
+                                new AbstractDAO<>(Guild.class).update(oldGuild);
+                                
+                                flagUpdate = 1;
+
+                            } 
+                            /* Se a guilda for igual e a posição do membro for diferente, é porque a posição foi alterada */
+                            else if (oldGuild.getNameGuild().equals(guildInfo[0]) 
+                                    && !oldGuild.getMemberPositionGuild().equals(guildInfo[1])) {
+                                
+                                /* Atualiza nova posição na guilda */
+                                oldGuild.setMemberPositionGuild(guildInfo[1]);
+                                new AbstractDAO<>(Guild.class).update(oldGuild);
+                                
+                                flagUpdate = 1;
+                            }                        
+                            
                             break;
                             
                         case "last login:":
-                            personagem.setLastLogin(elementsList.get(i + afterTitle));
+                            
+                            if (!personagem.getLastLogin().equals(elementsList.get(i + afterTitle))) {
+                                personagem.setLastLogin(elementsList.get(i + afterTitle));
+                                
+                                flagUpdate = 1;
+                            }
+                            
                             break;
                             
                         case "account status:":
-                            personagem.setAccountStatus(elementsList.get(i + afterTitle));
+                            
+                            if (!personagem.getAccountStatus().equals(elementsList.get(i + afterTitle))) {
+                                personagem.setAccountStatus(elementsList.get(i + afterTitle));
+                                
+                                flagUpdate = 1;
+                            }
+                                                        
                             break;
                             
                         case "character deaths":
+                            
+                            List<String> deathList = new AbstractDAO<>(Death.class)
+                                    .listAll(String.valueOf(idCharacter), "deathdate");
+                            
                             int j = 1;
+                            
                             while (!elementsList.get(i + j).toLowerCase().equals("search character")
                                     && !elementsList.get(i + j).toLowerCase().equals("account information")) {
                                 
-                                /* Regras de negócio */
-                                Death d = new Death(p, elementsList.get(i + j + 1), elementsList.get(i + j));
-                                new AbstractDAO<>(Death.class).insert(d);
-                                
+                                /* Se não conter é porque tem novas mortes */
+                                if (!deathList.contains(elementsList.get(i + j))) {
+                                    Death d = new Death(p, elementsList.get(i + j + 1), elementsList.get(i + j));
+                                    new AbstractDAO<>(Death.class).insert(d);
+                                }
+                                                             
                                 j = j + 2;
-                            }   i += j;
+                            }   
+                            
+                            i += j;
+                            
                             break;
                             
                         case "account information":
-                            personagem.setTitleAccountInformation(elementsList.get(i + 2));
-                            personagem.setDateCreate(Calendar.getInstance());
+                            
+                            if (!personagem.getTitleAccountInformation().equals(elementsList.get(i + 2))) {
+                                
+                                personagem.setTitleAccountInformation(elementsList.get(i + 2));
+                                flagUpdate = 1;
+                            }
+                            
+                            if (!personagem.getDateCreate().equals(elementsList.get(i + 4))) {
+                                
+                                personagem.setDateCreate(elementsList.get(i + 4));
+                                flagUpdate = 1;
+                            }
+                                                  
                             break;
                             
                         default:
@@ -398,9 +504,10 @@ public class CheckCharacter {
                   
                 } // fim FOR
 
-                /* Persiste Personagem */
-                
-                new AbstractDAO<>(Personagem.class).update(personagem);
+                /* Persistir Personagem se houver alterações*/
+                if (flagUpdate == 1) {
+                    new AbstractDAO<>(Personagem.class).update(personagem);
+                }
 
             } // fim ELSE
 
@@ -415,7 +522,6 @@ public class CheckCharacter {
 
         }
 
-       
         return personagem;
     }
 

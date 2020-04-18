@@ -69,4 +69,14 @@ public class House implements Serializable {
         this.dateLeave = dateLeave;
     }
 
+    public Integer getIdHouse() {
+        return idHouse;
+    }
+
+    public Personagem getPersonagem() {
+        return personagem;
+    }
+    
+    
+
 }

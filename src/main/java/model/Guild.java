@@ -23,7 +23,7 @@ public class Guild implements Serializable {
     private Personagem personagem;
 
     private String nameGuild;
-    private String positionMemberGuild;
+    private String memberPositionGuild;
 
     @Temporal(TemporalType.DATE)
     private Calendar dateBegin;
@@ -33,17 +33,17 @@ public class Guild implements Serializable {
     public Guild() {
     }
 
-    public Guild(Personagem personagem, String nameGuild, String positionMemberGuild, Calendar dateBegin) {
+    public Guild(Personagem personagem, String nameGuild, String memberPositionGuild, Calendar dateBegin) {
         this.personagem = personagem;
         this.nameGuild = nameGuild;
-        this.positionMemberGuild = positionMemberGuild;
+        this.memberPositionGuild = memberPositionGuild;
         this.dateBegin = dateBegin;
     }
 
-    public Guild(Personagem personagem, String nameGuild, String positionMemberGuild, Calendar dateBegin, Calendar dateLeave) {
+    public Guild(Personagem personagem, String nameGuild, String memberPositionGuild, Calendar dateBegin, Calendar dateLeave) {
         this.personagem = personagem;
         this.nameGuild = nameGuild;
-        this.positionMemberGuild = positionMemberGuild;
+        this.memberPositionGuild = memberPositionGuild;
         this.dateBegin = dateBegin;
         this.dateLeave = dateLeave;
     }
@@ -56,12 +56,12 @@ public class Guild implements Serializable {
         this.nameGuild = nameGuild;
     }
 
-    public String getPositionMemberGuild() {
-        return positionMemberGuild;
+    public String getMemberPositionGuild() {
+        return memberPositionGuild;
     }
 
-    public void setPositionMemberGuild(String positionMemberGuild) {
-        this.positionMemberGuild = positionMemberGuild;
+    public void setMemberPositionGuild(String memberPositionGuild) {
+        this.memberPositionGuild = memberPositionGuild;
     }
 
     public Calendar getDateBegin() {

@@ -36,8 +36,7 @@ public class Personagem implements Serializable {
     private Calendar registerDate;
 
     /* Data de criação do personagem no Tibia */
-    @Temporal(TemporalType.DATE)
-    private Calendar dateCreate;
+    private String dateCreate;
 
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Death> deaths;
@@ -209,11 +208,11 @@ public class Personagem implements Serializable {
         this.formerNames = formerNames;
     }
 
-    public Calendar getDateCreate() {
+    public String getDateCreate() {
         return dateCreate;
     }
 
-    public void setDateCreate(Calendar dateCreate) {
+    public void setDateCreate(String dateCreate) {
         this.dateCreate = dateCreate;
     }
 
@@ -232,6 +231,8 @@ public class Personagem implements Serializable {
     public void setDeaths(List<Death> deaths) {
         this.deaths = deaths;
     }
+    
+    
 
     public String getWorld() {
         return world;

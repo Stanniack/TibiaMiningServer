@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 import utils.JPAUtil;
 
 public class FormerNameDAO {
+    
     public List<String> listAll(String idCharacter) {
         EntityManager em = JPAUtil.getInstance();
 
