@@ -1,15 +1,11 @@
 package regrasdenegocio;
 
 import DAO.AbstractDAO;
-import DAO.FormerNameDAO;
 import DAO.PersonagemDAO;
-import com.mysql.jdbc.CommunicationsException;
 import java.io.IOException;
-import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import model.AccountCharacters;
 import model.AchievementPoints;
 import model.Death;
 import model.FormerName;
@@ -22,7 +18,6 @@ import org.hibernate.exception.JDBCConnectionException;
 import org.hibernate.service.spi.ServiceException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class CheckCharacter {
@@ -98,16 +93,19 @@ public class CheckCharacter {
                         case "title:":
                             
                             personagem.setTitle(elementsList.get(i + afterTitle));
+                            
                             break;
                             
                         case "sex:":
                             
                             personagem.setSex(elementsList.get(i + afterTitle));
+                            
                             break;
                             
                         case "vocation:":
                             
                             personagem.setVocation(elementsList.get(i + afterTitle));
+                            
                             break;
                             
                         case "level:":
@@ -115,6 +113,7 @@ public class CheckCharacter {
                             LevelAdvance la = new LevelAdvance(p, Integer.valueOf(elementsList.get(i + afterTitle)),
                                     Calendar.getInstance());
                             new AbstractDAO<>(LevelAdvance.class).insert(la);
+                            
                             break;
                             
                         case "achievement points:":
@@ -122,22 +121,26 @@ public class CheckCharacter {
                             AchievementPoints ap = new AchievementPoints(p, Integer.valueOf(elementsList.get(i + afterTitle)),
                                     Calendar.getInstance());
                             new AbstractDAO<>(AchievementPoints.class).insert(ap);
+                            
                             break;
                             
                         case "world:":
                             
                             personagem.setWorld(elementsList.get(i + afterTitle));
+                            
                             break;
                             
                         case "former world:":
                             
                             FormerWorld fw = new FormerWorld(p, elementsList.get(i + afterTitle), Calendar.getInstance(), Calendar.getInstance());
                             new AbstractDAO<>(FormerWorld.class).insert(fw);
+                            
                             break;
                             
                         case "residence:":
                             
                             personagem.setResidence(elementsList.get(i + afterTitle));
+                            
                             break;
                             
                         case "house:":
@@ -145,6 +148,7 @@ public class CheckCharacter {
                             String[] nameHouse = elementsList.get(i + afterTitle).split(" is ");
                             House h = new House(p, nameHouse[0], Calendar.getInstance());
                             new AbstractDAO<>(House.class).insert(h);
+                            
                             break;
                             
                         case "guild membership:":
@@ -152,16 +156,19 @@ public class CheckCharacter {
                             String[] guildInfo = elementsList.get(i + afterTitle).split("of the");
                             Guild g = new Guild(p, guildInfo[1], guildInfo[0], Calendar.getInstance(), Calendar.getInstance());
                             new AbstractDAO<>(Guild.class).insert(g);
+                            
                             break;
                             
                         case "last login:":
                             
                             personagem.setLastLogin(elementsList.get(i + afterTitle));
+                            
                             break;
                             
                         case "account status:":
                             
                             personagem.setAccountStatus(elementsList.get(i + afterTitle));
+                            
                             break;
                             
                         case "character deaths":
@@ -175,13 +182,18 @@ public class CheckCharacter {
                                 new AbstractDAO<>(Death.class).insert(d);
                                 
                                 j = j + 2;
-                            }   i += j;
+                            }   
+                            
+                            i += j;
+                            
                             break;
                             
                         case "account information":
                             
                             personagem.setTitleAccountInformation(elementsList.get(i + 2));
+                            System.out.println("AI: " + elementsList.get(i + 2));
                             personagem.setDateCreate(elementsList.get(i + 4));
+                            System.out.println("AI: " + elementsList.get(i + 4));
                             
                             break;
                             

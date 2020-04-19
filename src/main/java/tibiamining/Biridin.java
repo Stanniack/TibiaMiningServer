@@ -18,7 +18,7 @@ public class Biridin {
 
     public static void main(String[] args) {
 
-        Personagem p = new CheckCharacter().discoverCharacter("Eternal Oblivion");
+        Personagem p = new CheckCharacter().discoverCharacter("Wynchesther");
 
     }
 
