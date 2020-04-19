@@ -18,7 +18,8 @@ public class Biridin {
 
     public static void main(String[] args) {
 
-        Personagem p = new CheckCharacter().discoverCharacter("Wynchesther");
+        Personagem p = new CheckCharacter().discoverCharacter("Crimsix");
+        //Personagem p = new CheckCharacter().updateCharacter("Wynchesther On Belobra");
 
     }
 

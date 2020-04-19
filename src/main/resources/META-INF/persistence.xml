@@ -14,7 +14,6 @@
     <class>model.LevelAdvance</class>
     <class>model.Ranking</class>
     <class>model.AccountCharacters</class>
-    <class>model.Comment_</class>
     <class>model.Death</class>
     <properties>
         

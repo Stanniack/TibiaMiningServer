@@ -46,22 +46,21 @@ public class AbstractDAO<Generic> {
 
         return obj;
     }
-    
-    public Generic searchObjectByColumn (String column, String equals) {
+
+    public Generic searchObjectByColumn(String column, String equals) {
         EntityManager em = JPAUtil.getInstance();
-        
+
         String jpql = "SELECT t FROM " + classe.getName() + " t where " + column + " = :pId";
-        
+
         TypedQuery<Generic> query = em.createQuery(jpql, classe);
         query.setParameter("pId", equals);
-        
+
         Generic obj = query.getSingleResult();
-        
+
         return obj;
-        
+
     }
 
-    
     public List<String> listAll(String idCharacter, String column) {
         EntityManager em = JPAUtil.getInstance();
 
@@ -69,7 +68,7 @@ public class AbstractDAO<Generic> {
 
         TypedQuery<String> query = em.createQuery(jpql, String.class);
         query.setParameter("pId", idCharacter);
-        
+
         List<String> lista = query.getResultList();
 
         em.close();
@@ -77,13 +76,29 @@ public class AbstractDAO<Generic> {
         return lista;
     }
 
-    public Generic searchLastRegisterById(int id, String column) {
+    public Generic searchLastRegisterByIdDESC(int id, String column) {
 
         EntityManager em = JPAUtil.getInstance();
         String jpql = "SELECT t FROM " + classe.getName() + " t WHERE idCharacter = "
                 + id + "order by " + column + " DESC";
 
         TypedQuery<Generic> query = em.createQuery(jpql, classe);
+        query.setMaxResults(1);
+
+        Generic obj = query.getSingleResult();
+        em.close();
+
+        return obj;
+    }
+
+    public Generic searchLastRegisterByIdASC(int id, String column) {
+
+        EntityManager em = JPAUtil.getInstance();
+        String jpql = "SELECT t FROM " + classe.getName() + " t WHERE idCharacter = "
+                + id + "order by " + column + " ASC";
+
+        TypedQuery<Generic> query = em.createQuery(jpql, classe);
+        query.setMaxResults(1);
 
         Generic obj = query.getSingleResult();
         em.close();
