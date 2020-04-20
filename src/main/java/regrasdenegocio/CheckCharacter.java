@@ -427,15 +427,14 @@ public class CheckCharacter {
                             
                         case "guild membership:":
                             
-                            
                             Guild oldGuild = new AbstractDAO<>(Guild.class).searchLastRegisterByIdDESC(idCharacter, "datebegin");
                             String[] guildInfo = elementsList.get(i + afterTitle).split("of the");
                             
                             /* Se a guilda for diferente do último registro, é que mudou de guilda */
-                            if (!oldGuild.getNameGuild().equals(guildInfo[0])) {
+                            if (!oldGuild.getGuildName().equals(guildInfo[1])) {
                                 
                                 /* Guild nova */
-                                Guild newGuild = new Guild(p, guildInfo[0], guildInfo[1], Calendar.getInstance());
+                                Guild newGuild = new Guild(p, guildInfo[1], guildInfo[0], Calendar.getInstance());
                                 new AbstractDAO<>(Guild.class).insert(newGuild);
                                 
                                 /* Atualiza data de saída da velha guild */
@@ -446,11 +445,11 @@ public class CheckCharacter {
 
                             } 
                             /* Se a guilda for igual e a posição do membro for diferente, é porque a posição foi alterada */
-                            else if (oldGuild.getNameGuild().equals(guildInfo[0]) 
-                                    && !oldGuild.getMemberPositionGuild().equals(guildInfo[1])) {
+                            else if (oldGuild.getGuildName().equals(guildInfo[1]) 
+                                    && !oldGuild.getMemberPositionGuild().equals(guildInfo[0])) {
                                 
                                 /* Atualiza nova posição na guilda */
-                                oldGuild.setMemberPositionGuild(guildInfo[1]);
+                                oldGuild.setMemberPositionGuild(guildInfo[0]);
                                 new AbstractDAO<>(Guild.class).update(oldGuild);
                                 
                                 flagUpdate = 1;
@@ -735,39 +734,39 @@ public class CheckCharacter {
 //                            
 //                            
 //                            break;
-//                            
-//                        case "guild membership:":
-//                            
-//                            
-//                            Guild oldGuild = new AbstractDAO<>(Guild.class).searchLastRegisterByIdDESC(idCharacter, "datebegin");
-//                            String[] guildInfo = elementsList.get(i + afterTitle).split("of the");
-//                            
-//                            /* Se a guilda for diferente do último registro, é que mudou de guilda */
-//                            if (!oldGuild.getNameGuild().equals(guildInfo[0])) {
-//                                
-//                                /* Guild nova */
-//                                Guild newGuild = new Guild(p, guildInfo[0], guildInfo[1], Calendar.getInstance());
-//                                new AbstractDAO<>(Guild.class).insert(newGuild);
-//                                
-//                                /* Atualiza data de saída da velha guild */
-//                                oldGuild.setDateLeave(Calendar.getInstance());
-//                                new AbstractDAO<>(Guild.class).update(oldGuild);
-//                                
-//                                flagUpdate = 1;
-//
-//                            } 
-//                            /* Se a guilda for igual e a posição do membro for diferente, é porque a posição foi alterada */
-//                            else if (oldGuild.getNameGuild().equals(guildInfo[0]) 
-//                                    && !oldGuild.getMemberPositionGuild().equals(guildInfo[1])) {
-//                                
-//                                /* Atualiza nova posição na guilda */
-//                                oldGuild.setMemberPositionGuild(guildInfo[1]);
-//                                new AbstractDAO<>(Guild.class).update(oldGuild);
-//                                
-//                                flagUpdate = 1;
-//                            }                        
-//                            
-//                            break;
+                            
+                        case "guild membership:":
+                            
+                            Guild oldGuild = new AbstractDAO<>(Guild.class).searchLastRegisterByIdDESC(idCharacter, "dateBegin");
+                            String[] guildInfo = elementsList.get(i + afterTitle).split("of the");
+                            /* Se a guilda for diferente do último registro, é que mudou de guilda */
+                            if (!oldGuild.getGuildName().equals(guildInfo[1])) {
+                                
+                                
+                                
+                                /* Guild nova */
+                                Guild newGuild = new Guild(p, guildInfo[1], guildInfo[0], Calendar.getInstance());
+                                new AbstractDAO<>(Guild.class).insert(newGuild);
+                                
+                                /* Atualiza data de saída da velha guild */
+                                oldGuild.setDateLeave(Calendar.getInstance());
+                                new AbstractDAO<>(Guild.class).update(oldGuild);
+                                
+                                flagUpdate = 1;
+
+                            } 
+                            /* Se a guilda for igual e a posição do membro for diferente, é porque a posição foi alterada */
+                            else if (oldGuild.getGuildName().equals(guildInfo[1]) 
+                                    && !oldGuild.getMemberPositionGuild().equals(guildInfo[0])) {
+                                
+                                /* Atualiza nova posição na guilda */
+                                oldGuild.setMemberPositionGuild(guildInfo[0]);
+                                new AbstractDAO<>(Guild.class).update(oldGuild);
+                                
+                                flagUpdate = 1;
+                            }                        
+                            
+                            break;
                             
                         case "last login:":
                             

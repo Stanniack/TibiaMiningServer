@@ -27,7 +27,7 @@ public class TestesComArquivos {
 
             }
             
-            new CheckCharacter().updateCharacter("Crimsix Tanagaiolinha", listaItens);
+            new CheckCharacter().updateCharacter("Crimsix Tanagaiola", listaItens);
 
         } catch (FileNotFoundException ex) {
             System.out.println("Arquivo não encontrado: " + ex);

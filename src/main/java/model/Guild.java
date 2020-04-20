@@ -22,7 +22,7 @@ public class Guild implements Serializable {
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
 
-    private String nameGuild;
+    private String guildName;
     private String memberPositionGuild;
 
     @Temporal(TemporalType.DATE)
@@ -33,27 +33,27 @@ public class Guild implements Serializable {
     public Guild() {
     }
 
-    public Guild(Personagem personagem, String nameGuild, String memberPositionGuild, Calendar dateBegin) {
+    public Guild(Personagem personagem, String guildName, String memberPositionGuild, Calendar dateBegin) {
         this.personagem = personagem;
-        this.nameGuild = nameGuild;
+        this.guildName = guildName;
         this.memberPositionGuild = memberPositionGuild;
         this.dateBegin = dateBegin;
     }
 
-    public Guild(Personagem personagem, String nameGuild, String memberPositionGuild, Calendar dateBegin, Calendar dateLeave) {
+    public Guild(Personagem personagem, String guildName, String memberPositionGuild, Calendar dateBegin, Calendar dateLeave) {
         this.personagem = personagem;
-        this.nameGuild = nameGuild;
+        this.guildName = guildName;
         this.memberPositionGuild = memberPositionGuild;
         this.dateBegin = dateBegin;
         this.dateLeave = dateLeave;
     }
 
-    public String getNameGuild() {
-        return nameGuild;
+    public String getGuildName() {
+        return guildName;
     }
 
-    public void setNameGuild(String nameGuild) {
-        this.nameGuild = nameGuild;
+    public void setGuildName(String nameGuild) {
+        this.guildName = nameGuild;
     }
 
     public String getMemberPositionGuild() {
