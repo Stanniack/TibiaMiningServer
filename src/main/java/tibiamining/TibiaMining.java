@@ -4,25 +4,22 @@ import DAO.AbstractDAO;
 import DAO.PersonagemDAO;
 import java.util.Arrays;
 import java.util.List;
+import javax.persistence.NoResultException;
 import model.FormerName;
 import model.Guild;
 import model.House;
 import model.LevelAdvance;
 import model.Personagem;
+import regrasdenegocio.CheckCharacter;
+import regrasdenegocio.CheckRank;
+import utils.MockWorldsTibia;
 
 public class TibiaMining {
 
     public static void main(String[] args) {
-
-        List<String> housesNovas = Arrays.asList("Thais");
-        List<String> housesVelhas = Arrays.asList("Venore");
         
-        for (String houseVelha : housesVelhas) {
-            if (!housesNovas.toString().contains(houseVelha)) {
-                System.out.println("Deixou de ter: " + houseVelha);
-            } 
-        }
-
+        
+        System.out.println(new PersonagemDAO().returnID("zé"));
 
     }
 

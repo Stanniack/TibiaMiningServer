@@ -12,32 +12,25 @@
     <class>model.Guild</class>
     <class>model.House</class>
     <class>model.LevelAdvance</class>
-    <class>model.Ranking</class>
     <class>model.AccountCharacters</class>
     <class>model.Death</class>
+    <class>model.CharacterSkills</class>
     <properties>
-        
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/tibiamining"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.password" value=""/>
-      
       <!-- Configurações específicas do Hibernate -->
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-      
       <!-- Gera sql específico do banco - linguagem -->
       <property name="hibernate.hbm2ddl.auto" value="update"/>
-      
       <!-- Cria tabelas e atualiza colunas (incremento). Outras: create, create-drop, none -->
       <property name="hibernate.show_sql" value="true"/>
-      
       <!-- Mostra sql executado -->
       <property name="hibernate.format_sql" value="true"/>
-      
       <!-- Desabilita SQL log -->
       <property name="hibernate.show_sql" value="false"/>
-      
     </properties>
   </persistence-unit>
 </persistence>

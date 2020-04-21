@@ -43,26 +43,22 @@ public class PersonagemDAO {
 
         int idReturn = -1;
 
-        try {
-            idReturn = query.getSingleResult();
-        } catch (NoResultException e) {
-            System.out.println("Não possui resultados para este nome. ");
-        }
+        idReturn = query.getSingleResult();
 
         em.close();
 
         return idReturn;
     }
-    
+
     public Personagem returnCharacterByName(String string) {
 
         EntityManager em = JPAUtil.getInstance();
-        
+
         String jpql = "SELECT t FROM Personagem t WHERE name = :pString";
 
         TypedQuery<Personagem> query = em.createQuery(jpql, Personagem.class);
         query.setParameter("pString", string);
-        
+
         Personagem personagem = query.getSingleResult();
         em.close();
 
