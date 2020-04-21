@@ -230,6 +230,7 @@ public class CheckCharacter {
         return personagem;
     }
 
+    /* Método para ser aplicado 1x por dia */
     /* Esse método só funciona para personagens que já existem no bando de dados! */
     //////////////////////////////////////////////////////////////////* Construir um facade para todos algoritmos */////////////////////////////////////////
     public Personagem updateCharacter(String name) {
@@ -250,8 +251,13 @@ public class CheckCharacter {
 
             /* Se não existe o char, char foi deletado */
             if (elementsList.get(0).toLowerCase().equals("could not find character:")) {
+                
+                personagem = new PersonagemDAO().returnCharacterByName(name);
+                personagem.setIsDeleted(true);
+                personagem.setDateDeleted(Calendar.getInstance());
+                new AbstractDAO<>(Personagem.class).update(personagem);
+                
                 return null;
-                // regra para chars deletados
 
             } else {
                 
@@ -264,6 +270,7 @@ public class CheckCharacter {
                 int idCharacter = new PersonagemDAO().returnID(name);
                 Personagem p = new Personagem();
                 p.setIdCharacter(idCharacter);
+                
                 /* Atualizar apenas se o personagem teve alteração */
                 int flagUpdate = 0;
 
@@ -572,8 +579,13 @@ public class CheckCharacter {
 
             /* Se não existe o char, char foi deletado */
             if (elementsList.get(0).toLowerCase().equals("could not find character:")) {
+                
+                personagem = new PersonagemDAO().returnCharacterByName(name);
+                personagem.setIsDeleted(true);
+                personagem.setDateDeleted(Calendar.getInstance());
+                new AbstractDAO<>(Personagem.class).update(personagem);
+                
                 return null;
-                // regra para chars deletados
 
             } else {
                 
@@ -872,7 +884,4 @@ public class CheckCharacter {
         return personagem;
     }
     
-    
-    
-
 }

@@ -30,6 +30,7 @@ public class Personagem implements Serializable {
     private String lastLogin;
     private String accountStatus;
     private String titleAccountInformation;
+    private boolean isDeleted;
 
     /* Data do personagme registrado no bd */
     @Temporal(TemporalType.DATE)
@@ -37,6 +38,10 @@ public class Personagem implements Serializable {
 
     /* Data de criação do personagem no Tibia */
     private String dateCreate;
+
+    /* Data que o personagem foi deletado */
+    @Temporal(TemporalType.DATE)
+    private Calendar dateDeleted;
 
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Death> deaths;
@@ -231,8 +236,6 @@ public class Personagem implements Serializable {
     public void setDeaths(List<Death> deaths) {
         this.deaths = deaths;
     }
-    
-    
 
     public String getWorld() {
         return world;
@@ -248,6 +251,22 @@ public class Personagem implements Serializable {
 
     public void setRegisterDate(Calendar registerDate) {
         this.registerDate = registerDate;
+    }
+
+    public boolean isIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Calendar getDateDeleted() {
+        return dateDeleted;
+    }
+
+    public void setDateDeleted(Calendar dateDeleted) {
+        this.dateDeleted = dateDeleted;
     }
 
 }
