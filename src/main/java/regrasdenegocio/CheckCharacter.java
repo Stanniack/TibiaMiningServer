@@ -255,6 +255,10 @@ public class CheckCharacter {
 
             } else {
                 
+                /* Check houses */
+                List<String> housesNovas = new ArrayList<>();
+                boolean isHouseUpdate = false;
+                
                 /* Se o char existir, inicia as chamadas do banco */
                 personagem = new PersonagemDAO().returnCharacterByName(name);
                 int idCharacter = new PersonagemDAO().returnID(name);
@@ -392,7 +396,6 @@ public class CheckCharacter {
                             
                             List<String> houses = new AbstractDAO<>(House.class)
                                     .listAll(String.valueOf(idCharacter), "houseName");
-                            List <String> housesNovas = new ArrayList<>();
                                                        
                             String[] nameHouse = elementsList.get(i + afterTitle).split(" is ");
                             housesNovas.add(nameHouse[0]);
@@ -405,23 +408,8 @@ public class CheckCharacter {
                                 new AbstractDAO<>(House.class).insert(h);
                                 
                                 flagUpdate = 1;
+                                isHouseUpdate = true;
                             }
-                            
-                            for (String house : houses) {
-                                
-                                if (!housesNovas.contains(house)) {
-                                    
-                                    House h = new AbstractDAO<>(House.class)
-                                            .searchObjectByColumn("houseName", house);
-                                    h.setDateLeave(Calendar.getInstance());
-                                    
-                                    /* Atualiza House */
-                                    new AbstractDAO<>(House.class).update(h);
-                                    
-                                    flagUpdate = 1;
-                                }
-                            }
-                            
                             
                             break;
                             
@@ -523,12 +511,36 @@ public class CheckCharacter {
                   
                 } // fim FOR
 
+                List<String> houses = new AbstractDAO<>(House.class)
+                                    .listAll(String.valueOf(idCharacter), "houseName");  
+                
+                if (isHouseUpdate == true) {
+                
+                    for (String house : houses) {
+                                
+                        /* Se não contém é porque o char deixou de ter a casa */
+                        if (!housesNovas.toString().contains(house)) {
+
+                            House h = new AbstractDAO<>(House.class)
+                                        .searchObjectByColumn("houseName", house);
+                            h.setDateLeave(Calendar.getInstance());
+
+                            /* Atualiza House */
+                            new AbstractDAO<>(House.class).update(h);
+
+                            flagUpdate = 1;
+                        }
+                    }
+                }
+
                 /* Persistir Personagem se houver alterações*/
                 if (flagUpdate == 1) {
+                    
+                    System.out.println("Itens Persistidos");
                     new AbstractDAO<>(Personagem.class).update(personagem);
-                    System.out.println("Dados foram persistidos.");
+                    
                 } else {
-                    System.out.println("Nenhum dado persistido.");
+                    System.out.println("Nenhum item persistido.");
                 }
 
             } // fim ELSE
@@ -565,6 +577,8 @@ public class CheckCharacter {
 
             } else {
                 
+                /* Check houses */
+                List<String> housesNovas = new ArrayList<>();
                 /* Se o char existir, inicia as chamadas do banco */
                 personagem = new PersonagemDAO().returnCharacterByName(name);
                 int idCharacter = new PersonagemDAO().returnID(name);
@@ -698,52 +712,33 @@ public class CheckCharacter {
                             
                             break;
                             
-//                        case "house:":
-//                            
-//                            List<String> houses = new AbstractDAO<>(House.class)
-//                                    .listAll(String.valueOf(idCharacter), "houseName");
-//                            List <String> housesNovas = new ArrayList<>();
-//                                                       
-//                            String[] nameHouse = elementsList.get(i + afterTitle).split(" is ");
-//                            housesNovas.add(nameHouse[0]);
-//                            
-//                            /* Se não cocntém é porque é house nova */
-//                            if (!houses.contains(nameHouse[0])) {
-//                                House h = new House(p, nameHouse[0], Calendar.getInstance());
-//                                
-//                                /* Adc nova house */
-//                                new AbstractDAO<>(House.class).insert(h);
-//                                
-//                                flagUpdate = 1;
-//                            }
-//                            
-//                            for (String house : houses) {
-//                                
-//                                if (!housesNovas.contains(house)) {
-//                                    
-//                                    House h = new AbstractDAO<>(House.class)
-//                                            .searchObjectByColumn("houseName", house);
-//                                    h.setDateLeave(Calendar.getInstance());
-//                                    
-//                                    /* Atualiza House */
-//                                    new AbstractDAO<>(House.class).update(h);
-//                                    
-//                                    flagUpdate = 1;
-//                                }
-//                            }
-//                            
-//                            
-//                            break;
+                        case "house:":
+                            
+                            List<String> houses = new AbstractDAO<>(House.class)
+                                    .listAll(String.valueOf(idCharacter), "houseName");                                                       
+                            String[] nameHouse = elementsList.get(i + afterTitle).split(" is ");
+                            housesNovas.add(nameHouse[0]);
+                            
+                            /* Se não contém é porque é house nova */
+                            if (!houses.toString().contains(nameHouse[0])) {
+                                House h = new House(p, nameHouse[0], Calendar.getInstance());
+                                
+                                /* Adc nova house */
+                                new AbstractDAO<>(House.class).insert(h);
+                                
+                                flagUpdate = 1;
+                            }
+                                                     
+                            break;
                             
                         case "guild membership:":
                             
                             Guild oldGuild = new AbstractDAO<>(Guild.class).searchLastRegisterByIdDESC(idCharacter, "dateBegin");
                             String[] guildInfo = elementsList.get(i + afterTitle).split("of the");
+                            
                             /* Se a guilda for diferente do último registro, é que mudou de guilda */
                             if (!oldGuild.getGuildName().equals(guildInfo[1])) {
-                                
-                                
-                                
+                                   
                                 /* Guild nova */
                                 Guild newGuild = new Guild(p, guildInfo[1], guildInfo[0], Calendar.getInstance());
                                 new AbstractDAO<>(Guild.class).insert(newGuild);
@@ -833,11 +828,33 @@ public class CheckCharacter {
 
                   
                 } // fim FOR
+                
+                /* Checando as houses */
+                List<String> houses = new AbstractDAO<>(House.class)
+                                    .listAll(String.valueOf(idCharacter), "houseName");  
+                
+                for (String house : houses) {
+                                
+                                /* Se não contém é porque o char deixou de ter a casa */
+                                if (!housesNovas.toString().contains(house)) {
+                                    
+                                    House h = new AbstractDAO<>(House.class)
+                                            .searchObjectByColumn("houseName", house);
+                                    h.setDateLeave(Calendar.getInstance());
+                                    
+                                    /* Atualiza House */
+                                    new AbstractDAO<>(House.class).update(h);
+                                    
+                                    flagUpdate = 1;
+                                }
+                            }
 
                 /* Persistir Personagem se houver alterações*/
                 if (flagUpdate == 1) {
+                    
                     System.out.println("Itens Persistidos");
                     new AbstractDAO<>(Personagem.class).update(personagem);
+                    
                 } else {
                     System.out.println("Nenhum item persistido.");
                 }
