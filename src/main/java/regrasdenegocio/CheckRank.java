@@ -4,6 +4,7 @@ import DAO.AbstractDAO;
 import DAO.PersonagemDAO;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.NoResultException;
@@ -173,32 +174,74 @@ public class CheckRank {
 
                                     try {
 
+                                        Long register = new AbstractDAO<>(CharacterSkills.class)
+                                                .countRegistersById(p.getIdCharacter());
+                                        CharacterSkills cs0;
+                                        CharacterSkills cs = new CharacterSkills();
+
+
+                                        /* Se tiver registro */
+                                        if (register > 0) {
+
+                                            cs0 = new AbstractDAO<>(CharacterSkills.class)
+                                                    .searchLastRegisterByIdDESC(p.getIdCharacter(), "registerDate");
+
+                                            /* Transfere todos os outros skills do registro anterior para o novo registro 
+                                             * Isso serve para caso um char esteja em mais de 1 ranking score */
+                                            cs = new CharacterSkills(
+                                                    cs0.getAxeFighting(),
+                                                    cs0.getClubFighting(),
+                                                    cs0.getDistanceFighting(),
+                                                    cs0.getFishing(),
+                                                    cs0.getFistFighting(),
+                                                    cs0.getLoyaltyPoints(),
+                                                    cs0.getMagicLevel(),
+                                                    cs0.getShielding(),
+                                                    cs0.getSwordFighting()
+                                            );
+
+                                            /* Então é o primeiro registro */
+                                        } else {
+
+                                            cs0 = new CharacterSkills();
+                                            cs0.setPersonagem(p);
+                                            new AbstractDAO<>(CharacterSkills.class).insert(cs0);
+                                        }
+
+                                        boolean flagUpdate = false;
+
                                         /* Regras de negócio para cada skill */
                                         switch (skills.get(k).toLowerCase()) {
 
                                             case "axe fighting":
 
-                                                Long register = new AbstractDAO<>(CharacterSkills.class)
-                                                        .countRegistersById(p.getIdCharacter());
-
-                                                /* Se tiver registros*/
-                                                if (register > 0) {
-
-                                                    CharacterSkills cs0 = new AbstractDAO<>(CharacterSkills.class)
-                                                            .searchLastRegisterByIdDESC(p.getIdCharacter(), "registerDate");
+                                                /* Se a skill se alterou */
+                                                if (!elementsList.get(k + POINTS).equals(cs0.getAxeFighting())) {
+                                                    cs.setAxeFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+                                                    flagUpdate = true;
                                                 }
-
-                                                CharacterSkills cs = new CharacterSkills();
-                                                cs.setPersonagem(p);
-                                                cs.setAxeFighting(Integer.valueOf(elementsList.get(k + POINTS)));
 
                                                 break;
 
                                             case "club fighting":
 
+                                                /* Se a skill se alterou */
+                                                if (!elementsList.get(k + POINTS).equals(cs0.getClubFighting())) {
+                                                    cs.setClubFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+                                                    flagUpdate = true;
+
+                                                }
+
                                                 break;
 
                                             case "distance fighting":
+
+                                                /* Se a skill se alterou */
+                                                if (!elementsList.get(k + POINTS).equals(cs0.getDistanceFighting())) {
+                                                    cs.setDistanceFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+                                                    flagUpdate = true;
+
+                                                }
 
                                                 break;
 
@@ -215,30 +258,79 @@ public class CheckRank {
 
                                             case "fishing":
 
+                                                /* Se a skill se alterou */
+                                                if (!elementsList.get(k + POINTS).equals(cs0.getFishing())) {
+                                                    cs.setFishing(Integer.valueOf(elementsList.get(k + POINTS)));
+                                                    flagUpdate = true;
+
+                                                }
+
                                                 break;
 
                                             case "fist fighting":
+
+                                                /* Se a skill se alterou */
+                                                if (!elementsList.get(k + POINTS).equals(cs0.getFistFighting())) {
+                                                    cs.setFistFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+                                                    flagUpdate = true;
+
+                                                }
 
                                                 break;
 
                                             case "loyalty points":
 
+                                                /* Se a skill se alterou */
+                                                if (!elementsList.get(k + POINTS).equals(cs0.getLoyaltyPoints())) {
+                                                    cs.setLoyaltyPoints(Integer.valueOf(elementsList.get(k + POINTS)));
+                                                    flagUpdate = true;
+
+                                                }
+
                                                 break;
 
                                             case "magic level":
+
+                                                /* Se a skill se alterou */
+                                                if (!elementsList.get(k + POINTS).equals(cs0.getMagicLevel())) {
+                                                    cs.setMagicLevel(Integer.valueOf(elementsList.get(k + POINTS)));
+                                                    flagUpdate = true;
+
+                                                }
 
                                                 break;
 
                                             case "shielding":
 
+                                                /* Se a skill se alterou */
+                                                if (!elementsList.get(k + POINTS).equals(cs0.getShielding())) {
+                                                    cs.setShielding(Integer.valueOf(elementsList.get(k + POINTS)));
+                                                    flagUpdate = true;
+
+                                                }
+
                                                 break;
 
                                             case "sword fighting":
+
+                                                /* Se a skill se alterou */
+                                                if (!elementsList.get(k + POINTS).equals(cs0.getSwordFighting())) {
+                                                    cs.setSwordFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+                                                    flagUpdate = true;
+
+                                                }
 
                                                 break;
 
                                             default:
                                                 break;
+                                        }
+
+                                        /* Caso algo tenha mudado */
+                                        if (flagUpdate == true) {
+                                            cs.setRegisterDate(Calendar.getInstance());
+                                            cs.setPersonagem(p);
+                                            new AbstractDAO<>(CharacterSkills.class).update(cs);
                                         }
 
                                     } catch (NoResultException e) {

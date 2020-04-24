@@ -21,7 +21,7 @@ public class CharacterSkills implements Serializable {
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
-    
+
     @Temporal(TemporalType.DATE)
     private Calendar registerDate;
 
@@ -34,6 +34,21 @@ public class CharacterSkills implements Serializable {
     private int magicLevel;
     private int shielding;
     private int swordFighting;
+
+    public CharacterSkills() {
+    }
+
+    public CharacterSkills(int axeFighting, int clubFighting, int distanceFighting, int fishing, int fistFighting, int loyaltyPoints, int magicLevel, int shielding, int swordFighting) {
+        this.axeFighting = axeFighting;
+        this.clubFighting = clubFighting;
+        this.distanceFighting = distanceFighting;
+        this.fishing = fishing;
+        this.fistFighting = fistFighting;
+        this.loyaltyPoints = loyaltyPoints;
+        this.magicLevel = magicLevel;
+        this.shielding = shielding;
+        this.swordFighting = swordFighting;
+    }
 
     public Integer getIdRanking() {
         return idRanking;
@@ -113,6 +128,22 @@ public class CharacterSkills implements Serializable {
 
     public void setSwordFighting(int swordFighting) {
         this.swordFighting = swordFighting;
+    }
+
+    public Calendar getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Calendar registerDate) {
+        this.registerDate = registerDate;
+    }
+
+    public int getFistFighting() {
+        return fistFighting;
+    }
+
+    public void setFistFighting(int fistFighting) {
+        this.fistFighting = fistFighting;
     }
 
 }

@@ -20,8 +20,6 @@ public class TibiaMining {
     public static void main(String[] args) {
         
         
-        System.out.println(new AbstractDAO<>(CharacterSkills.class)
-                                                        .countRegistersById(1));
         
 
     }
