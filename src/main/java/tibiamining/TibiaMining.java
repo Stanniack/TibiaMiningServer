@@ -5,6 +5,7 @@ import DAO.PersonagemDAO;
 import java.util.Arrays;
 import java.util.List;
 import javax.persistence.NoResultException;
+import model.CharacterSkills;
 import model.FormerName;
 import model.Guild;
 import model.House;
@@ -19,7 +20,9 @@ public class TibiaMining {
     public static void main(String[] args) {
         
         
-        System.out.println(new PersonagemDAO().returnID("zé"));
+        System.out.println(new AbstractDAO<>(CharacterSkills.class)
+                                                        .countRegistersById(1));
+        
 
     }
 

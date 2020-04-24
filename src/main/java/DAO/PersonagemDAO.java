@@ -32,7 +32,7 @@ public class PersonagemDAO {
         return nameReturn;
     }
 
-    public int returnID(String name) {
+    public Integer returnID(String name) {
         EntityManager em = JPAUtil.getInstance();
 
         String jpql = "SELECT idCharacter FROM Personagem p where name = :pName";
@@ -41,7 +41,7 @@ public class PersonagemDAO {
 
         query.setParameter("pName", name);
 
-        int idReturn = -1;
+        Integer idReturn;
 
         idReturn = query.getSingleResult();
 

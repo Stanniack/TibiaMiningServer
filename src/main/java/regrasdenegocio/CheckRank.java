@@ -1,5 +1,6 @@
 package regrasdenegocio;
 
+import DAO.AbstractDAO;
 import DAO.PersonagemDAO;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -135,79 +136,119 @@ public class CheckRank {
 
                             for (int k = CONTENT_START; k < elementsList.size() - INCREMENTOR; k += 5) {
 
+                                String lastNick = new CheckCharacter().getNick(elementsList.get(k + NAME));
 
-                                /* Regras de persistência */
-                                try {
+                                /* !Char deletado ou não existe) */
+                                if (lastNick != null) {
 
-                                    /* Se for != -1 é porque o char já existe no bd */
-                                    if (new PersonagemDAO().returnID(elementsList.get(k + NAME)) != -1) {
+                                    Integer idCharacter = new PersonagemDAO().returnID(elementsList.get(k + NAME));
 
-                                        p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
+                                    /* Nick trocado e chãr não existe no BD */
+                                    if (!lastNick.equals(elementsList.get(k + NAME)) && idCharacter == null) {
 
-                                    } else {
+                                        new CheckCharacter().discoverCharacter(lastNick);
+                                        p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                        System.out.println("Nick trocado e chãr não existe no BD");
 
-                                        /* Persiste */
+                                        /* Nick trocado e char exite no BD */
+                                    } else if (!lastNick.equals(elementsList.get(k + NAME)) && idCharacter != null) {
+
+                                        new CheckCharacter().updateCharacter(lastNick);
+                                        p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                        System.out.println("Nick trocado e char exite no BD ");
+
+                                        /* Nick não foi trocado e char não existe no BD */
+                                    } else if (lastNick.equals(elementsList.get(k + NAME)) && idCharacter == null) {
+
                                         new CheckCharacter().discoverCharacter(elementsList.get(k + NAME));
-                                        /*Retorna o mesmo personagem para evitar excesso de código */
+                                        p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                        System.out.println("Nick não foi trocado e char não existe no BD");
+
+                                        /* Nick não foi trocado e char existe no BD */
+                                    } else {
                                         p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
+                                        System.out.println("Nick não foi trocado e char existe no BD");
+
                                     }
 
-                                    /* Regras de negócio para cada skill */
-                                    switch (skills.get(k).toLowerCase()) {
-                                        
-                                        case "axe fighting":
-                                            
-                                            CharacterSkills cs = new CharacterSkills();
-                                            cs.setPersonagem(p);
-                                            cs.setAxeFighting(Integer.valueOf(elementsList.get(k + POINTS)));
-                                            
-                                            break;
-                                            
-                                        case "club fighting":
-                                            break;
-                                            
-                                        case "distance fighting":
-                                            break;
-                                            
-                                        case "experience points":
-                                            
-                                            /* Tira as vírgulas da exp */
-                                            String valorConvertido = elementsList.get(k + POINTS).replace(",", "");
-                                            Long valorCvtLong = Long.valueOf(valorConvertido);
-                                            
-                                            LevelAdvance la = new LevelAdvance();
-                                            la.setExpDay(Double.NaN);
-                                            
-                                            break;
-                                            
-                                        case "fishing":
-                                            break;
-                                            
-                                        case "fist fighting":
-                                            break;
-                                            
-                                        case "loyalty points":
-                                            break;
-                                            
-                                        case "magic level":
-                                            break;
-                                            
-                                        case "shielding":
-                                            break;
-                                            
-                                        case "sword fighting":
-                                            break;
-                                            
-                                        default: 
-                                            break;
+                                    try {
+
+                                        /* Regras de negócio para cada skill */
+                                        switch (skills.get(k).toLowerCase()) {
+
+                                            case "axe fighting":
+
+                                                Long register = new AbstractDAO<>(CharacterSkills.class)
+                                                        .countRegistersById(p.getIdCharacter());
+
+                                                /* Se tiver registros*/
+                                                if (register > 0) {
+
+                                                    CharacterSkills cs0 = new AbstractDAO<>(CharacterSkills.class)
+                                                            .searchLastRegisterByIdDESC(p.getIdCharacter(), "registerDate");
+                                                }
+
+                                                CharacterSkills cs = new CharacterSkills();
+                                                cs.setPersonagem(p);
+                                                cs.setAxeFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+
+                                                break;
+
+                                            case "club fighting":
+
+                                                break;
+
+                                            case "distance fighting":
+
+                                                break;
+
+                                            case "experience points":
+
+                                                /* Tira as vírgulas da exp */
+                                                String valorConvertido = elementsList.get(k + POINTS).replace(",", "");
+                                                Long valorCvtLong = Long.valueOf(valorConvertido);
+
+                                                LevelAdvance la = new LevelAdvance();
+                                                la.setExpDay(Double.NaN);
+
+                                                break;
+
+                                            case "fishing":
+
+                                                break;
+
+                                            case "fist fighting":
+
+                                                break;
+
+                                            case "loyalty points":
+
+                                                break;
+
+                                            case "magic level":
+
+                                                break;
+
+                                            case "shielding":
+
+                                                break;
+
+                                            case "sword fighting":
+
+                                                break;
+
+                                            default:
+                                                break;
+                                        }
+
+                                    } catch (NoResultException e) {
+                                        System.out.println("Nenhum personagem encontrado para "
+                                                + elementsList.get(k + NAME) + " - " + e);
                                     }
 
-                                } catch (NoResultException e) {
-                                    System.out.println("Nenhum personagem encontrado para "
-                                            + elementsList.get(k + NAME) + " - " + e);
                                 }
 
-                            }
+                            } // for personagens da página
 
                         } catch (IOException e) {
                             System.out.println("Erro na execução." + e);
@@ -241,9 +282,10 @@ public class CheckRank {
 
         System.out.println("O tempo total para minerar todos os skills, servidores e profissões foram de: "
                 + ((finalTime - startTime) / 1000) + " segundos.");
-        
+
     }
 
+    /* Eliminar este método futuramente */
     private void exibeConteudo(List<CharacterRank> lista) {
 
         System.out.println("___________________________________________________");
