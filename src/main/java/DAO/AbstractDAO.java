@@ -119,6 +119,20 @@ public class AbstractDAO<Generic> {
 
         return result;
     }
+    
+    public Long countRegistersByName(String name) {
+
+        EntityManager em = JPAUtil.getInstance();
+        String jpql = "SELECT COUNT(t) FROM " + classe.getName() + " t WHERE playerName = :pName";
+
+        TypedQuery<Long> query = em.createQuery(jpql, Long.class);
+        query.setParameter("pName", name);
+
+        Long result = query.getSingleResult();
+        em.close();
+
+        return result;
+    }
 
     public List<Generic> listAll() {
         EntityManager em = JPAUtil.getInstance();

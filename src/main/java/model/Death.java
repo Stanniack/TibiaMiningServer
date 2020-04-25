@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -19,7 +20,10 @@ public class Death implements Serializable {
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
 
+    /* Altera o tamanho da string no bd */
+    @Lob
     private String deathInfo;
+    
     private String deathDate;
 
     public Death() {

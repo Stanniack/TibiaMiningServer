@@ -21,8 +21,8 @@ public class Personagem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCharacter;
 
-    @Column(unique = true)
-    private String name;
+    @Column(unique = true, nullable = false)
+    private String playerName;
     
     private String title;
     private String sex;
@@ -87,12 +87,12 @@ public class Personagem implements Serializable {
 
     }
 
-    public String getName() {
-        return name;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public String getSex() {

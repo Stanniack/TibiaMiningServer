@@ -13,7 +13,7 @@ public class PersonagemDAO {
     public String searchName(String name) {
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT name FROM Personagem p where name = :pName";
+        String jpql = "SELECT playerName FROM Personagem p where playerName = :pName";
 
         TypedQuery<String> query = em.createQuery(jpql, String.class);
 
@@ -35,7 +35,7 @@ public class PersonagemDAO {
     public Integer returnID(String name) {
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT idCharacter FROM Personagem p where name = :pName";
+        String jpql = "SELECT idCharacter FROM Personagem p where playerName = :pName";
 
         TypedQuery<Integer> query = em.createQuery(jpql, Integer.class);
 
@@ -54,7 +54,7 @@ public class PersonagemDAO {
 
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT t FROM Personagem t WHERE name = :pString";
+        String jpql = "SELECT t FROM Personagem t WHERE playerName = :pString";
 
         TypedQuery<Personagem> query = em.createQuery(jpql, Personagem.class);
         query.setParameter("pString", string);
