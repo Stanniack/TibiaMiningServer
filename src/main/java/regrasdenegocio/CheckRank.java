@@ -145,7 +145,7 @@ public class CheckRank {
                                     /* Regras de negócio para cada skill */
                                     switch (skills.get(x).toLowerCase()) {
 
-                                        case "axe fighting":
+                                        case "axe":
 
                                             /* Se a skill se alterou */
                                             if (!elementsList.get(k + POINTS).equals(cs0.getAxeFighting())) {
@@ -155,7 +155,7 @@ public class CheckRank {
 
                                             break;
 
-                                        case "club fighting":
+                                        case "club":
 
                                             /* Se a skill se alterou */
                                             if (!elementsList.get(k + POINTS).equals(cs0.getClubFighting())) {
@@ -166,7 +166,7 @@ public class CheckRank {
 
                                             break;
 
-                                        case "distance fighting":
+                                        case "distance":
 
                                             /* Se a skill se alterou */
                                             if (!elementsList.get(k + POINTS).equals(cs0.getDistanceFighting())) {
@@ -200,7 +200,7 @@ public class CheckRank {
 
                                             break;
 
-                                        case "fist fighting":
+                                        case "fist":
 
                                             /* Se a skill se alterou */
                                             if (!elementsList.get(k + POINTS).equals(cs0.getFistFighting())) {
@@ -221,7 +221,7 @@ public class CheckRank {
 //                                                }
 //
 //                                                break;
-                                        case "magic level":
+                                        case "magic":
 
                                             /* Se a skill se alterou */
                                             if (!elementsList.get(k + POINTS).equals(cs0.getMagicLevel())) {
@@ -243,7 +243,7 @@ public class CheckRank {
 
                                             break;
 
-                                        case "sword fighting":
+                                        case "sword":
 
                                             /* Se a skill se alterou */
                                             if (!elementsList.get(k + POINTS).equals(cs0.getSwordFighting())) {
