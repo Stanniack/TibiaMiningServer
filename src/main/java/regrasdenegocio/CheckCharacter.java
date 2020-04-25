@@ -212,6 +212,7 @@ public class CheckCharacter {
 
         } catch (UnknownHostException e) {
             System.out.println("Erro na conexão: " + e);
+            e.printStackTrace();
 
         } catch (IOException | IllegalArgumentException | IndexOutOfBoundsException
                 | ServiceException | JDBCConnectionException | NonUniqueResultException e) {
@@ -595,6 +596,7 @@ public class CheckCharacter {
 
         } catch (UnknownHostException e) {
             System.out.println("Erro na conexão: " + e);
+            e.printStackTrace();
 
         } catch (IOException | IllegalArgumentException | IndexOutOfBoundsException
                 | ServiceException | JDBCConnectionException | NonUniqueResultException e) {

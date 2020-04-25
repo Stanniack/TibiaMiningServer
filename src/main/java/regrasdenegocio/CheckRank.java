@@ -3,21 +3,15 @@ package regrasdenegocio;
 import DAO.AbstractDAO;
 import DAO.PersonagemDAO;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.UnknownHostException;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import javax.persistence.NoResultException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import utils.MockWorldsTibia;
-import model.CharacterRank;
 import model.CharacterSkills;
-import model.LevelAdvance;
 import model.Personagem;
-import org.hibernate.PropertyValueException;
 import utils.MockSkillsTibia;
 
 public class CheckRank {
@@ -56,8 +50,10 @@ public class CheckRank {
                 for (int n = 1; n <= PROFESSION; n++) {
 
                     Long professionStartTime = System.currentTimeMillis();
+                    int j = 2;
 
-                    for (int j = FIRST_PAGE; j <= LAST_PAGE; j++) {
+                    for (j = FIRST_PAGE; j <= LAST_PAGE; j++) {
+                        int k = 17;
 
                         try {
 
@@ -68,7 +64,7 @@ public class CheckRank {
                             List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
                             Personagem p;
 
-                            for (int k = CONTENT_START_SKILLS; k < elementsList.size() - TRASH_ELIMINATOR_SKILLS; k += INCREMENTOR_SKILLS) {
+                            for (k = CONTENT_START_SKILLS; k < elementsList.size() - TRASH_ELIMINATOR_SKILLS; k += INCREMENTOR_SKILLS) {
 
                                 String lastNick = new CheckCharacter().getNick(elementsList.get(k + NAME));
 
@@ -269,6 +265,11 @@ public class CheckRank {
                                 }
 
                             } // for personagens da página
+
+                        } catch (UnknownHostException e) {
+                            /* Volta no índice que deu hostexception */
+                            j--;
+                            k -= INCREMENTOR_SKILLS;
 
                         } catch (IOException | NumberFormatException | NoResultException e) {
                             System.out.println("Erro para: " + e);
