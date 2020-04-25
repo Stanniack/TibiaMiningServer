@@ -136,6 +136,7 @@ public class CheckRank {
                                     } else {
 
                                         cs0 = new CharacterSkills();
+                                        //cs0.setRegisterDate(Calendar.getInstance());
                                         cs0.setPersonagem(p);
                                         new AbstractDAO<>(CharacterSkills.class).insert(cs0);
                                     }
@@ -148,7 +149,7 @@ public class CheckRank {
                                         case "axe":
 
                                             /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(cs0.getAxeFighting())) {
+                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getAxeFighting()))) {
                                                 cs.setAxeFighting(Integer.valueOf(elementsList.get(k + POINTS)));
                                                 flagUpdate = true;
                                             }
@@ -158,7 +159,7 @@ public class CheckRank {
                                         case "club":
 
                                             /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(cs0.getClubFighting())) {
+                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getClubFighting()))) {
                                                 cs.setClubFighting(Integer.valueOf(elementsList.get(k + POINTS)));
                                                 flagUpdate = true;
 
@@ -169,7 +170,7 @@ public class CheckRank {
                                         case "distance":
 
                                             /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(cs0.getDistanceFighting())) {
+                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getDistanceFighting()))) {
                                                 cs.setDistanceFighting(Integer.valueOf(elementsList.get(k + POINTS)));
                                                 flagUpdate = true;
 
@@ -192,7 +193,7 @@ public class CheckRank {
                                         case "fishing":
 
                                             /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(cs0.getFishing())) {
+                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getFishing()))) {
                                                 cs.setFishing(Integer.valueOf(elementsList.get(k + POINTS)));
                                                 flagUpdate = true;
 
@@ -203,7 +204,7 @@ public class CheckRank {
                                         case "fist":
 
                                             /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(cs0.getFistFighting())) {
+                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getFistFighting()))) {
                                                 cs.setFistFighting(Integer.valueOf(elementsList.get(k + POINTS)));
                                                 flagUpdate = true;
 
@@ -224,7 +225,7 @@ public class CheckRank {
                                         case "magic":
 
                                             /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(cs0.getMagicLevel())) {
+                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getMagicLevel()))) {
                                                 cs.setMagicLevel(Integer.valueOf(elementsList.get(k + POINTS)));
                                                 flagUpdate = true;
 
@@ -235,7 +236,7 @@ public class CheckRank {
                                         case "shielding":
 
                                             /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(cs0.getShielding())) {
+                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getShielding()))) {
                                                 cs.setShielding(Integer.valueOf(elementsList.get(k + POINTS)));
                                                 flagUpdate = true;
 
@@ -246,7 +247,7 @@ public class CheckRank {
                                         case "sword":
 
                                             /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(cs0.getSwordFighting())) {
+                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getSwordFighting()))) {
                                                 cs.setSwordFighting(Integer.valueOf(elementsList.get(k + POINTS)));
                                                 flagUpdate = true;
 

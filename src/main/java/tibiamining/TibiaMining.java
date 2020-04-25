@@ -23,7 +23,11 @@ public class TibiaMining {
 
     public static void main(String[] args) throws IOException {
 
-        new CheckRank().checkGlobalRank();
+//        System.out.println(new AbstractDAO<>(CharacterSkills.class)
+//                                                .searchLastRegisterByIdDESC(1, "registerDate").getFishing());
+
+         new CheckRank().checkGlobalRank();
+                                            
         
     }
 
