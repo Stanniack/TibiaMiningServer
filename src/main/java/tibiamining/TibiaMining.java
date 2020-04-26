@@ -22,9 +22,27 @@ import utils.MockWorldsTibia;
 public class TibiaMining {
 
     public static void main(String[] args) throws IOException {
-
-        new CheckRank().checkGlobalRankLoyalty();
         
+        Long startTime = System.currentTimeMillis();
+
+        Long expStartTime = System.currentTimeMillis();
+        new CheckRank().checkGlobalRankExperience();
+        Long expFinalTime = System.currentTimeMillis();
+        System.out.println((expFinalTime - expStartTime)/1000);
+        
+        Long loyaltyStartTime = System.currentTimeMillis();
+        new CheckRank().checkGlobalRankLoyalty();
+        Long loyaltyFinalTime = System.currentTimeMillis();
+        System.out.println((loyaltyFinalTime - loyaltyStartTime)/1000);
+        
+        Long skillsStartTime = System.currentTimeMillis();
+        new CheckRank().checkGlobalRankSkills();
+        Long skillsFinalTime = System.currentTimeMillis();
+        System.out.println((skillsFinalTime - skillsStartTime)/1000);
+        
+        Long finalTime = System.currentTimeMillis();
+        
+        System.out.println((finalTime - startTime)/1000);
     }
 
 }

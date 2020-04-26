@@ -372,9 +372,6 @@ public class CheckRank {
                                     String strValue = elementsList.get(k + EXPERIENCE).replace(",", "");
                                     Long expValue = Long.valueOf(strValue);
 
-                                    System.out.println(la0.getLevelDay() + " ? " + elementsList.get(k + LEVEL));
-                                    System.out.println(la0.getExpDay() + " ? " + expValue);
-
                                     if (!String.valueOf(la0.getLevelDay())
                                             .equals(elementsList.get(k + LEVEL))
                                             || !Objects.equals(la0.getExpDay(), expValue)) {
