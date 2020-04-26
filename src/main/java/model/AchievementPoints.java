@@ -36,11 +36,11 @@ public class AchievementPoints implements Serializable {
         this.registerDate = registerDate;
     }
 
-    public Integer getAchievmentPoints() {
+    public Integer getAchievementPoints() {
         return achievementPoints;
     }
 
-    public void setAchievmentPoints(Integer achievmentPoints) {
+    public void setAchievementPoints(Integer achievmentPoints) {
         this.achievementPoints = achievmentPoints;
     }
 

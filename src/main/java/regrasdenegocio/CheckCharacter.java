@@ -394,7 +394,7 @@ public class CheckCharacter {
                             AchievementPoints ap0 = new AbstractDAO<>(AchievementPoints.class)
                                     .searchLastRegisterDESC(idCharacter, "achievementpoints");
 
-                            if (!String.valueOf(ap0.getAchievmentPoints()).equals(elementsList.get(i + afterTitle))) {
+                            if (!String.valueOf(ap0.getAchievementPoints()).equals(elementsList.get(i + afterTitle))) {
 
                                 AchievementPoints ap = new AchievementPoints(p, Integer.valueOf(elementsList.get(i + afterTitle)),
                                         Calendar.getInstance());

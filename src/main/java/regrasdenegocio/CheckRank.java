@@ -44,7 +44,6 @@ public class CheckRank {
     private static final int EXPERIENCE = 4;
     private static final int LOYALTY = 4;
 
-    /* Estem método é adaptado para rodar em qualquer circunstância, mas é recomendado que se use depois do discover ou updateCharacter*/
     public void checkGlobalRankSkills() {
 
         Long startTime = System.currentTimeMillis();
@@ -91,26 +90,22 @@ public class CheckRank {
 
                                         new CheckCharacter().discoverCharacter(lastNick);
                                         p = new PersonagemDAO().returnCharacterByName(lastNick);
-                                        System.out.println("Nick trocado e char não existe no BD");
 
                                         /* Nick trocado e char exite no BD */
                                     } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
 
                                         new CheckCharacter().updateCharacter(lastNick);
                                         p = new PersonagemDAO().returnCharacterByName(lastNick);
-                                        System.out.println("Nick trocado e char exite no BD ");
 
                                         /* Nick não foi trocado e char não existe no BD */
                                     } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
                                         new CheckCharacter().discoverCharacter(elementsList.get(k + NAME));
                                         p = new PersonagemDAO().returnCharacterByName(lastNick);
-                                        System.out.println("Nick não foi trocado e char não existe no BD");
 
                                         /* Nick não foi trocado e char existe no BD */
                                     } else {
                                         p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
-                                        System.out.println("Nick não foi trocado e char existe no BD");
 
                                     }
 
@@ -337,26 +332,22 @@ public class CheckRank {
 
                                     new CheckCharacter().discoverCharacter(lastNick);
                                     p = new PersonagemDAO().returnCharacterByName(lastNick);
-                                    System.out.println("Nick trocado e char não existe no BD");
 
                                     /* Nick trocado e char exite no BD */
                                 } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
 
                                     new CheckCharacter().updateCharacter(lastNick);
                                     p = new PersonagemDAO().returnCharacterByName(lastNick);
-                                    System.out.println("Nick trocado e char exite no BD ");
 
                                     /* Nick não foi trocado e char não existe no BD */
                                 } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
                                     new CheckCharacter().discoverCharacter(elementsList.get(k + NAME));
                                     p = new PersonagemDAO().returnCharacterByName(lastNick);
-                                    System.out.println("Nick não foi trocado e char não existe no BD");
 
                                     /* Nick não foi trocado e char existe no BD */
                                 } else {
                                     p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
-                                    System.out.println("Nick não foi trocado e char existe no BD");
 
                                 }
 
@@ -469,26 +460,22 @@ public class CheckRank {
 
                                     new CheckCharacter().discoverCharacter(lastNick);
                                     p = new PersonagemDAO().returnCharacterByName(lastNick);
-                                    System.out.println("Nick trocado e char não existe no BD");
 
                                     /* Nick trocado e char exite no BD */
                                 } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
 
                                     new CheckCharacter().updateCharacter(lastNick);
                                     p = new PersonagemDAO().returnCharacterByName(lastNick);
-                                    System.out.println("Nick trocado e char exite no BD ");
 
                                     /* Nick não foi trocado e char não existe no BD */
                                 } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
                                     new CheckCharacter().discoverCharacter(elementsList.get(k + NAME));
                                     p = new PersonagemDAO().returnCharacterByName(lastNick);
-                                    System.out.println("Nick não foi trocado e char não existe no BD");
 
                                     /* Nick não foi trocado e char existe no BD */
                                 } else {
                                     p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
-                                    System.out.println("Nick não foi trocado e char existe no BD");
 
                                 }
 
