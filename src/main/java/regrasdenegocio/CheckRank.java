@@ -119,7 +119,7 @@ public class CheckRank {
                                     if (register > 0) {
 
                                         cs0 = new AbstractDAO<>(CharacterSkills.class)
-                                                .searchLastRegisterByIdDESC(p.getIdCharacter(), "registerDate");
+                                                .searchLastRegisterDESC(p.getIdCharacter(), "registerDate");
 
                                         /* Transfere todos os outros skills do registro anterior para o novo registro 
                                              * Isso serve para caso um char esteja em mais de 1 ranking score */
@@ -362,7 +362,7 @@ public class CheckRank {
                                 if (register > 0) {
 
                                     LevelAdvance la0 = new AbstractDAO<>(LevelAdvance.class)
-                                            .searchLastRegisterByIdDESC(p.getIdCharacter(), "dayAdvance");
+                                            .searchLastRegisterDESC(p.getIdCharacter(), "idLevelAdvance");
 
                                     String strValue = elementsList.get(k + EXPERIENCE).replace(",", "");
                                     Long expValue = Long.valueOf(strValue);

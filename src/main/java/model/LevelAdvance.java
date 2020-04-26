@@ -68,4 +68,22 @@ public class LevelAdvance implements Serializable {
         this.dayAdvance = dayAdvance;
     }
 
+    public Integer getIdLevelAdvance() {
+        return idLevelAdvance;
+    }
+
+    public void setIdLevelAdvance(Integer idLevelAdvance) {
+        this.idLevelAdvance = idLevelAdvance;
+    }
+
+    public Personagem getPersonagem() {
+        return personagem;
+    }
+
+    public void setPersonagem(Personagem personagem) {
+        this.personagem = personagem;
+    }
+    
+    
+
 }

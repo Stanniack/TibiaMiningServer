@@ -76,7 +76,7 @@ public class AbstractDAO<Generic> {
         return lista;
     }
 
-    public Generic searchLastRegisterByIdDESC(int id, String column) {
+    public Generic searchLastRegisterDESC(int id, String column) {
 
         EntityManager em = JPAUtil.getInstance();
         String jpql = "SELECT t FROM " + classe.getName() + " t WHERE idCharacter = "
@@ -91,7 +91,7 @@ public class AbstractDAO<Generic> {
         return obj;
     }
 
-    public Generic searchLastRegisterByIdASC(int id, String column) {
+    public Generic searchLastRegisterASC(int id, String column) {
 
         EntityManager em = JPAUtil.getInstance();
         String jpql = "SELECT t FROM " + classe.getName() + " t WHERE idCharacter = "
@@ -119,7 +119,7 @@ public class AbstractDAO<Generic> {
 
         return result;
     }
-    
+
     public Long countRegistersByName(String name) {
 
         EntityManager em = JPAUtil.getInstance();
