@@ -23,7 +23,7 @@ public class Personagem implements Serializable {
 
     @Column(unique = true, nullable = false)
     private String playerName;
-    
+
     private String title;
     private String sex;
     private String vocation;
@@ -56,9 +56,6 @@ public class Personagem implements Serializable {
     private List<AchievementPoints> achievements;
 
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AccountCharacters> accountCharacters;
-
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LevelAdvance> levelAdvances;
 
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -75,7 +72,6 @@ public class Personagem implements Serializable {
 
     public Personagem() {
         this.deaths = new ArrayList<>();
-        this.accountCharacters = new ArrayList<>();
         this.levelAdvances = new ArrayList<>();
         this.guilds = new ArrayList<>();
         this.ranking = new ArrayList<>();
@@ -133,14 +129,6 @@ public class Personagem implements Serializable {
 
     public void setAccountStatus(String accountStatus) {
         this.accountStatus = accountStatus;
-    }
-
-    public List<AccountCharacters> getAccountCharacters() {
-        return accountCharacters;
-    }
-
-    public void setAccountCharacters(List<AccountCharacters> accountCharacters) {
-        this.accountCharacters = accountCharacters;
     }
 
     public String getTitle() {

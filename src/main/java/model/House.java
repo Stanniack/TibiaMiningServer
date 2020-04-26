@@ -26,8 +26,9 @@ public class House implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Calendar dateBid;
+    
     @Temporal(TemporalType.DATE)
-    private Calendar dateLeave;
+    private Calendar dataEnd;
 
     public House() {
     }
@@ -42,7 +43,7 @@ public class House implements Serializable {
         this.personagem = personagem;
         this.houseName = houseName;
         this.dateBid = dateBid;
-        this.dateLeave = dateLeave;
+        this.dataEnd = dateLeave;
     }
 
     public String getHouseName() {
@@ -61,12 +62,12 @@ public class House implements Serializable {
         this.dateBid = dateBid;
     }
 
-    public Calendar getDateLeave() {
-        return dateLeave;
+    public Calendar getDataEnd() {
+        return dataEnd;
     }
 
-    public void setDateLeave(Calendar dateLeave) {
-        this.dateLeave = dateLeave;
+    public void setDataEnd(Calendar dataEnd) {
+        this.dataEnd = dataEnd;
     }
 
     public Integer getIdHouse() {

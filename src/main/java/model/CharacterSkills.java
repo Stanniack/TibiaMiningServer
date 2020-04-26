@@ -16,7 +16,7 @@ public class CharacterSkills implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idRanking;
+    private Integer idCharacterSkills;
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
@@ -50,12 +50,12 @@ public class CharacterSkills implements Serializable {
         this.swordFighting = swordFighting;
     }
 
-    public Integer getIdRanking() {
-        return idRanking;
+    public Integer getIdCharacterSkills() {
+        return idCharacterSkills;
     }
 
-    public void setIdRanking(Integer idRanking) {
-        this.idRanking = idRanking;
+    public void setIdCharacterSkills(Integer idCharacterSkills) {
+        this.idCharacterSkills = idCharacterSkills;
     }
 
     public Personagem getPersonagem() {

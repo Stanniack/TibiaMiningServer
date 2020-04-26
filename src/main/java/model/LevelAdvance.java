@@ -16,13 +16,13 @@ public class LevelAdvance implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_levelAdvance;
+    private Integer idLevelAdvance;
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Personagem personagem;
 
-    private Double expDay;
+    private Long expDay;
     private int levelDay;
 
     @Temporal(TemporalType.DATE)
@@ -31,7 +31,7 @@ public class LevelAdvance implements Serializable {
     public LevelAdvance() {
     }
 
-    public LevelAdvance(Personagem personagem, Double expDay, int levelDay, Calendar dayAdvance) {
+    public LevelAdvance(Personagem personagem, Long expDay, int levelDay, Calendar dayAdvance) {
         this.personagem = personagem;
         this.expDay = expDay;
         this.levelDay = levelDay;
@@ -44,11 +44,11 @@ public class LevelAdvance implements Serializable {
         this.dayAdvance = dayAdvance;
     }
 
-    public Double getExpDay() {
+    public Long getExpDay() {
         return expDay;
     }
 
-    public void setExpDay(Double expDay) {
+    public void setExpDay(Long expDay) {
         this.expDay = expDay;
     }
 

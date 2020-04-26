@@ -6,23 +6,30 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.NoResultException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import utils.MockWorldsTibia;
 import model.CharacterSkills;
+import model.LevelAdvance;
 import model.Personagem;
 import utils.MockSkillsTibia;
 
 public class CheckRank {
 
-    // Conteúdo na lista começa no índice 13 para skills
+    // Conteúdo na lista começa no índice 13 para skills, 14 para experience
     private static final int CONTENT_START_SKILLS = 13;
+    private static final int CONTENT_START_EXP = 14;
+
     // O último elemento da lista é lixo
     private static final int TRASH_ELIMINATOR_SKILLS = 1;
-    // O incrementador é 5 devido aos atributos de cada char
+    private static final int TRASH_ELIMINATOR_EXP = 5;
+    /* O incrementador é 5 para skills, 4 para experience devido aos atributos de cada char */
     private static final int INCREMENTOR_SKILLS = 4;
+    private static final int INCREMENTOR_EXP = 5;
 
+    /* Atribuição */
     private static final int PROFESSION = 4;
     private static final int FIRST_PAGE = 1;
     private static final int LAST_PAGE = 12;
@@ -132,7 +139,6 @@ public class CheckRank {
                                     } else {
 
                                         cs0 = new CharacterSkills();
-                                        //cs0.setRegisterDate(Calendar.getInstance());
                                         cs0.setPersonagem(p);
                                         new AbstractDAO<>(CharacterSkills.class).insert(cs0);
                                     }
@@ -174,18 +180,6 @@ public class CheckRank {
 
                                             break;
 
-//                                            case "experience points":
-//
-//                                                /* Tira as vírgulas da exp */
-//                                                String valorConvertido = elementsList.get(k + POINTS).replace(",", "");
-//                                                Long valorCvtLong = Long.valueOf(valorConvertido);
-//
-//                                                LevelAdvance la = new LevelAdvance();
-//                                                la.setExpDay(Double.NaN);
-//                                                la.setDayAdvance(Calendar.getInstance());
-//                                                
-//
-//                                                break;
                                         case "fishing":
 
                                             /* Se a skill se alterou */
@@ -208,16 +202,6 @@ public class CheckRank {
 
                                             break;
 
-//                                            case "loyalty points":
-//
-//                                                /* Se a skill se alterou */
-//                                                if (!elementsList.get(k + POINTS).equals(cs0.getLoyaltyPoints())) {
-//                                                    cs.setLoyaltyPoints(Integer.valueOf(elementsList.get(k + POINTS)));
-//                                                    flagUpdate = true;
-//
-//                                                }
-//
-//                                                break;
                                         case "magic":
 
                                             /* Se a skill se alterou */
@@ -302,6 +286,141 @@ public class CheckRank {
 
         System.out.println("O tempo total para minerar todos os skills, servidores e profissões foram de: "
                 + ((finalTime - startTime) / 1000) + " segundos.");
+
+    }
+
+    public void checkGlobalExperience() {
+
+        Long startTime = System.currentTimeMillis();
+        List<String> worlds = MockWorldsTibia.getWorldsTibia();
+
+        Long serverStartTime = System.currentTimeMillis();
+
+        for (int i = 0; i < MockWorldsTibia.getWorldsTibia().size(); i++) {
+
+            Long worldStartTime = System.currentTimeMillis();
+
+            for (int n = 1; n <= PROFESSION; n++) {
+
+                Long professionStartTime = System.currentTimeMillis();
+                int j = 2;
+
+                for (j = FIRST_PAGE; j <= LAST_PAGE; j++) {
+                    int k = 17;
+
+                    try {
+
+                        String url = "https://www.tibia.com/community/?subtopic=highscores&world="
+                                + worlds.get(i) + "&list=" + "experience" + "&profession=" + n + "&currentpage=" + j;
+
+                        Document htmlContent = Jsoup.connect(url).get();
+                        List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
+                        Personagem p;
+
+                        for (k = CONTENT_START_EXP; k < elementsList.size() - TRASH_ELIMINATOR_EXP; k += INCREMENTOR_EXP) {
+
+                            String lastNick = new CheckCharacter().getNick(elementsList.get(k + NAME));
+
+                            /* !Char deletado ou não existe) */
+                            if (lastNick != null) {
+
+                                Long isRegistered = new AbstractDAO<>(Personagem.class)
+                                        .countRegistersByName(elementsList.get(k + NAME));
+
+                                /* Nick trocado e char não existe no BD */
+                                if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
+
+                                    new CheckCharacter().discoverCharacter(lastNick);
+                                    p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                    System.out.println("Nick trocado e char não existe no BD");
+
+                                    /* Nick trocado e char exite no BD */
+                                } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
+
+                                    new CheckCharacter().updateCharacter(lastNick);
+                                    p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                    System.out.println("Nick trocado e char exite no BD ");
+
+                                    /* Nick não foi trocado e char não existe no BD */
+                                } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
+
+                                    new CheckCharacter().discoverCharacter(elementsList.get(k + NAME));
+                                    p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                    System.out.println("Nick não foi trocado e char não existe no BD");
+
+                                    /* Nick não foi trocado e char existe no BD */
+                                } else {
+                                    p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
+                                    System.out.println("Nick não foi trocado e char existe no BD");
+
+                                }
+
+                                Long register = new AbstractDAO<>(LevelAdvance.class)
+                                        .countRegistersById(p.getIdCharacter());
+
+                                /* Se tiver registro */
+                                if (register > 0) {
+
+                                    LevelAdvance la0 = new AbstractDAO<>(LevelAdvance.class)
+                                            .searchLastRegisterByIdDESC(p.getIdCharacter(), "dayAdvance");
+
+                                    String strValue = elementsList.get(k + EXPERIENCE).replace(",", "");
+                                    Long expValue = Long.valueOf(strValue);
+
+                                    System.out.println(la0.getLevelDay() + " ? " + elementsList.get(k + LEVEL));
+                                    System.out.println(la0.getExpDay() + " ? " + expValue);
+
+                                    if (!String.valueOf(la0.getLevelDay())
+                                            .equals(elementsList.get(k + LEVEL))
+                                            || !Objects.equals(la0.getExpDay(), expValue)) {
+
+                                        LevelAdvance la = new LevelAdvance(
+                                                p,
+                                                expValue,
+                                                Integer.valueOf(elementsList.get(k + LEVEL)),
+                                                Calendar.getInstance()
+                                        );
+
+                                        new AbstractDAO<>(LevelAdvance.class).insert(la);
+
+                                    }
+
+                                    /* Então é o primeiro registro */
+                                }
+
+                            }
+
+                        } // for personagens da página
+
+                    } catch (UnknownHostException e) {
+                        /* Volta no índice que deu hostexception */
+                        j--;
+                        k -= INCREMENTOR_SKILLS;
+
+                    } catch (IOException | NumberFormatException | NoResultException e) {
+                        System.out.println("Erro para: " + e);
+                        e.printStackTrace();
+
+                    }
+
+                } // for das páginas
+
+                Long professionFinalTime = System.currentTimeMillis();
+                System.out.println("A profissão " + n + " foi minerada com "
+                        + ((professionFinalTime - professionStartTime) / 1000) + " segundos.");
+
+            } // for das profissões
+
+            Long worldFinalTime = System.currentTimeMillis();
+            System.out.println("O servidor de " + worlds.get(i) + " gastou " + ((worldFinalTime - worldStartTime) / 1000)
+                    + " segundos para ser minerado");
+
+        } // for dos mundos
+
+        Long serverFinalTime = System.currentTimeMillis();
+        System.out.println("O tempo total para minerar todos  os servidores foi de "
+                + ((serverFinalTime - serverStartTime) / 1000)
+                + " segundos");
 
     }
 

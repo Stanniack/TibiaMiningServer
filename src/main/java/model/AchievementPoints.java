@@ -16,7 +16,7 @@ public class AchievementPoints implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_achievementPoints;
+    private Integer idAchievementPoints;
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
@@ -25,15 +25,15 @@ public class AchievementPoints implements Serializable {
     private Integer achievementPoints;
 
     @Temporal(TemporalType.DATE)
-    private Calendar day;
+    private Calendar registerDate;
 
     public AchievementPoints() {
     }
 
-    public AchievementPoints(Personagem personagem, Integer achievmentPoints, Calendar day) {
+    public AchievementPoints(Personagem personagem, Integer achievmentPoints, Calendar registerDate) {
         this.personagem = personagem;
         this.achievementPoints = achievmentPoints;
-        this.day = day;
+        this.registerDate = registerDate;
     }
 
     public Integer getAchievmentPoints() {
@@ -44,12 +44,12 @@ public class AchievementPoints implements Serializable {
         this.achievementPoints = achievmentPoints;
     }
 
-    public Calendar getDay() {
-        return day;
+    public Calendar getRegisterDate() {
+        return registerDate;
     }
 
-    public void setDay(Calendar day) {
-        this.day = day;
+    public void setRegisterDate(Calendar registerDate) {
+        this.registerDate = registerDate;
     }
 
 }

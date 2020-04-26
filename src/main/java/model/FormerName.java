@@ -26,6 +26,7 @@ public class FormerName implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Calendar dateBegin;
+    
     @Temporal(TemporalType.DATE)
     private Calendar dateEnd;
 

@@ -14,7 +14,7 @@ public class Death implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idDeaths;
+    private Integer idDeath;
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)

@@ -16,7 +16,7 @@ public class FormerWorld implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_formerWorld;
+    private Integer idFormerWorld;
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
@@ -26,8 +26,9 @@ public class FormerWorld implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Calendar dateBegin;
+
     @Temporal(TemporalType.DATE)
-    private Calendar dateLeave;
+    private Calendar dateEnd;
 
     public FormerWorld() {
     }
@@ -42,7 +43,7 @@ public class FormerWorld implements Serializable {
         this.personagem = personagem;
         this.world = world;
         this.dateBegin = dateBegin;
-        this.dateLeave = dateLeave;
+        this.dateEnd = dateLeave;
     }
 
     public String getWorld() {
@@ -61,12 +62,12 @@ public class FormerWorld implements Serializable {
         this.dateBegin = dateBegin;
     }
 
-    public Calendar getDateLeave() {
-        return dateLeave;
+    public Calendar getDateEnd() {
+        return dateEnd;
     }
 
-    public void setDateLeave(Calendar dateLeave) {
-        this.dateLeave = dateLeave;
+    public void setDateEnd(Calendar dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
 }

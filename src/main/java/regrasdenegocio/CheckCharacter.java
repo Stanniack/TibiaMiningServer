@@ -421,7 +421,7 @@ public class CheckCharacter {
                                     /* Senão, pega último fn */
                                     FormerWorld fw0 = new AbstractDAO<>(FormerWorld.class).searchLastRegisterByIdDESC(idCharacter, "datebegin");
                                     /* Adiciona novo fw */
-                                    FormerWorld fw = new FormerWorld(p, personagem.getWorld(), fw0.getDateLeave(), Calendar.getInstance());
+                                    FormerWorld fw = new FormerWorld(p, personagem.getWorld(), fw0.getDateEnd(), Calendar.getInstance());
                                     new AbstractDAO<>(FormerWorld.class).insert(fw);
                                 }
 
@@ -478,7 +478,7 @@ public class CheckCharacter {
                                 new AbstractDAO<>(Guild.class).insert(newGuild);
 
                                 /* Atualiza data de saída da velha guild */
-                                oldGuild.setDateLeave(Calendar.getInstance());
+                                oldGuild.setDataEnd(Calendar.getInstance());
                                 new AbstractDAO<>(Guild.class).update(oldGuild);
 
                                 flagUpdate = 1;
@@ -572,7 +572,7 @@ public class CheckCharacter {
 
                             House h = new AbstractDAO<>(House.class)
                                     .searchObjectByColumn("houseName", house);
-                            h.setDateLeave(Calendar.getInstance());
+                            h.setDataEnd(Calendar.getInstance());
 
                             /* Atualiza House */
                             new AbstractDAO<>(House.class).update(h);

@@ -23,7 +23,7 @@ public class TibiaMining {
 
     public static void main(String[] args) throws IOException {
 
-        new CheckRank().checkGlobalRank();
+        new CheckRank().checkGlobalExperience();
     }
 
 }
