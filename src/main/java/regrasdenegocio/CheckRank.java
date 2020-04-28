@@ -4,6 +4,7 @@ import DAO.AbstractDAO;
 import DAO.PersonagemDAO;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +45,10 @@ public class CheckRank {
     private static final int EXPERIENCE = 4;
     private static final int LOYALTY = 4;
 
+    /* Para a lista objects */
+    private static final int LAST_NICK = 1;
+    private static final int ELEMENTS_LIST = 0;
+
     public void checkGlobalRankSkills() {
 
         Long startTime = System.currentTimeMillis();
@@ -77,10 +82,14 @@ public class CheckRank {
 
                             for (k = CONTENT_START_SKILLS; k < elementsList.size() - TRASH_ELIMINATOR_SKILLS; k += INCREMENTOR_SKILLS) {
 
-                                String lastNick = new CheckCharacter().getNick(elementsList.get(k + NAME));
+                                /* Busca último nick do personagem */
+                                List<Object> objects = new CheckCharacter().getNick(elementsList.get(k + NAME));
 
-                                /* !Char deletado ou não existe) */
-                                if (lastNick != null) {
+                                /* !(Char deletado ou não existe ou a net caiu) */
+                                if (objects != null) {
+
+                                    String lastNick = objects.get(LAST_NICK).toString();
+                                    List<String> lastNickElementsList = (List<String>) objects.get(ELEMENTS_LIST);
 
                                     Long isRegistered = new AbstractDAO<>(Personagem.class)
                                             .countRegistersByName(elementsList.get(k + NAME));
@@ -88,20 +97,21 @@ public class CheckRank {
                                     /* Nick trocado e char não existe no BD */
                                     if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
-                                        new CheckCharacter().discoverCharacter(lastNick);
+                                        new CheckCharacter().discoverCharacter(lastNickElementsList);
                                         p = new PersonagemDAO().returnCharacterByName(lastNick);
 
                                         /* Nick trocado e char exite no BD */
                                     } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
 
-                                        new CheckCharacter().updateCharacter(lastNick);
+                                        new CheckCharacter()
+                                                .updateCharacter(lastNick, lastNickElementsList);
                                         p = new PersonagemDAO().returnCharacterByName(lastNick);
 
                                         /* Nick não foi trocado e char não existe no BD */
                                     } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
-                                        new CheckCharacter().discoverCharacter(elementsList.get(k + NAME));
-                                        p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                        new CheckCharacter().discoverCharacter(lastNickElementsList);
+                                        p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
 
                                         /* Nick não foi trocado e char existe no BD */
                                     } else {
@@ -250,12 +260,12 @@ public class CheckRank {
 
                             } // for personagens da página
 
-                        } catch (UnknownHostException e) {
+                        } catch (IOException e) {
                             /* Volta no índice que deu hostexception */
                             j--;
                             k -= INCREMENTOR_SKILLS;
 
-                        } catch (IOException | NumberFormatException | NoResultException e) {
+                        } catch (NumberFormatException | NoResultException e) {
                             System.out.println("Erro para: " + e);
                             e.printStackTrace();
 
@@ -306,6 +316,7 @@ public class CheckRank {
                 int j = 2;
 
                 for (j = FIRST_PAGE; j <= LAST_PAGE; j++) {
+                    Long inicio = System.currentTimeMillis();
                     int k = 17;
 
                     try {
@@ -319,10 +330,14 @@ public class CheckRank {
 
                         for (k = CONTENT_START_EXP; k < elementsList.size() - TRASH_ELIMINATOR_EXP; k += INCREMENTOR_EXP) {
 
-                            String lastNick = new CheckCharacter().getNick(elementsList.get(k + NAME));
+                            /* Busca último nick do personagem */
+                            List<Object> objects = new CheckCharacter().getNick(elementsList.get(k + NAME));
 
-                            /* !Char deletado ou não existe) */
-                            if (lastNick != null) {
+                            /* !(Char deletado ou não existe ou a net caiu) */
+                            if (objects != null) {
+
+                                String lastNick = objects.get(LAST_NICK).toString();
+                                List<String> lastNickElementsList = (List<String>) objects.get(ELEMENTS_LIST);
 
                                 Long isRegistered = new AbstractDAO<>(Personagem.class)
                                         .countRegistersByName(elementsList.get(k + NAME));
@@ -330,20 +345,21 @@ public class CheckRank {
                                 /* Nick trocado e char não existe no BD */
                                 if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
-                                    new CheckCharacter().discoverCharacter(lastNick);
+                                    new CheckCharacter().discoverCharacter(lastNickElementsList);
                                     p = new PersonagemDAO().returnCharacterByName(lastNick);
 
                                     /* Nick trocado e char exite no BD */
                                 } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
 
-                                    new CheckCharacter().updateCharacter(lastNick);
+                                    new CheckCharacter()
+                                            .updateCharacter(lastNick, lastNickElementsList);
                                     p = new PersonagemDAO().returnCharacterByName(lastNick);
 
                                     /* Nick não foi trocado e char não existe no BD */
                                 } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
-                                    new CheckCharacter().discoverCharacter(elementsList.get(k + NAME));
-                                    p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                    new CheckCharacter().discoverCharacter(lastNickElementsList);
+                                    p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
 
                                     /* Nick não foi trocado e char existe no BD */
                                 } else {
@@ -378,19 +394,19 @@ public class CheckRank {
 
                                     }
 
-                                    /* Então é o primeiro registro */
                                 }
 
                             }
 
                         } // for personagens da página
+                        System.out.println((System.currentTimeMillis() - inicio) / 1000 + " segundos para a página " + j);
 
-                    } catch (UnknownHostException e) {
+                    } catch (IOException e) {
                         /* Volta no índice que deu hostexception */
                         j--;
                         k -= INCREMENTOR_SKILLS;
 
-                    } catch (IOException | NumberFormatException | NoResultException e) {
+                    } catch (NumberFormatException | NoResultException e) {
                         System.out.println("Erro para: " + e);
                         e.printStackTrace();
 
@@ -447,10 +463,14 @@ public class CheckRank {
 
                         for (k = CONTENT_START_LOYALTY; k < elementsList.size() - TRASH_ELIMINATOR_LOYALTY; k += INCREMENTOR_LOYALTY) {
 
-                            String lastNick = new CheckCharacter().getNick(elementsList.get(k + NAME));
+                            /* Busca último nick do personagem */
+                            List<Object> objects = new CheckCharacter().getNick(elementsList.get(k + NAME));
 
-                            /* !Char deletado ou não existe) */
-                            if (lastNick != null) {
+                            /* !(Char deletado ou não existe ou a net caiu) */
+                            if (objects != null) {
+
+                                String lastNick = objects.get(LAST_NICK).toString();
+                                List<String> lastNickElementsList = (List<String>) objects.get(ELEMENTS_LIST);
 
                                 Long isRegistered = new AbstractDAO<>(Personagem.class)
                                         .countRegistersByName(elementsList.get(k + NAME));
@@ -458,20 +478,21 @@ public class CheckRank {
                                 /* Nick trocado e char não existe no BD */
                                 if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
-                                    new CheckCharacter().discoverCharacter(lastNick);
+                                    new CheckCharacter().discoverCharacter(lastNickElementsList);
                                     p = new PersonagemDAO().returnCharacterByName(lastNick);
 
                                     /* Nick trocado e char exite no BD */
                                 } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
 
-                                    new CheckCharacter().updateCharacter(lastNick);
+                                    new CheckCharacter()
+                                            .updateCharacter(lastNick, lastNickElementsList);
                                     p = new PersonagemDAO().returnCharacterByName(lastNick);
 
                                     /* Nick não foi trocado e char não existe no BD */
                                 } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
-                                    new CheckCharacter().discoverCharacter(elementsList.get(k + NAME));
-                                    p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                    new CheckCharacter().discoverCharacter(lastNickElementsList);
+                                    p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
 
                                     /* Nick não foi trocado e char existe no BD */
                                 } else {
@@ -514,6 +535,78 @@ public class CheckRank {
 
                         } // for personagens da página
 
+                    } catch (IOException e) {
+                        /* Volta no índice que deu hostexception */
+                        j--;
+                        k -= INCREMENTOR_SKILLS;
+
+                    } catch (NumberFormatException | NoResultException e) {
+                        System.out.println("Erro para: " + e);
+                        e.printStackTrace();
+
+                    }
+
+                } // for das páginas
+
+                Long professionFinalTime = System.currentTimeMillis();
+                System.out.println("A profissão " + n + " foi minerada com "
+                        + ((professionFinalTime - professionStartTime) / 1000) + " segundos.");
+
+            } // for das profissões
+
+            Long worldFinalTime = System.currentTimeMillis();
+            System.out.println("O servidor de " + worlds.get(i) + " gastou " + ((worldFinalTime - worldStartTime) / 1000)
+                    + " segundos para ser minerado");
+
+        } // for dos mundos
+
+        Long serverFinalTime = System.currentTimeMillis();
+        System.out.println("O tempo total para minerar todos  os servidores foi de "
+                + ((serverFinalTime - serverStartTime) / 1000)
+                + " segundos");
+
+    }
+
+    public List<String[]> checkGlobalRankExperienceTEST() {
+
+        List<String[]> charList = new ArrayList<>();
+        charList.add(new String[]{"Name", "Level", "Exp"});
+
+        Long startTime = System.currentTimeMillis();
+        List<String> worlds = MockWorldsTibia.getWorldsTibia();
+
+        Long serverStartTime = System.currentTimeMillis();
+
+        for (int i = 0; i < MockWorldsTibia.getWorldsTibia().size(); i++) {
+
+            Long worldStartTime = System.currentTimeMillis();
+
+            for (int n = 1; n <= PROFESSION; n++) {
+
+                Long professionStartTime = System.currentTimeMillis();
+                int j = 2;
+
+                for (j = FIRST_PAGE; j <= LAST_PAGE; j++) {
+                    int k = 17;
+
+                    try {
+
+                        String url = "https://www.tibia.com/community/?subtopic=highscores&world="
+                                + worlds.get(i) + "&list=" + "experience" + "&profession=" + n + "&currentpage=" + j;
+
+                        Document htmlContent = Jsoup.connect(url).get();
+                        List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
+
+                        for (k = CONTENT_START_EXP; k < elementsList.size() - TRASH_ELIMINATOR_EXP; k += INCREMENTOR_EXP) {
+
+                            charList.add(
+                                    new String[]{elementsList.get(k + NAME),
+                                        elementsList.get(k + LEVEL),
+                                        elementsList.get(k + EXPERIENCE)}
+                            );
+
+                        } // for personagens da página
+
                     } catch (UnknownHostException e) {
                         /* Volta no índice que deu hostexception */
                         j--;
@@ -543,6 +636,8 @@ public class CheckRank {
         System.out.println("O tempo total para minerar todos  os servidores foi de "
                 + ((serverFinalTime - serverStartTime) / 1000)
                 + " segundos");
+
+        return charList;
 
     }
 

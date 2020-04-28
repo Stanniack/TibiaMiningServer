@@ -15,6 +15,7 @@
     <class>model.AccountCharacters</class>
     <class>model.Death</class>
     <class>model.CharacterSkills</class>
+    <class>model.LoyaltyPoints</class>
     <properties>
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

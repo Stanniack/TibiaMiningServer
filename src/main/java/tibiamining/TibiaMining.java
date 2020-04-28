@@ -22,27 +22,21 @@ import utils.MockWorldsTibia;
 public class TibiaMining {
 
     public static void main(String[] args) throws IOException {
-        
-        Long startTime = System.currentTimeMillis();
 
-        Long expStartTime = System.currentTimeMillis();
-        new CheckRank().checkGlobalRankExperience();
-        Long expFinalTime = System.currentTimeMillis();
-        System.out.println((expFinalTime - expStartTime)/1000);
+        List<String> lista = Arrays.asList("Wynchesther", "Kommander", "Bobeek", 
+                "Goraca", "Kharsek", "Mateusz Dragon Wielki", "Eternal Oblivion", "Bubble", "Arieswar", "Wyn");
         
-        Long loyaltyStartTime = System.currentTimeMillis();
-        new CheckRank().checkGlobalRankLoyalty();
-        Long loyaltyFinalTime = System.currentTimeMillis();
-        System.out.println((loyaltyFinalTime - loyaltyStartTime)/1000);
         
-        Long skillsStartTime = System.currentTimeMillis();
-        new CheckRank().checkGlobalRankSkills();
-        Long skillsFinalTime = System.currentTimeMillis();
-        System.out.println((skillsFinalTime - skillsStartTime)/1000);
-        
+        new CheckCharacter().discoverCharacter("Panzt");
+
+        Long startTime = System.currentTimeMillis();        
+        lista.forEach((item) -> {
+            new CheckCharacter().getNick("Panzt");
+            new CheckCharacter().discoverCharacter(item);
+        });
         Long finalTime = System.currentTimeMillis();
-        
-        System.out.println((finalTime - startTime)/1000);
+
+        System.out.println((finalTime - startTime) / 1000);
     }
 
 }

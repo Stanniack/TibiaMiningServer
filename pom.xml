@@ -5,11 +5,11 @@
     <artifactId>TibiaMining</artifactId>
     <version>Pre-Alpha</version>
     <packaging>jar</packaging>
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        
+        <maven.compiler.target>1.8</maven.compiler.target>    
     </properties>
     
     <dependencies>
@@ -40,7 +40,40 @@
         
     </dependencies>
 
-    
+ <!--   <build>
+        <finalName>tibiamining</finalName>
+        <plugins>
+
+
+            Set a compiler level 
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            Make this jar executable
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>tibiamining.TibiaMining</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+           
+
+        </plugins>
+        
+        
+    </build> -->
     
     
 </project>
