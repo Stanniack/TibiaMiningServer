@@ -553,7 +553,8 @@ public class CheckCharacter {
 
                             if (!String.valueOf(la0.getLevelDay()).equals(elementsList.get(i + afterTitle))) {
                                 /* Persiste novo level */
-                                LevelAdvance la = new LevelAdvance(p, Integer.valueOf(elementsList.get(i + afterTitle)),
+                                LevelAdvance la = new LevelAdvance(p, 
+                                        Integer.valueOf(elementsList.get(i + afterTitle)),
                                         Calendar.getInstance());
                                 new AbstractDAO<>(LevelAdvance.class).insert(la);
 

@@ -7,24 +7,24 @@ import utils.JPAUtil;
 
 public class AbstractDAO<Generic> {
 
-    private final Class<Generic> classe;
+    private final Class<Generic> className;
 
-    public AbstractDAO(Class<Generic> classe) {
-        this.classe = classe;
+    public AbstractDAO(Class<Generic> className) {
+        this.className = className;
     }
 
-    public void insert(Generic objeto) {
+    public void insert(Generic object) {
         EntityManager em = JPAUtil.getInstance();
         em.getTransaction().begin();
-        em.persist(objeto);
+        em.persist(object);
         em.getTransaction().commit();
         em.close();
     }
 
-    public void update(Generic objeto) {
+    public void update(Generic object) {
         EntityManager em = JPAUtil.getInstance();
         em.getTransaction().begin();
-        em.merge(objeto);
+        em.merge(object);
         em.getTransaction().commit();
         em.close();
     }
@@ -32,7 +32,7 @@ public class AbstractDAO<Generic> {
     public void remove(Integer id) {
         EntityManager em = JPAUtil.getInstance();
         em.getTransaction().begin();
-        Generic objeto = em.find(classe, id);
+        Generic objeto = em.find(className, id);
         em.remove(objeto);
         em.getTransaction().commit();
         em.close();
@@ -41,7 +41,7 @@ public class AbstractDAO<Generic> {
     public Generic searchObjectById(int id) {
 
         EntityManager em = JPAUtil.getInstance();
-        Generic obj = em.find(classe, id);
+        Generic obj = em.find(className, id);
         em.close();
 
         return obj;
@@ -50,9 +50,9 @@ public class AbstractDAO<Generic> {
     public Generic searchObjectByColumn(String column, String equals) {
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT t FROM " + classe.getName() + " t where " + column + " = :pId";
+        String jpql = "SELECT t FROM " + className.getName() + " t where " + column + " = :pId";
 
-        TypedQuery<Generic> query = em.createQuery(jpql, classe);
+        TypedQuery<Generic> query = em.createQuery(jpql, className);
         query.setParameter("pId", equals);
 
         Generic obj = query.getSingleResult();
@@ -64,7 +64,7 @@ public class AbstractDAO<Generic> {
     public List<String> listAll(String idCharacter, String column) {
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT " + column + " FROM " + classe.getName() + " t where idCharacter = :pId";
+        String jpql = "SELECT " + column + " FROM " + className.getName() + " t where idCharacter = :pId";
 
         TypedQuery<String> query = em.createQuery(jpql, String.class);
         query.setParameter("pId", idCharacter);
@@ -79,10 +79,10 @@ public class AbstractDAO<Generic> {
     public Generic searchLastRegisterDESC(int id, String column) {
 
         EntityManager em = JPAUtil.getInstance();
-        String jpql = "SELECT t FROM " + classe.getName() + " t WHERE idCharacter = "
+        String jpql = "SELECT t FROM " + className.getName() + " t WHERE idCharacter = "
                 + id + "order by " + column + " DESC";
 
-        TypedQuery<Generic> query = em.createQuery(jpql, classe);
+        TypedQuery<Generic> query = em.createQuery(jpql, className);
         query.setMaxResults(1);
 
         Generic obj = query.getSingleResult();
@@ -94,10 +94,10 @@ public class AbstractDAO<Generic> {
     public Generic searchLastRegisterASC(int id, String column) {
 
         EntityManager em = JPAUtil.getInstance();
-        String jpql = "SELECT t FROM " + classe.getName() + " t WHERE idCharacter = "
+        String jpql = "SELECT t FROM " + className.getName() + " t WHERE idCharacter = "
                 + id + "order by " + column + " ASC";
 
-        TypedQuery<Generic> query = em.createQuery(jpql, classe);
+        TypedQuery<Generic> query = em.createQuery(jpql, className);
         query.setMaxResults(1);
 
         Generic obj = query.getSingleResult();
@@ -109,7 +109,7 @@ public class AbstractDAO<Generic> {
     public Long countRegistersById(int id) {
 
         EntityManager em = JPAUtil.getInstance();
-        String jpql = "SELECT COUNT(t) FROM " + classe.getName() + " t WHERE idCharacter = :pId";
+        String jpql = "SELECT COUNT(t) FROM " + className.getName() + " t WHERE idCharacter = :pId";
 
         TypedQuery<Long> query = em.createQuery(jpql, Long.class);
         query.setParameter("pId", id);
@@ -123,7 +123,7 @@ public class AbstractDAO<Generic> {
     public Long countRegistersByName(String name) {
 
         EntityManager em = JPAUtil.getInstance();
-        String jpql = "SELECT COUNT(t) FROM " + classe.getName() + " t WHERE playerName = :pName";
+        String jpql = "SELECT COUNT(t) FROM " + className.getName() + " t WHERE playerName = :pName";
 
         TypedQuery<Long> query = em.createQuery(jpql, Long.class);
         query.setParameter("pName", name);
@@ -137,28 +137,28 @@ public class AbstractDAO<Generic> {
     public List<Generic> listAll() {
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT t FROM " + classe.getName() + " t";
+        String jpql = "SELECT t FROM " + className.getName() + " t";
 
-        TypedQuery<Generic> query = em.createQuery(jpql, classe);
+        TypedQuery<Generic> query = em.createQuery(jpql, className);
 
-        List<Generic> lista = query.getResultList();
+        List<Generic> list = query.getResultList();
         em.close();
 
-        return lista;
+        return list;
     }
 
     public List<Generic> listAll(int idCharacter) {
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT t FROM " + classe.getName() + " t " + "where idCharacter = :pId";
+        String jpql = "SELECT t FROM " + className.getName() + " t " + "where idCharacter = :pId";
 
-        TypedQuery<Generic> query = em.createQuery(jpql, classe);
+        TypedQuery<Generic> query = em.createQuery(jpql, className);
         query.setParameter("pId", idCharacter);
 
-        List<Generic> lista = query.getResultList();
+        List<Generic> list = query.getResultList();
         em.close();
 
-        return lista;
+        return list;
     }
 
 }

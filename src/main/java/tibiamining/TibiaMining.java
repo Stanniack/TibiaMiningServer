@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import model.CharacterSkills;
 import model.FormerName;
@@ -31,7 +33,11 @@ public class TibiaMining {
 
         Long startTime = System.currentTimeMillis();        
         lista.forEach((item) -> {
-            new CheckCharacter().getNick("Panzt");
+            try {
+                new CheckCharacter().getNick("Panzt");
+            } catch (IOException ex) {
+                Logger.getLogger(TibiaMining.class.getName()).log(Level.SEVERE, null, ex);
+            }
             new CheckCharacter().discoverCharacter(item);
         });
         Long finalTime = System.currentTimeMillis();
