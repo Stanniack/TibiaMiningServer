@@ -14,8 +14,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.NoResultException;
+import model.LevelAdvance;
 import model.Personagem;
-import model.RankLevelAdvance;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -30,13 +30,10 @@ public class Biridin {
 
     public static void main(String[] args) throws IOException {
 
-//        new CheckRank().checkGlobalRankExperienceTEST();
-        for (String item : new LevelAdvanceDAO().listAll()) {
-            Long inicio = System.currentTimeMillis();
-            new CheckCharacter().updateCharacter(item);
-            Long fim = System.currentTimeMillis();
-            System.out.println((fim - inicio) / 1000 + " secs");
-        }
+        List<LevelAdvance> list = new AbstractDAO<>(LevelAdvance.class).listAll();
+        
+        /* Verificar se o playerName do l.a existe na tabela de chars, 
+         * se sim, atribui objeto ao char. Verificar no formerNames também e atualizar o playerName do l.a*/
 
     }
 

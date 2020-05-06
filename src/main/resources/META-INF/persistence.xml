@@ -12,7 +12,6 @@
     <class>model.Guild</class>
     <class>model.House</class>
     <class>model.LevelAdvance</class>
-    <class>model.RankLevelAdvance</class>
     <class>model.AccountCharacters</class>
     <class>model.Death</class>
     <class>model.CharacterSkills</class>

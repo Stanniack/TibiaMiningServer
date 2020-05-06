@@ -3,7 +3,6 @@ package DAO;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import model.RankLevelAdvance;
 import utils.JPAUtil;
 
 public class LevelAdvanceDAO {
@@ -12,7 +11,7 @@ public class LevelAdvanceDAO {
         
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT playerName FROM RankLevelAdvance t";
+        String jpql = "SELECT playerName FROM LevelAdvance t";
 
         TypedQuery<String> query = em.createQuery(jpql, String.class);
 
@@ -21,4 +20,6 @@ public class LevelAdvanceDAO {
 
         return list;
     }
+    
+    
 }

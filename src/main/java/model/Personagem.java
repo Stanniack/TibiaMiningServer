@@ -44,6 +44,10 @@ public class Personagem implements Serializable {
     /* Data que o personagem foi deletado */
     @Temporal(TemporalType.DATE)
     private Calendar dateDeleted;
+    
+    /* Último update */
+    @Temporal(TemporalType.DATE)
+    private Calendar lastUpdate;
 
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Death> deaths;
@@ -257,6 +261,14 @@ public class Personagem implements Serializable {
 
     public void setDateDeleted(Calendar dateDeleted) {
         this.dateDeleted = dateDeleted;
+    }
+
+    public Calendar getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Calendar lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
 }

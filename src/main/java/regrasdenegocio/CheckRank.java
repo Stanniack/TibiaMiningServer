@@ -14,7 +14,6 @@ import org.jsoup.nodes.Document;
 import utils.MockWorldsTibia;
 import model.CharacterSkills;
 import model.LevelAdvance;
-import model.RankLevelAdvance;
 import model.LoyaltyPoints;
 import model.Personagem;
 import utils.MockSkillsTibia;
@@ -50,7 +49,7 @@ public class CheckRank {
     private static final int LAST_NICK = 1;
     private static final int ELEMENTS_LIST = 0;
 
-    public void checkGlobalRankSkills() {
+    public void checkGlobalRankSkills () {
 
         Long startTime = System.currentTimeMillis();
         List<String> worlds = MockWorldsTibia.getWorldsTibia();
@@ -300,7 +299,7 @@ public class CheckRank {
 
     }
 
-    public void checkGlobalRankLoyalty() {
+    public void checkGlobalRankLoyalty () {
 
         Long startTime = System.currentTimeMillis();
         List<String> worlds = MockWorldsTibia.getWorldsTibia();
@@ -434,17 +433,15 @@ public class CheckRank {
 
     }
 
-    public void checkGlobalRankExperience() {
-
-        List<String[]> charList = new ArrayList<>();
-        charList.add(new String[]{"Name", "Level", "Exp"});
+    public void checkGlobalRankExperience () {
 
         Long startTime = System.currentTimeMillis();
+        List<LevelAdvance> laList = new ArrayList<>();
         List<String> worlds = MockWorldsTibia.getWorldsTibia();
 
         Long serverStartTime = System.currentTimeMillis();
 
-        for (int i = 0; i < MockWorldsTibia.getWorldsTibia().size(); i++) {
+        for (int i = 0; i < worlds.size(); i++) {
 
             Long worldStartTime = System.currentTimeMillis();
 
@@ -466,11 +463,11 @@ public class CheckRank {
 
                         for (k = CONTENT_START_EXP; k < elementsList.size() - TRASH_ELIMINATOR_EXP; k += INCREMENTOR_EXP) {
 
-                            RankLevelAdvance rla = null;
+                            LevelAdvance la = null;
 
                             try {
 
-                                rla = new AbstractDAO<>(RankLevelAdvance.class)
+                                la = new AbstractDAO<>(LevelAdvance.class)
                                         .searchObjectByColumn("playerName", elementsList.get(k + NAME));
 
                             } catch (NoResultException e) {
@@ -480,31 +477,38 @@ public class CheckRank {
                             String strValue = elementsList.get(k + EXPERIENCE).replace(",", "");
                             Long expValue = Long.valueOf(strValue);
 
-                            if (rla != null) {
+                            if (la != null) {
 
-                                if (rla.getLastUpdate() != Calendar.getInstance()
-                                        && (!String.valueOf(rla.getLevelDay()).equals(elementsList.get(k + LEVEL))
-                                        || !Objects.equals(rla.getExpDay(), expValue))) {
+                                if (la.getLastUpdate() != Calendar.getInstance()
+                                        && (!String.valueOf(la.getLevelDay()).equals(elementsList.get(k + LEVEL))
+                                        || !Objects.equals(la.getExpDay(), expValue))) {
 
-                                    new AbstractDAO<>(RankLevelAdvance.class)
-                                            .insert(new RankLevelAdvance(
+                                    new AbstractDAO<>(LevelAdvance.class)
+                                            .insert(new LevelAdvance(
                                                     expValue,
                                                     Integer.valueOf(elementsList.get(k + LEVEL)),
                                                     elementsList.get(k + NAME),
                                                     Calendar.getInstance()
                                             ));
+                                    
+                                    /* Add em uma lista para check posterior */
+                                    laList.add(la);
+                                    
+                                    
 
                                 }
 
                             } else {
+
+                                new AbstractDAO<>(LevelAdvance.class)
+                                        .insert(new LevelAdvance(
+                                                expValue,
+                                                Integer.valueOf(elementsList.get(k + LEVEL)),
+                                                elementsList.get(k + NAME),
+                                                Calendar.getInstance()
+                                        ));
                                 
-                                new AbstractDAO<>(RankLevelAdvance.class)
-                                            .insert(new RankLevelAdvance(
-                                                    expValue,
-                                                    Integer.valueOf(elementsList.get(k + LEVEL)),
-                                                    elementsList.get(k + NAME),
-                                                    Calendar.getInstance()
-                                            ));
+                                laList.add(la);
                             }
 
                         } // for personagens da página
@@ -539,6 +543,13 @@ public class CheckRank {
                 + ((serverFinalTime - serverStartTime) / 1000)
                 + " segundos");
 
+        this.updateDatabase(laList);
+        
     }
 
+    /* Comentário */
+    private void updateDatabase (List<LevelAdvance> list) {
+        
+    }
+    
 }

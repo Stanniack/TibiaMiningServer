@@ -24,24 +24,33 @@ public class LevelAdvance implements Serializable {
 
     private Long expDay;
     private int levelDay;
+    private String playerName;
 
     @Temporal(TemporalType.DATE)
-    private Calendar dayAdvance;
+    private Calendar lastUpdate;
 
     public LevelAdvance() {
     }
 
-    public LevelAdvance(Personagem personagem, Long expDay, int levelDay, Calendar dayAdvance) {
+    public LevelAdvance(Personagem personagem, Long expDay, int levelDay, Calendar lastUpdate) {
         this.personagem = personagem;
         this.expDay = expDay;
         this.levelDay = levelDay;
-        this.dayAdvance = dayAdvance;
+        this.lastUpdate = lastUpdate;
     }
 
-    public LevelAdvance(Personagem personagem, int levelDay, Calendar dayAdvance) {
+    public LevelAdvance(Personagem personagem, int levelDay, Calendar lastUpdate) {
         this.personagem = personagem;
         this.levelDay = levelDay;
-        this.dayAdvance = dayAdvance;
+        this.lastUpdate = lastUpdate;
+    }
+
+    public LevelAdvance(Long expDay, int levelDay, String playerName, Calendar lastUpdate) {
+        this.expDay = expDay;
+        this.levelDay = levelDay;
+        this.lastUpdate = lastUpdate;
+        this.playerName = playerName;
+        
     }
 
     public Long getExpDay() {
@@ -60,12 +69,12 @@ public class LevelAdvance implements Serializable {
         this.levelDay = levelDay;
     }
 
-    public Calendar getDayAdvance() {
-        return dayAdvance;
+    public Calendar getLastUpdate() {
+        return lastUpdate;
     }
 
-    public void setDayAdvance(Calendar dayAdvance) {
-        this.dayAdvance = dayAdvance;
+    public void setLastUpdate(Calendar lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     public Integer getIdLevelAdvance() {
@@ -83,7 +92,13 @@ public class LevelAdvance implements Serializable {
     public void setPersonagem(Personagem personagem) {
         this.personagem = personagem;
     }
-    
-    
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
 
 }
