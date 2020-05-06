@@ -515,7 +515,7 @@ public class CheckCharacter {
 
                                 } else {
                                     /* Senão, pega último dataEnd do último fn registrado */
-                                    FormerName fn0 = new AbstractDAO<>(FormerName.class).searchLastRegisterDESC(idCharacter, "datebegin");
+                                    FormerName fn0 = new AbstractDAO<>(FormerName.class).returnLastRegisterDESC(idCharacter, "datebegin");
                                     FormerName fn = new FormerName(p, name, fn0.getDateEnd(), Calendar.getInstance());
                                     new AbstractDAO<>(FormerName.class).insert(fn);
                                 }
@@ -551,7 +551,7 @@ public class CheckCharacter {
 
                             /* Procura último level upado e compara com o atual level */
                             LevelAdvance la0 = new AbstractDAO<>(LevelAdvance.class)
-                                    .searchLastRegisterDESC(idCharacter, "dayAdvance");
+                                    .returnLastRegisterDESC(idCharacter, "dayAdvance");
 
                             if (!String.valueOf(la0.getLevelDay()).equals(elementsList.get(i + AFTER_TITLE))) {
                                 /* Persiste novo level */
@@ -568,7 +568,7 @@ public class CheckCharacter {
                         case "achievement points:":
 
                             AchievementPoints ap0 = new AbstractDAO<>(AchievementPoints.class)
-                                    .searchLastRegisterDESC(idCharacter, "achievementpoints");
+                                    .returnLastRegisterDESC(idCharacter, "achievementpoints");
 
                             if (!String.valueOf(ap0.getAchievementPoints()).equals(elementsList.get(i + AFTER_TITLE))) {
 
@@ -595,7 +595,7 @@ public class CheckCharacter {
 
                                 } else {
                                     /* Senão, pega último fn */
-                                    FormerWorld fw0 = new AbstractDAO<>(FormerWorld.class).searchLastRegisterDESC(idCharacter, "datebegin");
+                                    FormerWorld fw0 = new AbstractDAO<>(FormerWorld.class).returnLastRegisterDESC(idCharacter, "datebegin");
                                     /* Adiciona novo fw */
                                     FormerWorld fw = new FormerWorld(p, personagem.getWorld(), fw0.getDateEnd(), Calendar.getInstance());
                                     new AbstractDAO<>(FormerWorld.class).insert(fw);
@@ -643,7 +643,7 @@ public class CheckCharacter {
 
                         case "guild membership:":
 
-                            Guild oldGuild = new AbstractDAO<>(Guild.class).searchLastRegisterDESC(idCharacter, "datebegin");
+                            Guild oldGuild = new AbstractDAO<>(Guild.class).returnLastRegisterDESC(idCharacter, "datebegin");
                             String[] guildInfo = elementsList.get(i + AFTER_TITLE).split("of the");
 
                             /* Se a guilda for diferente do último registro, é que mudou de guilda */
@@ -747,7 +747,7 @@ public class CheckCharacter {
                         if (!housesNovas.toString().contains(house)) {
 
                             House h = new AbstractDAO<>(House.class)
-                                    .searchObjectByColumn("houseName", house);
+                                    .returnObjectByColumn("houseName", house);
                             h.setDataEnd(Calendar.getInstance());
 
                             /* Atualiza House */
@@ -838,7 +838,7 @@ public class CheckCharacter {
 
                                 } else {
                                     /* Senão, pega último dataEnd do último fn registrado */
-                                    FormerName fn0 = new AbstractDAO<>(FormerName.class).searchLastRegisterDESC(idCharacter, "datebegin");
+                                    FormerName fn0 = new AbstractDAO<>(FormerName.class).returnLastRegisterDESC(idCharacter, "datebegin");
                                     FormerName fn = new FormerName(p, name, fn0.getDateEnd(), Calendar.getInstance());
                                     new AbstractDAO<>(FormerName.class).insert(fn);
                                 }
@@ -874,7 +874,7 @@ public class CheckCharacter {
 
                             /* Procura último level upado e compara com o atual level */
                             LevelAdvance la0 = new AbstractDAO<>(LevelAdvance.class)
-                                    .searchLastRegisterDESC(idCharacter, "dayAdvance");
+                                    .returnLastRegisterDESC(idCharacter, "dayAdvance");
 
                             if (!String.valueOf(la0.getLevelDay()).equals(elementsList.get(i + AFTER_TITLE))) {
                                 /* Persiste novo level */
@@ -890,7 +890,7 @@ public class CheckCharacter {
                         case "achievement points:":
 
                             AchievementPoints ap0 = new AbstractDAO<>(AchievementPoints.class)
-                                    .searchLastRegisterDESC(idCharacter, "achievementpoints");
+                                    .returnLastRegisterDESC(idCharacter, "achievementpoints");
 
                             if (!String.valueOf(ap0.getAchievementPoints()).equals(elementsList.get(i + AFTER_TITLE))) {
 
@@ -917,7 +917,7 @@ public class CheckCharacter {
 
                                 } else {
                                     /* Senão, pega último fn */
-                                    FormerWorld fw0 = new AbstractDAO<>(FormerWorld.class).searchLastRegisterDESC(idCharacter, "datebegin");
+                                    FormerWorld fw0 = new AbstractDAO<>(FormerWorld.class).returnLastRegisterDESC(idCharacter, "datebegin");
                                     /* Adiciona novo fw */
                                     FormerWorld fw = new FormerWorld(p, personagem.getWorld(), fw0.getDateEnd(), Calendar.getInstance());
                                     new AbstractDAO<>(FormerWorld.class).insert(fw);
@@ -965,7 +965,7 @@ public class CheckCharacter {
 
                         case "guild membership:":
 
-                            Guild oldGuild = new AbstractDAO<>(Guild.class).searchLastRegisterDESC(idCharacter, "datebegin");
+                            Guild oldGuild = new AbstractDAO<>(Guild.class).returnLastRegisterDESC(idCharacter, "datebegin");
                             String[] guildInfo = elementsList.get(i + AFTER_TITLE).split("of the");
 
                             /* Se a guilda for diferente do último registro, é que mudou de guilda */
@@ -1069,7 +1069,7 @@ public class CheckCharacter {
                         if (!housesNovas.toString().contains(house)) {
 
                             House h = new AbstractDAO<>(House.class)
-                                    .searchObjectByColumn("houseName", house);
+                                    .returnObjectByColumn("houseName", house);
                             h.setDataEnd(Calendar.getInstance());
 
                             /* Atualiza House */

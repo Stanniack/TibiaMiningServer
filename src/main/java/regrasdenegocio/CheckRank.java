@@ -129,7 +129,7 @@ public class CheckRank {
                                     if (register > 0) {
 
                                         cs0 = new AbstractDAO<>(CharacterSkills.class)
-                                                .searchLastRegisterDESC(p.getIdCharacter(), "registerDate");
+                                                .returnLastRegisterDESC(p.getIdCharacter(), "registerDate");
 
                                         /* Transfere todos os outros skills do registro anterior para o novo registro 
                                              * Isso serve para caso um char esteja em mais de 1 ranking score */
@@ -373,7 +373,7 @@ public class CheckRank {
                                 if (register > 0) {
 
                                     LoyaltyPoints lp0 = new AbstractDAO<>(LoyaltyPoints.class)
-                                            .searchLastRegisterDESC(p.getIdCharacter(), "idLoyaltyPoints");
+                                            .returnLastRegisterDESC(p.getIdCharacter(), "idLoyaltyPoints");
 
                                     String strValue = elementsList.get(k + LOYALTY).replace(",", "");
                                     Integer loyaltyValue = Integer.valueOf(strValue);
@@ -468,7 +468,7 @@ public class CheckRank {
                             try {
 
                                 la = new AbstractDAO<>(LevelAdvance.class)
-                                        .searchObjectByColumn("playerName", elementsList.get(k + NAME));
+                                        .returnObjectByColumn("playerName", elementsList.get(k + NAME));
 
                             } catch (NoResultException e) {
 

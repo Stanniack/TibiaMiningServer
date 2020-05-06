@@ -38,7 +38,7 @@ public class AbstractDAO<Generic> {
         em.close();
     }
 
-    public Generic searchObjectById(int id) {
+    public Generic returnObjectById(int id) {
 
         EntityManager em = JPAUtil.getInstance();
         Generic obj = em.find(className, id);
@@ -47,7 +47,7 @@ public class AbstractDAO<Generic> {
         return obj;
     }
 
-    public Generic searchObjectByColumn(String column, String equals) {
+    public Generic returnObjectByColumn(String column, String equals) {
         EntityManager em = JPAUtil.getInstance();
 
         String jpql = "SELECT t FROM " + className.getName() + " t where " + column + " = :pId";
@@ -76,7 +76,7 @@ public class AbstractDAO<Generic> {
         return lista;
     }
 
-    public Generic searchLastRegisterDESC(int id, String column) {
+    public Generic returnLastRegisterDESC(int id, String column) {
 
         EntityManager em = JPAUtil.getInstance();
         String jpql = "SELECT t FROM " + className.getName() + " t WHERE idCharacter = "
@@ -91,7 +91,7 @@ public class AbstractDAO<Generic> {
         return obj;
     }
 
-    public Generic searchLastRegisterASC(int id, String column) {
+    public Generic returnLastRegisterASC(int id, String column) {
 
         EntityManager em = JPAUtil.getInstance();
         String jpql = "SELECT t FROM " + className.getName() + " t WHERE idCharacter = "
