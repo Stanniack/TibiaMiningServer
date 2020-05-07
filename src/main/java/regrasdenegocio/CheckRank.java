@@ -12,12 +12,12 @@ import java.util.Objects;
 import javax.persistence.NoResultException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import utils.MockWorldsTibia;
+import utils.WorldsTibiaUtil;
 import model.CharacterSkills;
 import model.LevelAdvance;
 import model.LoyaltyPoints;
 import model.Personagem;
-import utils.MockSkillsTibia;
+import utils.SkillsTibiaUtil;
 
 public class CheckRank {
 
@@ -53,14 +53,14 @@ public class CheckRank {
     public void checkGlobalRankSkills() {
 
         Long startTime = System.currentTimeMillis();
-        List<String> worlds = MockWorldsTibia.getWorldsTibia();
-        List<String> skills = MockSkillsTibia.getSkillsTibia();
+        List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
+        List<String> skills = SkillsTibiaUtil.getSkillsTibia();
 
-        for (int x = 0; x < MockSkillsTibia.getSkillsTibia().size(); x++) {
+        for (int x = 0; x < SkillsTibiaUtil.getSkillsTibia().size(); x++) {
 
             Long serverStartTime = System.currentTimeMillis();
 
-            for (int i = 0; i < MockWorldsTibia.getWorldsTibia().size(); i++) {
+            for (int i = 0; i < WorldsTibiaUtil.getWorldsTibia().size(); i++) {
 
                 Long worldStartTime = System.currentTimeMillis();
 
@@ -303,11 +303,11 @@ public class CheckRank {
     public void checkGlobalRankLoyalty() {
 
         Long startTime = System.currentTimeMillis();
-        List<String> worlds = MockWorldsTibia.getWorldsTibia();
+        List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
 
         Long serverStartTime = System.currentTimeMillis();
 
-        for (int i = 0; i < MockWorldsTibia.getWorldsTibia().size(); i++) {
+        for (int i = 0; i < WorldsTibiaUtil.getWorldsTibia().size(); i++) {
 
             Long worldStartTime = System.currentTimeMillis();
 
@@ -438,7 +438,7 @@ public class CheckRank {
 
         Long startTime = System.currentTimeMillis();
         List<LevelAdvance> laList = new ArrayList<>();
-        List<String> worlds = MockWorldsTibia.getWorldsTibia();
+        List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
 
         Long serverStartTime = System.currentTimeMillis();
 

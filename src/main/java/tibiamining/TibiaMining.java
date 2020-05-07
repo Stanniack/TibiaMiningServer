@@ -20,7 +20,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import regrasdenegocio.CheckCharacter;
 import regrasdenegocio.CheckRank;
-import utils.MockWorldsTibia;
+import utils.WorldsTibiaUtil;
 
 public class TibiaMining {
 

@@ -7,7 +7,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import utils.MockWorldsTibia;
+import utils.WorldsTibiaUtil;
 
 public class CheckOnline {
 
@@ -15,11 +15,11 @@ public class CheckOnline {
 
     public synchronized void checkOnline() {
         int novos;
-        List<String> worldsTibia = MockWorldsTibia.getWorldsTibia();
+        List<String> worldsTibia = WorldsTibiaUtil.getWorldsTibia();
 
         while (true) {
 
-            for (int i = 0; i < MockWorldsTibia.getWorldsTibia().size(); i++) {
+            for (int i = 0; i < WorldsTibiaUtil.getWorldsTibia().size(); i++) {
                 String url = "https://www.tibia.com/community/?subtopic=worlds&world=" + worldsTibia.get(i);
                 novos = 0;
 

@@ -4,7 +4,7 @@ package utils;
 import java.util.Arrays;
 import java.util.List;
 
-public class MockWorldsTibia {
+public class WorldsTibiaUtil {
     
     public static List<String> getWorldsTibia(){
         List<String> worlds = Arrays.asList(
