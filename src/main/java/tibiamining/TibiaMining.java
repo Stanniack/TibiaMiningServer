@@ -1,6 +1,7 @@
 package tibiamining;
 
 import DAO.AbstractDAO;
+import DAO.LevelAdvanceDAO;
 import DAO.PersonagemDAO;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,24 +26,10 @@ public class TibiaMining {
 
     public static void main(String[] args) throws IOException {
 
-        List<String> lista = Arrays.asList("Wynchesther", "Kommander", "Bobeek", 
-                "Goraca", "Kharsek", "Mateusz Dragon Wielki", "Eternal Oblivion", "Bubble", "Arieswar", "Wyn");
-        
-        
-        new CheckCharacter().discoverCharacter("Panzt");
+        for (String name : new LevelAdvanceDAO().listAllPLayerNames()) {
+            new CheckCharacter().discoverCharacter(name);
+        }
 
-        Long startTime = System.currentTimeMillis();        
-        lista.forEach((item) -> {
-            try {
-                new CheckCharacter().getNick("Panzt");
-            } catch (IOException ex) {
-                Logger.getLogger(TibiaMining.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            new CheckCharacter().discoverCharacter(item);
-        });
-        Long finalTime = System.currentTimeMillis();
-
-        System.out.println((finalTime - startTime) / 1000);
     }
 
 }

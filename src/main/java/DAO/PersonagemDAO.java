@@ -1,5 +1,6 @@
 package DAO;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -72,5 +73,19 @@ public class PersonagemDAO {
         em.close();
 
         return fn;
+    }
+
+    public List<String> listAll() {
+        EntityManager em = JPAUtil.getInstance();
+
+        String jpql = "SELECT playerName FROM Personagem p";
+
+        TypedQuery<String> query = em.createQuery(jpql, String.class);
+
+        List<String> lista = query.getResultList();
+
+        em.close();
+
+        return lista;
     }
 }

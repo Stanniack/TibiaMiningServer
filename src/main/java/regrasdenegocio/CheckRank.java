@@ -1,6 +1,7 @@
 package regrasdenegocio;
 
 import DAO.AbstractDAO;
+import DAO.LevelAdvanceDAO;
 import DAO.PersonagemDAO;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -49,7 +50,7 @@ public class CheckRank {
     private static final int LAST_NICK = 1;
     private static final int ELEMENTS_LIST = 0;
 
-    public void checkGlobalRankSkills () {
+    public void checkGlobalRankSkills() {
 
         Long startTime = System.currentTimeMillis();
         List<String> worlds = MockWorldsTibia.getWorldsTibia();
@@ -299,7 +300,7 @@ public class CheckRank {
 
     }
 
-    public void checkGlobalRankLoyalty () {
+    public void checkGlobalRankLoyalty() {
 
         Long startTime = System.currentTimeMillis();
         List<String> worlds = MockWorldsTibia.getWorldsTibia();
@@ -433,7 +434,7 @@ public class CheckRank {
 
     }
 
-    public void checkGlobalRankExperience () {
+    public void checkGlobalRankExperience() {
 
         Long startTime = System.currentTimeMillis();
         List<LevelAdvance> laList = new ArrayList<>();
@@ -463,52 +464,62 @@ public class CheckRank {
 
                         for (k = CONTENT_START_EXP; k < elementsList.size() - TRASH_ELIMINATOR_EXP; k += INCREMENTOR_EXP) {
 
-                            LevelAdvance la = null;
+                            LevelAdvance la0 = null;
 
                             try {
 
-                                la = new AbstractDAO<>(LevelAdvance.class)
-                                        .returnObjectByColumn("playerName", elementsList.get(k + NAME));
+                                /* Busca último registro */
+                                la0 = new LevelAdvanceDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
 
                             } catch (NoResultException e) {
 
                             }
 
+                            /* flag para verificar se precisa vincular L.A com Personagem */
+                            boolean flagUpdate = false;
+                            LevelAdvance la;
+                            
+                            /* Conversão da exp String-> Long*/
                             String strValue = elementsList.get(k + EXPERIENCE).replace(",", "");
                             Long expValue = Long.valueOf(strValue);
 
-                            if (la != null) {
+                            /* Não é o primeiro registro */
+                            if (la0 != null) {
 
-                                if (la.getLastUpdate() != Calendar.getInstance()
-                                        && (!String.valueOf(la.getLevelDay()).equals(elementsList.get(k + LEVEL))
-                                        || !Objects.equals(la.getExpDay(), expValue))) {
+                                /* Esse if só faz ter um update por dia */
+                                if (la0.getLastUpdate() != Calendar.getInstance()
+                                        && (!String.valueOf(la0.getLevelDay()).equals(elementsList.get(k + LEVEL))
+                                        || !Objects.equals(la0.getExpDay(), expValue))) {
 
-                                    new AbstractDAO<>(LevelAdvance.class)
-                                            .insert(new LevelAdvance(
-                                                    expValue,
-                                                    Integer.valueOf(elementsList.get(k + LEVEL)),
-                                                    elementsList.get(k + NAME),
-                                                    Calendar.getInstance()
-                                            ));
-                                    
+                                    la = new LevelAdvance(
+                                            expValue,
+                                            Integer.valueOf(elementsList.get(k + LEVEL)),
+                                            elementsList.get(k + NAME),
+                                            Calendar.getInstance());
+
+                                    new AbstractDAO<>(LevelAdvance.class).insert(la);
+
                                     /* Add em uma lista para check posterior */
-                                    laList.add(la);
-                                    
-                                    
+                                    flagUpdate = true;
 
                                 }
 
                             } else {
 
-                                new AbstractDAO<>(LevelAdvance.class)
-                                        .insert(new LevelAdvance(
-                                                expValue,
-                                                Integer.valueOf(elementsList.get(k + LEVEL)),
-                                                elementsList.get(k + NAME),
-                                                Calendar.getInstance()
-                                        ));
+                                la = new LevelAdvance(
+                                        expValue,
+                                        Integer.valueOf(elementsList.get(k + LEVEL)),
+                                        elementsList.get(k + NAME),
+                                        Calendar.getInstance());
+
+                                new AbstractDAO<>(LevelAdvance.class).insert(la);
+
+                                flagUpdate = true;
+                            }
+                            
+                            /* Regra para vincular L.A com Personagem */
+                            if (flagUpdate == true) {
                                 
-                                laList.add(la);
                             }
 
                         } // for personagens da página
@@ -544,12 +555,12 @@ public class CheckRank {
                 + " segundos");
 
         this.updateDatabase(laList);
-        
+
     }
 
     /* Comentário */
-    private void updateDatabase (List<LevelAdvance> list) {
-        
+    private void updateDatabase(List<LevelAdvance> list) {
+
     }
-    
+
 }

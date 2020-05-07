@@ -54,26 +54,12 @@ public class AbstractDAO<Generic> {
 
         TypedQuery<Generic> query = em.createQuery(jpql, className);
         query.setParameter("pId", equals);
+        query.setMaxResults(1);
 
         Generic obj = query.getSingleResult();
 
         return obj;
 
-    }
-
-    public List<String> listAll(String idCharacter, String column) {
-        EntityManager em = JPAUtil.getInstance();
-
-        String jpql = "SELECT " + column + " FROM " + className.getName() + " t where idCharacter = :pId";
-
-        TypedQuery<String> query = em.createQuery(jpql, String.class);
-        query.setParameter("pId", idCharacter);
-
-        List<String> lista = query.getResultList();
-
-        em.close();
-
-        return lista;
     }
 
     public Generic returnLastRegisterDESC(int id, String column) {
@@ -159,6 +145,21 @@ public class AbstractDAO<Generic> {
         em.close();
 
         return list;
+    }
+
+    public List<String> listAll(String idCharacter, String column) {
+        EntityManager em = JPAUtil.getInstance();
+
+        String jpql = "SELECT " + column + " FROM " + className.getName() + " t where idCharacter = :pId";
+
+        TypedQuery<String> query = em.createQuery(jpql, String.class);
+        query.setParameter("pId", idCharacter);
+
+        List<String> lista = query.getResultList();
+
+        em.close();
+
+        return lista;
     }
 
 }

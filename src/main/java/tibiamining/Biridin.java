@@ -28,19 +28,15 @@ public class Biridin {
     public static void main(String[] args) throws IOException {
 
         List<LevelAdvance> list = new AbstractDAO<>(LevelAdvance.class).listAll();
-//        FormerName pfn = new PersonagemDAO().returnFormerNameByOldName("Crimsix");
-//        pfn.getPersonagem().setIdCharacter(1);
-//        new AbstractDAO<>(FormerName.class).update(pfn);
-
         
-        /* Testar update do método  checkglobalrank */
+        /* Testar update do método checkglobalrank */
         /* Verificar se o playerName do l.a existe na tabela de chars, 
          * se sim, atribui objeto ao char. Verificar no formerNames também e atualizar o playerName do l.a*/
         for (LevelAdvance la : list) {
 
             Personagem p = new PersonagemDAO().returnCharacterByName(la.getPlayerName());
 
-            /*  */
+            /* Regras de negócio para vincular o LevelAdvance com o char pertencente */
             if (p != null) {
                 la.setPersonagem(p);
                 new AbstractDAO<>(LevelAdvance.class).update(la);
@@ -49,6 +45,7 @@ public class Biridin {
                 FormerName pFN = new PersonagemDAO().returnFormerNameByOldName(la.getPlayerName());
 
                 if (pFN != null) {    
+                    la.setPlayerName(pFN.getPersonagem().getPlayerName());
                     la.setPersonagem(pFN.getPersonagem());
                     new AbstractDAO<>(LevelAdvance.class).update(la);
                 }
