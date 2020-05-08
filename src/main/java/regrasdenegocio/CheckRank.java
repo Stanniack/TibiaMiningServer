@@ -18,6 +18,7 @@ import model.FormerName;
 import model.LevelAdvance;
 import model.LoyaltyPoints;
 import model.Player;
+import utils.DateUtil;
 import utils.SkillsTibiaUtil;
 
 public class CheckRank {
@@ -488,7 +489,7 @@ public class CheckRank {
                             if (la0 != null) {
 
                                 /* Esse if só faz ter um update por dia */
-                                if (la0.getLastUpdate() != Calendar.getInstance()
+                                if (DateUtil.sameDate(Calendar.getInstance(), la0.getLastUpdate()) != true
                                         && (!String.valueOf(la0.getLevelDay()).equals(elementsList.get(k + LEVEL))
                                         || !Objects.equals(la0.getExpDay(), expValue))) {
 
