@@ -7,7 +7,7 @@ package tibiamining;
 
 import DAO.AbstractDAO;
 import DAO.LevelAdvanceDAO;
-import DAO.PersonagemDAO;
+import DAO.PlayerDAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import model.FormerName;
 import model.LevelAdvance;
-import model.Personagem;
+import model.Player;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -34,19 +34,19 @@ public class Biridin {
          * se sim, atribui objeto ao char. Verificar no formerNames também e atualizar o playerName do l.a*/
         for (LevelAdvance la : list) {
 
-            Personagem p = new PersonagemDAO().returnCharacterByName(la.getPlayerName());
+            Player p = new PlayerDAO().returnCharacterByName(la.getPlayerName());
 
             /* Regras de negócio para vincular o LevelAdvance com o char pertencente */
             if (p != null) {
-                la.setPersonagem(p);
+                la.setPlayer(p);
                 new AbstractDAO<>(LevelAdvance.class).update(la);
 
             } else {
-                FormerName pFN = new PersonagemDAO().returnFormerNameByOldName(la.getPlayerName());
+                FormerName pFN = new PlayerDAO().returnFormerNameByOldName(la.getPlayerName());
 
                 if (pFN != null) {    
-                    la.setPlayerName(pFN.getPersonagem().getPlayerName());
-                    la.setPersonagem(pFN.getPersonagem());
+                    la.setPlayerName(pFN.getPlayer().getPlayerName());
+                    la.setPlayer(pFN.getPlayer());
                     new AbstractDAO<>(LevelAdvance.class).update(la);
                 }
             }

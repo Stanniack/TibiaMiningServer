@@ -20,7 +20,7 @@ public class LevelAdvance implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
-    private Personagem personagem;
+    private Player player;
 
     private Long expDay;
     private int levelDay;
@@ -32,15 +32,15 @@ public class LevelAdvance implements Serializable {
     public LevelAdvance() {
     }
 
-    public LevelAdvance(Personagem personagem, Long expDay, int levelDay, Calendar lastUpdate) {
-        this.personagem = personagem;
+    public LevelAdvance(Player player, Long expDay, int levelDay, Calendar lastUpdate) {
+        this.player = player;
         this.expDay = expDay;
         this.levelDay = levelDay;
         this.lastUpdate = lastUpdate;
     }
 
-    public LevelAdvance(Personagem personagem, int levelDay, Calendar lastUpdate) {
-        this.personagem = personagem;
+    public LevelAdvance(Player player, int levelDay, Calendar lastUpdate) {
+        this.player = player;
         this.levelDay = levelDay;
         this.lastUpdate = lastUpdate;
     }
@@ -85,12 +85,12 @@ public class LevelAdvance implements Serializable {
         this.idLevelAdvance = idLevelAdvance;
     }
 
-    public Personagem getPersonagem() {
-        return personagem;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setPersonagem(Personagem personagem) {
-        this.personagem = personagem;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public String getPlayerName() {

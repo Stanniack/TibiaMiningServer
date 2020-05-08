@@ -5,15 +5,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import model.FormerName;
-import model.Personagem;
+import model.Player;
 import utils.JPAUtil;
 
-public class PersonagemDAO {
+public class PlayerDAO {
 
     public Integer returnID(String name) {
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT idCharacter FROM Personagem p where playerName = :pName";
+        String jpql = "SELECT idCharacter FROM Player p where playerName = :pName";
 
         TypedQuery<Integer> query = em.createQuery(jpql, Integer.class);
 
@@ -28,27 +28,27 @@ public class PersonagemDAO {
         return idReturn;
     }
 
-    public Personagem returnCharacterByName(String string) {
+    public Player returnCharacterByName(String string) {
 
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT t FROM Personagem t WHERE playerName = :pString";
+        String jpql = "SELECT t FROM Player t WHERE playerName = :pString";
 
-        TypedQuery<Personagem> query = em.createQuery(jpql, Personagem.class);
+        TypedQuery<Player> query = em.createQuery(jpql, Player.class);
         query.setParameter("pString", string);
 
-        Personagem personagem = null;
+        Player player = null;
 
         try {
-            personagem = query.getSingleResult();
+            player = query.getSingleResult();
         } catch (NoResultException e) {
-            System.out.println("Não possui resultados para este nome em personagem: " + string);
+            System.out.println("Não possui resultados para este nome em player: " + string);
             e.printStackTrace();
         }
 
         em.close();
 
-        return personagem;
+        return player;
     }
 
     public FormerName returnFormerNameByOldName(String oldName) {
@@ -78,7 +78,7 @@ public class PersonagemDAO {
     public List<String> listAll() {
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT playerName FROM Personagem p";
+        String jpql = "SELECT playerName FROM Player p";
 
         TypedQuery<String> query = em.createQuery(jpql, String.class);
 

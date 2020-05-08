@@ -25,15 +25,15 @@ public class LoyaltyPoints implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
-    private Personagem personagem;
+    private Player player;
 
     public LoyaltyPoints() {
     }
 
-    public LoyaltyPoints(Personagem personagem, Integer loyaltyPoints, Calendar registerDate) {
+    public LoyaltyPoints(Player player, Integer loyaltyPoints, Calendar registerDate) {
         this.loyaltyPoints = loyaltyPoints;
         this.registerDate = registerDate;
-        this.personagem = personagem;
+        this.player = player;
     }
 
     public Integer getIdLoyaltyPoints() {

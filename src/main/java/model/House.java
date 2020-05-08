@@ -20,7 +20,7 @@ public class House implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
-    private Personagem personagem;
+    private Player player;
 
     private String houseName;
 
@@ -33,14 +33,14 @@ public class House implements Serializable {
     public House() {
     }
 
-    public House(Personagem personagem, String houseName, Calendar dateBid) {
-        this.personagem = personagem;
+    public House(Player player, String houseName, Calendar dateBid) {
+        this.player = player;
         this.houseName = houseName;
         this.dateBid = dateBid;
     }
 
-    public House(Personagem personagem, String houseName, Calendar dateBid, Calendar dateLeave) {
-        this.personagem = personagem;
+    public House(Player player, String houseName, Calendar dateBid, Calendar dateLeave) {
+        this.player = player;
         this.houseName = houseName;
         this.dateBid = dateBid;
         this.dataEnd = dateLeave;
@@ -74,8 +74,8 @@ public class House implements Serializable {
         return idHouse;
     }
 
-    public Personagem getPersonagem() {
-        return personagem;
+    public Player getPlayer() {
+        return player;
     }
     
     

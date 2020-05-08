@@ -1,7 +1,7 @@
 package regrasdenegocio;
 
 import DAO.AbstractDAO;
-import DAO.PersonagemDAO;
+import DAO.PlayerDAO;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import model.FormerWorld;
 import model.Guild;
 import model.House;
 import model.LevelAdvance;
-import model.Personagem;
+import model.Player;
 import org.hibernate.exception.JDBCConnectionException;
 import org.hibernate.service.spi.ServiceException;
 import org.jsoup.Jsoup;
@@ -31,8 +31,8 @@ public class CheckCharacter {
     /* Eliminar conteúdo lixo da lista de elementos */
     private final int TRASH_ELIMINATOR = 2;
 
-    public Personagem discoverCharacter(String name) {
-        Personagem personagem = null;
+    public Player discoverCharacter(String name) {
+        Player player = null;
 
         try {
 
@@ -55,8 +55,8 @@ public class CheckCharacter {
             } else {
 
                 /* Se o char existir, inicia as chamadas do banco */
-                personagem = new Personagem();
-                Personagem p = new Personagem();
+                player = new Player();
+                Player p = new Player();
 
                 for (int i = 1; i < elementsList.size() - TRASH_ELIMINATOR; i++) {
 
@@ -68,12 +68,12 @@ public class CheckCharacter {
                             /* Caso o char tenha sido deletado pelo player, será preciso usar o split*/
                             String[] splitName = elementsList.get(i + AFTER_TITLE).split(",");
 
-                            personagem.setPlayerName(splitName[0]);
+                            player.setPlayerName(splitName[0]);
                             /* Primeira persistência para salvar as tabelas fracas em relacionamento bilateral*/
-                            new AbstractDAO<>(Personagem.class).insert(personagem);
+                            new AbstractDAO<>(Player.class).insert(player);
 
                             /* Retorna id para outras persistências */
-                            int idCharacter = new PersonagemDAO().returnID(splitName[0]);
+                            int idCharacter = new PlayerDAO().returnID(splitName[0]);
                             p.setIdCharacter(idCharacter);
 
                             break;
@@ -86,7 +86,7 @@ public class CheckCharacter {
                             for (String rname : splitNames) {
                                 /* Regra de persistência bilateral*/
                                 FormerName fn = new FormerName(rname, Calendar.getInstance(), Calendar.getInstance());
-                                fn.setPersonagem(p);
+                                fn.setPlayer(p);
 
                                 new AbstractDAO<>(FormerName.class).insert(fn);
 
@@ -96,19 +96,19 @@ public class CheckCharacter {
 
                         case "title:":
 
-                            personagem.setTitle(elementsList.get(i + AFTER_TITLE));
+                            player.setTitle(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
                         case "sex:":
 
-                            personagem.setSex(elementsList.get(i + AFTER_TITLE));
+                            player.setSex(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
                         case "vocation:":
 
-                            personagem.setVocation(elementsList.get(i + AFTER_TITLE));
+                            player.setVocation(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
@@ -130,7 +130,7 @@ public class CheckCharacter {
 
                         case "world:":
 
-                            personagem.setWorld(elementsList.get(i + AFTER_TITLE));
+                            player.setWorld(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
@@ -143,7 +143,7 @@ public class CheckCharacter {
 
                         case "residence:":
 
-                            personagem.setResidence(elementsList.get(i + AFTER_TITLE));
+                            player.setResidence(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
@@ -165,13 +165,13 @@ public class CheckCharacter {
 
                         case "last login:":
 
-                            personagem.setLastLogin(elementsList.get(i + AFTER_TITLE));
+                            player.setLastLogin(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
                         case "account status:":
 
-                            personagem.setAccountStatus(elementsList.get(i + AFTER_TITLE));
+                            player.setAccountStatus(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
@@ -194,8 +194,8 @@ public class CheckCharacter {
 
                         case "account information":
 
-                            personagem.setTitleAccountInformation(elementsList.get(i + 2));
-                            personagem.setDateCreate(elementsList.get(i + 4));
+                            player.setTitleAccountInformation(elementsList.get(i + 2));
+                            player.setDateCreate(elementsList.get(i + 4));
 
                             break;
 
@@ -205,10 +205,10 @@ public class CheckCharacter {
 
                 } // fim FOR
 
-                /* Persiste Personagem */
-                personagem.setRegisterDate(Calendar.getInstance());
-                personagem.setLastUpdate(Calendar.getInstance());
-                new AbstractDAO<>(Personagem.class).update(personagem);
+                /* Persiste Player */
+                player.setRegisterDate(Calendar.getInstance());
+                player.setLastUpdate(Calendar.getInstance());
+                new AbstractDAO<>(Player.class).update(player);
 
             } // fim ELSE
 
@@ -223,11 +223,11 @@ public class CheckCharacter {
 
         }
 
-        return personagem;
+        return player;
     }
 
-    public Personagem discoverCharacter(List<String> elementsList) {
-        Personagem personagem = null;
+    public Player discoverCharacter(List<String> elementsList) {
+        Player player = null;
 
         try {
 
@@ -238,8 +238,8 @@ public class CheckCharacter {
             } else {
 
                 /* Se o char existir, inicia as chamadas do banco */
-                personagem = new Personagem();
-                Personagem p = new Personagem();
+                player = new Player();
+                Player p = new Player();
 
                 for (int i = 1; i < elementsList.size() - TRASH_ELIMINATOR; i++) {
 
@@ -251,12 +251,12 @@ public class CheckCharacter {
                             /* Caso o char tenha sido deletado pelo player, será preciso usar o split*/
                             String[] splitName = elementsList.get(i + AFTER_TITLE).split(",");
 
-                            personagem.setPlayerName(splitName[0]);
+                            player.setPlayerName(splitName[0]);
                             /* Primeira persistência para salvar as tabelas fracas em relacionamento bilateral*/
-                            new AbstractDAO<>(Personagem.class).insert(personagem);
+                            new AbstractDAO<>(Player.class).insert(player);
 
                             /* Retorna id para outras persistências */
-                            int idCharacter = new PersonagemDAO().returnID(splitName[0]);
+                            int idCharacter = new PlayerDAO().returnID(splitName[0]);
                             p.setIdCharacter(idCharacter);
 
                             break;
@@ -269,7 +269,7 @@ public class CheckCharacter {
                             for (String rname : splitNames) {
                                 /* Regra de persistência bilateral*/
                                 FormerName fn = new FormerName(rname, Calendar.getInstance(), Calendar.getInstance());
-                                fn.setPersonagem(p);
+                                fn.setPlayer(p);
 
                                 new AbstractDAO<>(FormerName.class).insert(fn);
 
@@ -279,19 +279,19 @@ public class CheckCharacter {
 
                         case "title:":
 
-                            personagem.setTitle(elementsList.get(i + AFTER_TITLE));
+                            player.setTitle(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
                         case "sex:":
 
-                            personagem.setSex(elementsList.get(i + AFTER_TITLE));
+                            player.setSex(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
                         case "vocation:":
 
-                            personagem.setVocation(elementsList.get(i + AFTER_TITLE));
+                            player.setVocation(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
@@ -313,7 +313,7 @@ public class CheckCharacter {
 
                         case "world:":
 
-                            personagem.setWorld(elementsList.get(i + AFTER_TITLE));
+                            player.setWorld(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
@@ -326,7 +326,7 @@ public class CheckCharacter {
 
                         case "residence:":
 
-                            personagem.setResidence(elementsList.get(i + AFTER_TITLE));
+                            player.setResidence(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
@@ -348,13 +348,13 @@ public class CheckCharacter {
 
                         case "last login:":
 
-                            personagem.setLastLogin(elementsList.get(i + AFTER_TITLE));
+                            player.setLastLogin(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
                         case "account status:":
 
-                            personagem.setAccountStatus(elementsList.get(i + AFTER_TITLE));
+                            player.setAccountStatus(elementsList.get(i + AFTER_TITLE));
 
                             break;
 
@@ -377,8 +377,8 @@ public class CheckCharacter {
 
                         case "account information":
 
-                            personagem.setTitleAccountInformation(elementsList.get(i + 2));
-                            personagem.setDateCreate(elementsList.get(i + 4));
+                            player.setTitleAccountInformation(elementsList.get(i + 2));
+                            player.setDateCreate(elementsList.get(i + 4));
 
                             break;
 
@@ -388,10 +388,10 @@ public class CheckCharacter {
 
                 } // fim FOR
 
-                /* Persiste Personagem */
-                personagem.setRegisterDate(Calendar.getInstance());
-                personagem.setLastUpdate(Calendar.getInstance());
-                new AbstractDAO<>(Personagem.class).update(personagem);
+                /* Persiste Player */
+                player.setRegisterDate(Calendar.getInstance());
+                player.setLastUpdate(Calendar.getInstance());
+                new AbstractDAO<>(Player.class).update(player);
 
             } // fim ELSE
 
@@ -402,7 +402,7 @@ public class CheckCharacter {
 
         }
 
-        return personagem;
+        return player;
     }
 
     /* Verificar se o personagem trocou de nick para regras externas */
@@ -451,9 +451,9 @@ public class CheckCharacter {
 
     /* Método para ser aplicado 1x por dia
      * Esse método só funciona para personagens que já existem no bando de dados! */
-    public Personagem updateCharacter(String name) {
+    public Player updateCharacter(String name) {
 
-        Personagem personagem = null;
+        Player player = null;
 
         try {
 
@@ -471,10 +471,10 @@ public class CheckCharacter {
             /* Se não existe o char, char foi deletado */
             if (elementsList.get(0).toLowerCase().equals("could not find character:")) {
 
-                personagem = new PersonagemDAO().returnCharacterByName(name);
-                personagem.setIsDeleted(true);
-                personagem.setDateDeleted(Calendar.getInstance());
-                new AbstractDAO<>(Personagem.class).update(personagem);
+                player = new PlayerDAO().returnCharacterByName(name);
+                player.setIsDeleted(true);
+                player.setDateDeleted(Calendar.getInstance());
+                new AbstractDAO<>(Player.class).update(player);
 
                 return null;
 
@@ -485,9 +485,9 @@ public class CheckCharacter {
                 boolean isHouseUpdate = false;
 
                 /* Se o char existir, inicia as chamadas do banco */
-                personagem = new PersonagemDAO().returnCharacterByName(name);
-                int idCharacter = new PersonagemDAO().returnID(name);
-                Personagem p = new Personagem();
+                player = new PlayerDAO().returnCharacterByName(name);
+                int idCharacter = new PlayerDAO().returnID(name);
+                Player p = new Player();
                 p.setIdCharacter(idCharacter);
 
                 /* Atualizar apenas se o personagem teve alteração */
@@ -504,13 +504,13 @@ public class CheckCharacter {
                             String[] splitName = elementsList.get(i + AFTER_TITLE).split(",");
 
                             /* Se o nome for diferente do bd, é que mudou de nick */
-                            if (!personagem.getPlayerName().equals(splitName[0])) {
+                            if (!player.getPlayerName().equals(splitName[0])) {
 
                                 /* Coloca o antigo nick como formerName 
                                  * Se for igual a 0 é porque não tem fns e esse será o primeiro fn */
                                 if ((new AbstractDAO<>(FormerName.class).countRegistersById(idCharacter)) == 0) {
 
-                                    FormerName fn = new FormerName(p, name, personagem.getRegisterDate(), Calendar.getInstance());
+                                    FormerName fn = new FormerName(p, name, player.getRegisterDate(), Calendar.getInstance());
                                     new AbstractDAO<>(FormerName.class).insert(fn);
 
                                 } else {
@@ -521,7 +521,7 @@ public class CheckCharacter {
                                 }
 
                                 /* Atualiza novo nick */
-                                personagem.setPlayerName(splitName[0]);
+                                player.setPlayerName(splitName[0]);
 
                                 flagUpdate = 1;
 
@@ -530,8 +530,8 @@ public class CheckCharacter {
                             break;
 
                         case "title:":
-                            if (!personagem.getTitle().equals(elementsList.get(i + AFTER_TITLE))) {
-                                personagem.setTitle(elementsList.get(i + AFTER_TITLE));
+                            if (!player.getTitle().equals(elementsList.get(i + AFTER_TITLE))) {
+                                player.setTitle(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
                             }
@@ -539,8 +539,8 @@ public class CheckCharacter {
                             break;
 
                         case "sex:":
-                            if (!personagem.getSex().equals(elementsList.get(i + AFTER_TITLE))) {
-                                personagem.setSex(elementsList.get(i + AFTER_TITLE));
+                            if (!player.getSex().equals(elementsList.get(i + AFTER_TITLE))) {
+                                player.setSex(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
                             }
@@ -584,12 +584,12 @@ public class CheckCharacter {
                         case "world:":
 
                             /* Se o world nome for diferente do bd, é que mudou de world */
-                            if (!personagem.getWorld().equals(elementsList.get(i + AFTER_TITLE))) {
+                            if (!player.getWorld().equals(elementsList.get(i + AFTER_TITLE))) {
 
                                 /* Coloca o antigo world como FormerWorld 
                                  * Se for igual a 0 é porque não tem fws e esse será o primeiro fw */
                                 if ((new AbstractDAO<>(FormerWorld.class).countRegistersById(idCharacter)) == 0) {
-                                    FormerWorld fw = new FormerWorld(p, personagem.getWorld(), personagem.getRegisterDate(),
+                                    FormerWorld fw = new FormerWorld(p, player.getWorld(), player.getRegisterDate(),
                                             Calendar.getInstance());
                                     new AbstractDAO<>(FormerWorld.class).insert(fw);
 
@@ -597,12 +597,12 @@ public class CheckCharacter {
                                     /* Senão, pega último fn */
                                     FormerWorld fw0 = new AbstractDAO<>(FormerWorld.class).returnLastRegisterDESC(idCharacter, "datebegin");
                                     /* Adiciona novo fw */
-                                    FormerWorld fw = new FormerWorld(p, personagem.getWorld(), fw0.getDateEnd(), Calendar.getInstance());
+                                    FormerWorld fw = new FormerWorld(p, player.getWorld(), fw0.getDateEnd(), Calendar.getInstance());
                                     new AbstractDAO<>(FormerWorld.class).insert(fw);
                                 }
 
                                 /* Atualiza novo world */
-                                personagem.setWorld(elementsList.get(i + AFTER_TITLE));
+                                player.setWorld(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
 
@@ -612,8 +612,8 @@ public class CheckCharacter {
 
                         case "residence:":
 
-                            if (!personagem.getResidence().equals(elementsList.get(i + AFTER_TITLE))) {
-                                personagem.setResidence(elementsList.get(i + AFTER_TITLE));
+                            if (!player.getResidence().equals(elementsList.get(i + AFTER_TITLE))) {
+                                player.setResidence(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
                             }
@@ -673,8 +673,8 @@ public class CheckCharacter {
 
                         case "last login:":
 
-                            if (!personagem.getLastLogin().equals(elementsList.get(i + AFTER_TITLE))) {
-                                personagem.setLastLogin(elementsList.get(i + AFTER_TITLE));
+                            if (!player.getLastLogin().equals(elementsList.get(i + AFTER_TITLE))) {
+                                player.setLastLogin(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
                             }
@@ -683,8 +683,8 @@ public class CheckCharacter {
 
                         case "account status:":
 
-                            if (!personagem.getAccountStatus().equals(elementsList.get(i + AFTER_TITLE))) {
-                                personagem.setAccountStatus(elementsList.get(i + AFTER_TITLE));
+                            if (!player.getAccountStatus().equals(elementsList.get(i + AFTER_TITLE))) {
+                                player.setAccountStatus(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
                             }
@@ -716,15 +716,15 @@ public class CheckCharacter {
 
                         case "account information":
 
-                            if (!personagem.getTitleAccountInformation().equals(elementsList.get(i + 2))) {
+                            if (!player.getTitleAccountInformation().equals(elementsList.get(i + 2))) {
 
-                                personagem.setTitleAccountInformation(elementsList.get(i + 2));
+                                player.setTitleAccountInformation(elementsList.get(i + 2));
                                 flagUpdate = 1;
                             }
 
-                            if (!personagem.getDateCreate().equals(elementsList.get(i + 4))) {
+                            if (!player.getDateCreate().equals(elementsList.get(i + 4))) {
 
-                                personagem.setDateCreate(elementsList.get(i + 4));
+                                player.setDateCreate(elementsList.get(i + 4));
                                 flagUpdate = 1;
                             }
 
@@ -758,11 +758,11 @@ public class CheckCharacter {
                     }
                 }
 
-                /* Persistir Personagem se houver alterações*/
+                /* Persistir Player se houver alterações*/
                 if (flagUpdate == 1) {
 
-                    personagem.setLastUpdate(Calendar.getInstance());
-                    new AbstractDAO<>(Personagem.class).update(personagem);
+                    player.setLastUpdate(Calendar.getInstance());
+                    new AbstractDAO<>(Player.class).update(player);
                     System.out.println("Itens Persistidos");
 
                 } else {
@@ -782,22 +782,22 @@ public class CheckCharacter {
 
         }
 
-        return personagem;
+        return player;
     }
 
-    public Personagem updateCharacter(String name, List<String> elementsList) {
+    public Player updateCharacter(String name, List<String> elementsList) {
 
-        Personagem personagem = null;
+        Player player = null;
 
         try {
 
             /* Se não existe o char, char foi deletado */
             if (elementsList.get(0).toLowerCase().equals("could not find character:")) {
 
-                personagem = new PersonagemDAO().returnCharacterByName(name);
-                personagem.setIsDeleted(true);
-                personagem.setDateDeleted(Calendar.getInstance());
-                new AbstractDAO<>(Personagem.class).update(personagem);
+                player = new PlayerDAO().returnCharacterByName(name);
+                player.setIsDeleted(true);
+                player.setDateDeleted(Calendar.getInstance());
+                new AbstractDAO<>(Player.class).update(player);
 
                 return null;
 
@@ -808,9 +808,9 @@ public class CheckCharacter {
                 boolean isHouseUpdate = false;
 
                 /* Se o char existir, inicia as chamadas do banco */
-                personagem = new PersonagemDAO().returnCharacterByName(name);
-                int idCharacter = new PersonagemDAO().returnID(name);
-                Personagem p = new Personagem();
+                player = new PlayerDAO().returnCharacterByName(name);
+                int idCharacter = new PlayerDAO().returnID(name);
+                Player p = new Player();
                 p.setIdCharacter(idCharacter);
 
                 /* Atualizar apenas se o personagem teve alteração */
@@ -827,13 +827,13 @@ public class CheckCharacter {
                             String[] splitName = elementsList.get(i + AFTER_TITLE).split(",");
 
                             /* Se o nome for diferente do bd, é que mudou de nick */
-                            if (!personagem.getPlayerName().equals(splitName[0])) {
+                            if (!player.getPlayerName().equals(splitName[0])) {
 
                                 /* Coloca o antigo nick como formerName 
                                  * Se for igual a 0 é porque não tem fns e esse será o primeiro fn */
                                 if ((new AbstractDAO<>(FormerName.class).countRegistersById(idCharacter)) == 0) {
 
-                                    FormerName fn = new FormerName(p, name, personagem.getRegisterDate(), Calendar.getInstance());
+                                    FormerName fn = new FormerName(p, name, player.getRegisterDate(), Calendar.getInstance());
                                     new AbstractDAO<>(FormerName.class).insert(fn);
 
                                 } else {
@@ -844,7 +844,7 @@ public class CheckCharacter {
                                 }
 
                                 /* Atualiza novo nick */
-                                personagem.setPlayerName(splitName[0]);
+                                player.setPlayerName(splitName[0]);
 
                                 flagUpdate = 1;
 
@@ -853,8 +853,8 @@ public class CheckCharacter {
                             break;
 
                         case "title:":
-                            if (!personagem.getTitle().equals(elementsList.get(i + AFTER_TITLE))) {
-                                personagem.setTitle(elementsList.get(i + AFTER_TITLE));
+                            if (!player.getTitle().equals(elementsList.get(i + AFTER_TITLE))) {
+                                player.setTitle(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
                             }
@@ -862,8 +862,8 @@ public class CheckCharacter {
                             break;
 
                         case "sex:":
-                            if (!personagem.getSex().equals(elementsList.get(i + AFTER_TITLE))) {
-                                personagem.setSex(elementsList.get(i + AFTER_TITLE));
+                            if (!player.getSex().equals(elementsList.get(i + AFTER_TITLE))) {
+                                player.setSex(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
                             }
@@ -906,12 +906,12 @@ public class CheckCharacter {
                         case "world:":
 
                             /* Se o world nome for diferente do bd, é que mudou de world */
-                            if (!personagem.getWorld().equals(elementsList.get(i + AFTER_TITLE))) {
+                            if (!player.getWorld().equals(elementsList.get(i + AFTER_TITLE))) {
 
                                 /* Coloca o antigo world como FormerWorld 
                                  * Se for igual a 0 é porque não tem fws e esse será o primeiro fw */
                                 if ((new AbstractDAO<>(FormerWorld.class).countRegistersById(idCharacter)) == 0) {
-                                    FormerWorld fw = new FormerWorld(p, personagem.getWorld(), personagem.getRegisterDate(),
+                                    FormerWorld fw = new FormerWorld(p, player.getWorld(), player.getRegisterDate(),
                                             Calendar.getInstance());
                                     new AbstractDAO<>(FormerWorld.class).insert(fw);
 
@@ -919,12 +919,12 @@ public class CheckCharacter {
                                     /* Senão, pega último fn */
                                     FormerWorld fw0 = new AbstractDAO<>(FormerWorld.class).returnLastRegisterDESC(idCharacter, "datebegin");
                                     /* Adiciona novo fw */
-                                    FormerWorld fw = new FormerWorld(p, personagem.getWorld(), fw0.getDateEnd(), Calendar.getInstance());
+                                    FormerWorld fw = new FormerWorld(p, player.getWorld(), fw0.getDateEnd(), Calendar.getInstance());
                                     new AbstractDAO<>(FormerWorld.class).insert(fw);
                                 }
 
                                 /* Atualiza novo world */
-                                personagem.setWorld(elementsList.get(i + AFTER_TITLE));
+                                player.setWorld(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
 
@@ -934,8 +934,8 @@ public class CheckCharacter {
 
                         case "residence:":
 
-                            if (!personagem.getResidence().equals(elementsList.get(i + AFTER_TITLE))) {
-                                personagem.setResidence(elementsList.get(i + AFTER_TITLE));
+                            if (!player.getResidence().equals(elementsList.get(i + AFTER_TITLE))) {
+                                player.setResidence(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
                             }
@@ -995,8 +995,8 @@ public class CheckCharacter {
 
                         case "last login:":
 
-                            if (!personagem.getLastLogin().equals(elementsList.get(i + AFTER_TITLE))) {
-                                personagem.setLastLogin(elementsList.get(i + AFTER_TITLE));
+                            if (!player.getLastLogin().equals(elementsList.get(i + AFTER_TITLE))) {
+                                player.setLastLogin(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
                             }
@@ -1005,8 +1005,8 @@ public class CheckCharacter {
 
                         case "account status:":
 
-                            if (!personagem.getAccountStatus().equals(elementsList.get(i + AFTER_TITLE))) {
-                                personagem.setAccountStatus(elementsList.get(i + AFTER_TITLE));
+                            if (!player.getAccountStatus().equals(elementsList.get(i + AFTER_TITLE))) {
+                                player.setAccountStatus(elementsList.get(i + AFTER_TITLE));
 
                                 flagUpdate = 1;
                             }
@@ -1038,15 +1038,15 @@ public class CheckCharacter {
 
                         case "account information":
 
-                            if (!personagem.getTitleAccountInformation().equals(elementsList.get(i + 2))) {
+                            if (!player.getTitleAccountInformation().equals(elementsList.get(i + 2))) {
 
-                                personagem.setTitleAccountInformation(elementsList.get(i + 2));
+                                player.setTitleAccountInformation(elementsList.get(i + 2));
                                 flagUpdate = 1;
                             }
 
-                            if (!personagem.getDateCreate().equals(elementsList.get(i + 4))) {
+                            if (!player.getDateCreate().equals(elementsList.get(i + 4))) {
 
-                                personagem.setDateCreate(elementsList.get(i + 4));
+                                player.setDateCreate(elementsList.get(i + 4));
                                 flagUpdate = 1;
                             }
 
@@ -1080,11 +1080,11 @@ public class CheckCharacter {
                     }
                 }
 
-                /* Persistir Personagem se houver alterações*/
+                /* Persistir Player se houver alterações*/
                 if (flagUpdate == 1) {
 
-                    personagem.setLastUpdate(Calendar.getInstance());
-                    new AbstractDAO<>(Personagem.class).update(personagem);
+                    player.setLastUpdate(Calendar.getInstance());
+                    new AbstractDAO<>(Player.class).update(player);
                     System.out.println("Itens Persistidos");
 
                 } else {
@@ -1100,7 +1100,7 @@ public class CheckCharacter {
 
         }
 
-        return personagem;
+        return player;
     }
 
 }

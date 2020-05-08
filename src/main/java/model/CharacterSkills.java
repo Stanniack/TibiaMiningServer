@@ -20,7 +20,7 @@ public class CharacterSkills implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
-    private Personagem personagem;
+    private Player player;
 
     @Temporal(TemporalType.DATE)
     private Calendar registerDate;
@@ -58,12 +58,12 @@ public class CharacterSkills implements Serializable {
         this.idCharacterSkills = idCharacterSkills;
     }
 
-    public Personagem getPersonagem() {
-        return personagem;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setPersonagem(Personagem personagem) {
-        this.personagem = personagem;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public int getAxeFighting() {

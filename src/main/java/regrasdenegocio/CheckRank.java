@@ -2,7 +2,7 @@ package regrasdenegocio;
 
 import DAO.AbstractDAO;
 import DAO.LevelAdvanceDAO;
-import DAO.PersonagemDAO;
+import DAO.PlayerDAO;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import utils.WorldsTibiaUtil;
 import model.CharacterSkills;
 import model.LevelAdvance;
 import model.LoyaltyPoints;
-import model.Personagem;
+import model.Player;
 import utils.SkillsTibiaUtil;
 
 public class CheckRank {
@@ -79,7 +79,7 @@ public class CheckRank {
 
                             Document htmlContent = Jsoup.connect(url).get();
                             List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
-                            Personagem p;
+                            Player p;
 
                             for (k = CONTENT_START_SKILLS; k < elementsList.size() - TRASH_ELIMINATOR_SKILLS; k += INCREMENTOR_SKILLS) {
 
@@ -92,31 +92,31 @@ public class CheckRank {
                                     String lastNick = objects.get(LAST_NICK).toString();
                                     List<String> lastNickElementsList = (List<String>) objects.get(ELEMENTS_LIST);
 
-                                    Long isRegistered = new AbstractDAO<>(Personagem.class)
+                                    Long isRegistered = new AbstractDAO<>(Player.class)
                                             .countRegistersByName(elementsList.get(k + NAME));
 
                                     /* Nick trocado e char não existe no BD */
                                     if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
                                         new CheckCharacter().discoverCharacter(lastNickElementsList);
-                                        p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                        p = new PlayerDAO().returnCharacterByName(lastNick);
 
                                         /* Nick trocado e char exite no BD */
                                     } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
 
                                         new CheckCharacter()
                                                 .updateCharacter(lastNick, lastNickElementsList);
-                                        p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                        p = new PlayerDAO().returnCharacterByName(lastNick);
 
                                         /* Nick não foi trocado e char não existe no BD */
                                     } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
                                         new CheckCharacter().discoverCharacter(lastNickElementsList);
-                                        p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
+                                        p = new PlayerDAO().returnCharacterByName(elementsList.get(k + NAME));
 
                                         /* Nick não foi trocado e char existe no BD */
                                     } else {
-                                        p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
+                                        p = new PlayerDAO().returnCharacterByName(elementsList.get(k + NAME));
 
                                     }
 
@@ -150,7 +150,7 @@ public class CheckRank {
                                     } else {
 
                                         cs0 = new CharacterSkills();
-                                        cs0.setPersonagem(p);
+                                        cs0.setPlayer(p);
                                         new AbstractDAO<>(CharacterSkills.class).insert(cs0);
                                     }
 
@@ -253,7 +253,7 @@ public class CheckRank {
                                     /* Caso algo tenha mudado */
                                     if (flagUpdate == true) {
                                         cs.setRegisterDate(Calendar.getInstance());
-                                        cs.setPersonagem(p);
+                                        cs.setPlayer(p);
                                         new AbstractDAO<>(CharacterSkills.class).update(cs);
                                     }
 
@@ -326,7 +326,7 @@ public class CheckRank {
 
                         Document htmlContent = Jsoup.connect(url).get();
                         List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
-                        Personagem p;
+                        Player p;
 
                         for (k = CONTENT_START_LOYALTY; k < elementsList.size() - TRASH_ELIMINATOR_LOYALTY; k += INCREMENTOR_LOYALTY) {
 
@@ -339,31 +339,31 @@ public class CheckRank {
                                 String lastNick = objects.get(LAST_NICK).toString();
                                 List<String> lastNickElementsList = (List<String>) objects.get(ELEMENTS_LIST);
 
-                                Long isRegistered = new AbstractDAO<>(Personagem.class)
+                                Long isRegistered = new AbstractDAO<>(Player.class)
                                         .countRegistersByName(elementsList.get(k + NAME));
 
                                 /* Nick trocado e char não existe no BD */
                                 if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
                                     new CheckCharacter().discoverCharacter(lastNickElementsList);
-                                    p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                    p = new PlayerDAO().returnCharacterByName(lastNick);
 
                                     /* Nick trocado e char exite no BD */
                                 } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
 
                                     new CheckCharacter()
                                             .updateCharacter(lastNick, lastNickElementsList);
-                                    p = new PersonagemDAO().returnCharacterByName(lastNick);
+                                    p = new PlayerDAO().returnCharacterByName(lastNick);
 
                                     /* Nick não foi trocado e char não existe no BD */
                                 } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
                                     new CheckCharacter().discoverCharacter(lastNickElementsList);
-                                    p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
+                                    p = new PlayerDAO().returnCharacterByName(elementsList.get(k + NAME));
 
                                     /* Nick não foi trocado e char existe no BD */
                                 } else {
-                                    p = new PersonagemDAO().returnCharacterByName(elementsList.get(k + NAME));
+                                    p = new PlayerDAO().returnCharacterByName(elementsList.get(k + NAME));
 
                                 }
 
@@ -475,7 +475,7 @@ public class CheckRank {
 
                             }
 
-                            /* flag para verificar se precisa vincular L.A com Personagem */
+                            /* flag para verificar se precisa vincular L.A com Player */
                             boolean flagUpdate = false;
                             LevelAdvance la;
                             
@@ -517,7 +517,7 @@ public class CheckRank {
                                 flagUpdate = true;
                             }
                             
-                            /* Regra para vincular L.A com Personagem */
+                            /* Regra para vincular L.A com Player */
                             if (flagUpdate == true) {
                                 
                             }

@@ -20,7 +20,7 @@ public class Guild implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
-    private Personagem personagem;
+    private Player player;
 
     private String guildName;
     private String memberPositionGuild;
@@ -34,15 +34,15 @@ public class Guild implements Serializable {
     public Guild() {
     }
 
-    public Guild(Personagem personagem, String guildName, String memberPositionGuild, Calendar dateBegin) {
-        this.personagem = personagem;
+    public Guild(Player player, String guildName, String memberPositionGuild, Calendar dateBegin) {
+        this.player = player;
         this.guildName = guildName;
         this.memberPositionGuild = memberPositionGuild;
         this.dateBegin = dateBegin;
     }
 
-    public Guild(Personagem personagem, String guildName, String memberPositionGuild, Calendar dateBegin, Calendar dateLeave) {
-        this.personagem = personagem;
+    public Guild(Player player, String guildName, String memberPositionGuild, Calendar dateBegin, Calendar dateLeave) {
+        this.player = player;
         this.guildName = guildName;
         this.memberPositionGuild = memberPositionGuild;
         this.dateBegin = dateBegin;

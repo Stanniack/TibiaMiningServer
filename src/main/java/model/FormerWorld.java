@@ -20,7 +20,7 @@ public class FormerWorld implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
-    private Personagem personagem;
+    private Player player;
 
     private String world;
 
@@ -33,14 +33,14 @@ public class FormerWorld implements Serializable {
     public FormerWorld() {
     }
 
-    public FormerWorld(Personagem personagem, String world, Calendar dateBegin) {
-        this.personagem = personagem;
+    public FormerWorld(Player player, String world, Calendar dateBegin) {
+        this.player = player;
         this.world = world;
         this.dateBegin = dateBegin;
     }
 
-    public FormerWorld(Personagem personagem, String world, Calendar dateBegin, Calendar dateLeave) {
-        this.personagem = personagem;
+    public FormerWorld(Player player, String world, Calendar dateBegin, Calendar dateLeave) {
+        this.player = player;
         this.world = world;
         this.dateBegin = dateBegin;
         this.dateEnd = dateLeave;

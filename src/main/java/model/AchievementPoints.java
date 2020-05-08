@@ -20,7 +20,7 @@ public class AchievementPoints implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
-    private Personagem personagem;
+    private Player player;
 
     private Integer achievementPoints;
 
@@ -30,8 +30,8 @@ public class AchievementPoints implements Serializable {
     public AchievementPoints() {
     }
 
-    public AchievementPoints(Personagem personagem, Integer achievmentPoints, Calendar registerDate) {
-        this.personagem = personagem;
+    public AchievementPoints(Player player, Integer achievmentPoints, Calendar registerDate) {
+        this.player = player;
         this.achievementPoints = achievmentPoints;
         this.registerDate = registerDate;
     }

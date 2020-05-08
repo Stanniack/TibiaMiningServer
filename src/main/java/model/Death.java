@@ -18,7 +18,7 @@ public class Death implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
-    private Personagem personagem;
+    private Player player;
 
     /* Altera o tamanho da string no bd */
     @Lob
@@ -29,18 +29,18 @@ public class Death implements Serializable {
     public Death() {
     }
 
-    public Death(Personagem personagem, String deathInfo, String deathDate) {
-        this.personagem = personagem;
+    public Death(Player player, String deathInfo, String deathDate) {
+        this.player = player;
         this.deathInfo = deathInfo;
         this.deathDate = deathDate;
     }
 
-    public Personagem getPersonagem() {
-        return personagem;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setPersonagem(Personagem personagem) {
-        this.personagem = personagem;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public String getDeathInfo() {

@@ -21,7 +21,7 @@ public class FormerName implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idCharacter", nullable = true)
-    private Personagem personagem;
+    private Player player;
 
     private String oldName;
 
@@ -40,8 +40,8 @@ public class FormerName implements Serializable {
         this.dateEnd = dateEnd;
     }
 
-    public FormerName(Personagem personagem, String oldName, Calendar dateBegin, Calendar dateEnd) {
-        this.personagem = personagem;
+    public FormerName(Player player, String oldName, Calendar dateBegin, Calendar dateEnd) {
+        this.player = player;
         this.oldName = oldName;
         this.dateBegin = dateBegin;
         this.dateEnd = dateEnd;
@@ -79,12 +79,12 @@ public class FormerName implements Serializable {
         this.idFormerName = idFormerName;
     }
 
-    public Personagem getPersonagem() {
-        return personagem;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setPersonagem(Personagem personagem) {
-        this.personagem = personagem;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
 }

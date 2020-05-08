@@ -2,7 +2,7 @@ package tibiamining;
 
 import DAO.AbstractDAO;
 import DAO.LevelAdvanceDAO;
-import DAO.PersonagemDAO;
+import DAO.PlayerDAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import model.FormerName;
 import model.Guild;
 import model.House;
 import model.LevelAdvance;
-import model.Personagem;
+import model.Player;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import regrasdenegocio.CheckCharacter;

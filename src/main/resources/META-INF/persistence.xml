@@ -6,7 +6,6 @@
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <!-- Aqui são listadas todas as entidades -->
     <class>model.FormerWorld</class>
-    <class>model.Personagem</class>
     <class>model.AchievementPoints</class>
     <class>model.FormerWorld</class>
     <class>model.Guild</class>
@@ -16,6 +15,7 @@
     <class>model.Death</class>
     <class>model.CharacterSkills</class>
     <class>model.LoyaltyPoints</class>
+    <class>model.Player</class>
     <properties>
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
