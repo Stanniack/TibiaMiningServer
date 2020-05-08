@@ -26,9 +26,7 @@ public class TibiaMining {
 
     public static void main(String[] args) throws IOException {
 
-        for (String name : new LevelAdvanceDAO().listAllPLayerNames()) {
-            new CheckCharacter().discoverCharacter(name);
-        }
+        new CheckRank().checkGlobalRankExperience();
 
     }
 

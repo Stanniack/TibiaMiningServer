@@ -38,10 +38,10 @@ public class Player implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar registerDate;
 
-    /* Data de criação do personagem no Tibia */
+    /* Data de criação do player no Tibia */
     private String dateCreate;
 
-    /* Data que o personagem foi deletado */
+    /* Data que o player foi deletado */
     @Temporal(TemporalType.DATE)
     private Calendar dateDeleted;
     
@@ -53,16 +53,16 @@ public class Player implements Serializable {
     private List<Death> deaths;
 
     /* P.s: usar sistema unidrecional quando as tabelas não forem fortes, usar bidrecional quando for usar cascade */
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FormerWorld> formerWorlds;
 
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AchievementPoints> achievements;
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LevelAdvance> levelAdvances;
 
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Guild> guilds;
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)

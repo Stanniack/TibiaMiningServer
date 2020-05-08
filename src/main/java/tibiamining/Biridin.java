@@ -36,7 +36,7 @@ public class Biridin {
 
             Player p = new PlayerDAO().returnCharacterByName(la.getPlayerName());
 
-            /* Regras de negócio para vincular o LevelAdvance com o char pertencente */
+            /* Vincula L.A com Player*/
             if (p != null) {
                 la.setPlayer(p);
                 new AbstractDAO<>(LevelAdvance.class).update(la);
@@ -44,6 +44,7 @@ public class Biridin {
             } else {
                 FormerName pFN = new PlayerDAO().returnFormerNameByOldName(la.getPlayerName());
 
+                /* Vincula L.A com player que teve seu nome alterado, busca o atual nick */
                 if (pFN != null) {    
                     la.setPlayerName(pFN.getPlayer().getPlayerName());
                     la.setPlayer(pFN.getPlayer());

@@ -14,6 +14,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import utils.WorldsTibiaUtil;
 import model.CharacterSkills;
+import model.FormerName;
 import model.LevelAdvance;
 import model.LoyaltyPoints;
 import model.Player;
@@ -267,7 +268,7 @@ public class CheckRank {
                             k -= INCREMENTOR_SKILLS;
 
                         } catch (NumberFormatException | NoResultException e) {
-                            System.out.println("Erro para: " + e);
+                            System.out.println("Error:: " + e);
                             e.printStackTrace();
 
                         }
@@ -408,7 +409,7 @@ public class CheckRank {
                         k -= INCREMENTOR_SKILLS;
 
                     } catch (NumberFormatException | NoResultException e) {
-                        System.out.println("Erro para: " + e);
+                        System.out.println("Error: " + e);
                         e.printStackTrace();
 
                     }
@@ -437,7 +438,6 @@ public class CheckRank {
     public void checkGlobalRankExperience() {
 
         Long startTime = System.currentTimeMillis();
-        List<LevelAdvance> laList = new ArrayList<>();
         List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
 
         Long serverStartTime = System.currentTimeMillis();
@@ -477,8 +477,8 @@ public class CheckRank {
 
                             /* flag para verificar se precisa vincular L.A com Player */
                             boolean flagUpdate = false;
-                            LevelAdvance la;
-                            
+                            LevelAdvance la = null;
+
                             /* Conversão da exp String-> Long*/
                             String strValue = elementsList.get(k + EXPERIENCE).replace(",", "");
                             Long expValue = Long.valueOf(strValue);
@@ -499,7 +499,6 @@ public class CheckRank {
 
                                     new AbstractDAO<>(LevelAdvance.class).insert(la);
 
-                                    /* Add em uma lista para check posterior */
                                     flagUpdate = true;
 
                                 }
@@ -516,11 +515,28 @@ public class CheckRank {
 
                                 flagUpdate = true;
                             }
-                            
+
                             /* Regra para vincular L.A com Player */
                             if (flagUpdate == true) {
-                                
-                            }
+
+                                Player p = new PlayerDAO().returnCharacterByName(la.getPlayerName());
+
+                                /* Vincula L.A com Player*/
+                                if (p != null) {
+                                    la.setPlayer(p);
+                                    new AbstractDAO<>(LevelAdvance.class).update(la);
+
+                                } else {
+                                    FormerName pFN = new PlayerDAO().returnFormerNameByOldName(la.getPlayerName());
+
+                                    /* Vincula L.A com player que teve seu nome alterado, busca o atual nick */
+                                    if (pFN != null) {
+                                        la.setPlayerName(pFN.getPlayer().getPlayerName());
+                                        la.setPlayer(pFN.getPlayer());
+                                        new AbstractDAO<>(LevelAdvance.class).update(la);
+                                    }
+                                }
+                            } // fim if flag
 
                         } // for personagens da página
 
@@ -530,7 +546,7 @@ public class CheckRank {
                         k -= INCREMENTOR_SKILLS;
 
                     } catch (IOException | NumberFormatException | NoResultException e) {
-                        System.out.println("Erro para: " + e);
+                        System.out.println("Checkrank EXP error: " + e);
                         e.printStackTrace();
 
                     }
@@ -553,13 +569,6 @@ public class CheckRank {
         System.out.println("O tempo total para minerar todos  os servidores foi de "
                 + ((serverFinalTime - serverStartTime) / 1000)
                 + " segundos");
-
-        this.updateDatabase(laList);
-
-    }
-
-    /* Comentário */
-    private void updateDatabase(List<LevelAdvance> list) {
 
     }
 
