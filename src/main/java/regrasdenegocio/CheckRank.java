@@ -435,9 +435,10 @@ public class CheckRank {
 
     }
 
-    public void checkGlobalRankExperience() {
+    public List<LevelAdvance> checkGlobalRankExperience() {
 
         Long startTime = System.currentTimeMillis();
+        List<LevelAdvance> laList = new ArrayList<>();
         List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
 
         Long serverStartTime = System.currentTimeMillis();
@@ -536,6 +537,10 @@ public class CheckRank {
                                         new AbstractDAO<>(LevelAdvance.class).update(la);
                                     }
                                 }
+                                
+                                /* Adiciona o L.A capturado */
+                                laList.add(la);
+                                
                             } // fim if flag
 
                         } // for personagens da página
@@ -570,6 +575,7 @@ public class CheckRank {
                 + ((serverFinalTime - serverStartTime) / 1000)
                 + " segundos");
 
+        return laList;
     }
 
 }
