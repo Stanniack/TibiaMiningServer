@@ -2,13 +2,14 @@ package DAO;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import model.LevelAdvance;
 import utils.JPAUtil;
 
 public class LevelAdvanceDAO {
 
-    public List<String> listAllPLayerNames() {
+    public List<String> listAllPlayerNames() {
 
         EntityManager em = JPAUtil.getInstance();
 
@@ -21,8 +22,6 @@ public class LevelAdvanceDAO {
 
         return list;
     }
-    
-    
 
     public LevelAdvance returnLastRegisterDESC(String name) {
 
@@ -33,7 +32,38 @@ public class LevelAdvanceDAO {
         query.setParameter("pName", name);
         query.setMaxResults(1);
 
-        LevelAdvance obj = query.getSingleResult();
+        LevelAdvance obj = null;
+        
+        try {
+            obj = query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+        }
+
+        em.close();
+
+        return obj;
+    }
+    
+    public LevelAdvance returnLastRegisterDESC(int id) {
+
+        EntityManager em = JPAUtil.getInstance();
+        String jpql = "SELECT t FROM LevelAdvance t WHERE idCharacter = :pId order by idLevelAdvance DESC";
+
+        TypedQuery<LevelAdvance> query = em.createQuery(jpql, LevelAdvance.class);
+        query.setParameter("pId", id);
+        query.setMaxResults(1);
+
+        LevelAdvance obj = null;
+        
+        try {
+            obj = query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+        }
+
         em.close();
 
         return obj;
