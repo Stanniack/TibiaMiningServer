@@ -19,10 +19,9 @@ public class LoyaltyPoints implements Serializable {
     private Integer idLoyaltyPoints;
 
     private Integer loyaltyPoints;
-    private String playerName;
 
     @Temporal(TemporalType.DATE)
-    private Calendar lastUpdate;
+    private Calendar registerDate;
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
@@ -33,21 +32,7 @@ public class LoyaltyPoints implements Serializable {
 
     public LoyaltyPoints(Player player, Integer loyaltyPoints, Calendar registerDate) {
         this.loyaltyPoints = loyaltyPoints;
-        this.lastUpdate = registerDate;
-        this.player = player;
-    }
-
-    public LoyaltyPoints(Integer loyaltyPoints, String playerName, Calendar lastUpdate) {
-        this.loyaltyPoints = loyaltyPoints;
-        this.playerName = playerName;
-        this.lastUpdate = lastUpdate;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
+        this.registerDate = registerDate;
         this.player = player;
     }
 
@@ -67,20 +52,12 @@ public class LoyaltyPoints implements Serializable {
         this.loyaltyPoints = loyaltyPoints;
     }
 
-    public Calendar getLastUpdate() {
-        return lastUpdate;
+    public Calendar getRegisterDate() {
+        return registerDate;
     }
 
-    public void setLastUpdate(Calendar lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+    public void setRegisterDate(Calendar registerDate) {
+        this.registerDate = registerDate;
     }
 
 }

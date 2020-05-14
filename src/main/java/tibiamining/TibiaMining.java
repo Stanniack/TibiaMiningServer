@@ -24,17 +24,15 @@ import org.jsoup.nodes.Document;
 import regrasdenegocio.CheckCharacter;
 import regrasdenegocio.CheckRank;
 import utils.DateUtil;
-import utils.PopDatabaseUtil;
 import utils.WorldsTibiaUtil;
 
 public class TibiaMining {
 
     public static void main(String[] args) throws IOException {
-
-        List<String> elementsList = Arrays.asList("1", "Creisim", "Elder Druid", "941", "102");
-
-        new CheckRank().checkGlobalRankExperience(elementsList);
-
+        
+        
+        System.out.println(DateUtil.sameDate(Calendar.getInstance()
+                , new AbstractDAO<>(LevelAdvance.class).returnObjectById(1).getLastUpdate()));
     }
 
 }

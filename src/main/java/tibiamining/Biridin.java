@@ -28,7 +28,7 @@ public class Biridin {
 
     public static void main(String[] args) throws IOException {
         
-        new CheckRank().checkGlobalRankExperience();
+        PopDatabaseUtil.popPlayersByExpRank();
     }
 
 }

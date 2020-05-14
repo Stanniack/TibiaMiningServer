@@ -2,7 +2,6 @@ package regrasdenegocio;
 
 import DAO.AbstractDAO;
 import DAO.LevelAdvanceDAO;
-import DAO.LoyaltyPointsDAO;
 import DAO.PlayerDAO;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -63,7 +62,7 @@ public class CheckRank {
 
             Long serverStartTime = System.currentTimeMillis();
 
-            for (int i = 0; i < worlds.size(); i++) {
+            for (int i = 0; i < WorldsTibiaUtil.getWorldsTibia().size(); i++) {
 
                 Long worldStartTime = System.currentTimeMillis();
 
@@ -303,15 +302,14 @@ public class CheckRank {
 
     }
 
-    public List<LoyaltyPoints> checkGlobalRankLoyalty() {
+    public void checkGlobalRankLoyalty() {
 
         Long startTime = System.currentTimeMillis();
         List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
-        List<LoyaltyPoints> lpList = new ArrayList<>();
 
         Long serverStartTime = System.currentTimeMillis();
 
-        for (int i = 0; i < worlds.size(); i++) {
+        for (int i = 0; i < WorldsTibiaUtil.getWorldsTibia().size(); i++) {
 
             Long worldStartTime = System.currentTimeMillis();
 
@@ -330,82 +328,79 @@ public class CheckRank {
 
                         Document htmlContent = Jsoup.connect(url).get();
                         List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
+                        Player p;
 
                         for (k = CONTENT_START_LOYALTY; k < elementsList.size() - TRASH_ELIMINATOR_LOYALTY; k += INCREMENTOR_LOYALTY) {
 
-                            LoyaltyPoints lp0 = null;
+                            /* Busca último nick do personagem */
+                            List<Object> objects = new CheckCharacter().getNick(elementsList.get(k + NAME));
 
-                            try {
+                            /* !(Char deletado ou não existe ou a net caiu) */
+                            if (objects != null) {
 
-                                /* Busca último registro */
-                                lp0 = new LoyaltyPointsDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
+                                String lastNick = objects.get(LAST_NICK).toString();
+                                List<String> lastNickElementsList = (List<String>) objects.get(ELEMENTS_LIST);
 
-                            } catch (NoResultException e) {
+                                Long isRegistered = new AbstractDAO<>(Player.class)
+                                        .countRegistersByName(elementsList.get(k + NAME));
 
-                            }
+                                /* Nick trocado e char não existe no BD */
+                                if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
-                            boolean flagUpdate = false;
-                            LoyaltyPoints lp = null;
+                                    new CheckCharacter().discoverCharacter(lastNickElementsList);
+                                    p = new PlayerDAO().returnCharacterByName(lastNick);
 
-                            /* Conversão da exp String-> Long*/
-                            String strValue = elementsList.get(k + LOYALTY).replace(",", "");
-                            Integer loyaltyValue = Integer.valueOf(strValue);
+                                    /* Nick trocado e char exite no BD */
+                                } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
 
-                            /* Não é o primeiro registro */
-                            if (lp0 != null) {
+                                    new CheckCharacter()
+                                            .updateCharacter(lastNick, lastNickElementsList);
+                                    p = new PlayerDAO().returnCharacterByName(lastNick);
 
-                                /* Esse if só faz ter um update por dia */
-                                if (DateUtil.sameDate(Calendar.getInstance(), lp0.getLastUpdate()) != true
-                                        && !Objects.equals(lp0.getLoyaltyPoints(), loyaltyValue)) {
+                                    /* Nick não foi trocado e char não existe no BD */
+                                } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
 
-                                    lp = new LoyaltyPoints(
-                                            loyaltyValue,
-                                            elementsList.get(k + NAME),
-                                            Calendar.getInstance());
+                                    new CheckCharacter().discoverCharacter(lastNickElementsList);
+                                    p = new PlayerDAO().returnCharacterByName(elementsList.get(k + NAME));
+
+                                    /* Nick não foi trocado e char existe no BD */
+                                } else {
+                                    p = new PlayerDAO().returnCharacterByName(elementsList.get(k + NAME));
+
+                                }
+
+                                Long register = new AbstractDAO<>(LoyaltyPoints.class)
+                                        .countRegistersById(p.getIdCharacter());
+
+                                /* Se tiver registro */
+                                if (register > 0) {
+
+                                    LoyaltyPoints lp0 = new AbstractDAO<>(LoyaltyPoints.class)
+                                            .returnLastRegisterDESC(p.getIdCharacter(), "idLoyaltyPoints");
+
+                                    String strValue = elementsList.get(k + LOYALTY).replace(",", "");
+                                    Integer loyaltyValue = Integer.valueOf(strValue);
+
+                                    if (!lp0.getLoyaltyPoints().equals(loyaltyValue)) {
+
+                                        LoyaltyPoints lp = new LoyaltyPoints(p, loyaltyValue, Calendar.getInstance());
+
+                                        new AbstractDAO<>(LoyaltyPoints.class).insert(lp);
+
+                                    }
+
+                                    /* Então é o primeiro registro */
+                                } else {
+
+                                    String strValue = elementsList.get(k + LOYALTY).replace(",", "");
+                                    Integer loyaltyValue = Integer.valueOf(strValue);
+
+                                    LoyaltyPoints lp = new LoyaltyPoints(p, loyaltyValue, Calendar.getInstance());
 
                                     new AbstractDAO<>(LoyaltyPoints.class).insert(lp);
-
-                                    flagUpdate = true;
-
                                 }
 
-                            } else {
-
-                                lp = new LoyaltyPoints(
-                                        loyaltyValue,
-                                        elementsList.get(k + NAME),
-                                        Calendar.getInstance());
-
-                                new AbstractDAO<>(LoyaltyPoints.class).insert(lp);
-
-                                flagUpdate = true;
                             }
-
-                            /* Regra para vincular L.A com Player */
-                            if (flagUpdate == true) {
-
-                                Player p = new PlayerDAO().returnCharacterByName(lp.getPlayerName());
-
-                                /* Vincula L.A com Player*/
-                                if (p != null) {
-                                    lp.setPlayer(p);
-                                    new AbstractDAO<>(LoyaltyPoints.class).update(lp);
-
-                                } else {
-                                    FormerName pFN = new PlayerDAO().returnFormerNameByOldName(lp.getPlayerName());
-
-                                    /* Vincula L.A com player que teve seu nome alterado, busca o atual nick */
-                                    if (pFN != null) {
-                                        lp.setPlayerName(pFN.getPlayer().getPlayerName());
-                                        lp.setPlayer(pFN.getPlayer());
-                                        new AbstractDAO<>(LoyaltyPoints.class).update(lp);
-                                    }
-                                }
-
-                                /* Adiciona o L.A capturado */
-                                lpList.add(lp);
-
-                            } // fim if flag
 
                         } // for personagens da página
 
@@ -439,7 +434,6 @@ public class CheckRank {
                 + ((serverFinalTime - serverStartTime) / 1000)
                 + " segundos");
 
-        return lpList;
     }
 
     public List<LevelAdvance> checkGlobalRankExperience() {
@@ -469,11 +463,19 @@ public class CheckRank {
 
                         Document htmlContent = Jsoup.connect(url).get();
                         List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
-                        System.out.println(elementsList.toString());
 
                         for (k = CONTENT_START_EXP; k < elementsList.size() - TRASH_ELIMINATOR_EXP; k += INCREMENTOR_EXP) {
 
-                            LevelAdvance la0 = new LevelAdvanceDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
+                            LevelAdvance la0 = null;
+
+                            try {
+
+                                /* Busca último registro */
+                                la0 = new LevelAdvanceDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
+
+                            } catch (NoResultException e) {
+
+                            }
 
                             /* flag para verificar se precisa vincular L.A com Player */
                             boolean flagUpdate = false;
@@ -536,21 +538,21 @@ public class CheckRank {
                                         new AbstractDAO<>(LevelAdvance.class).update(la);
                                     }
                                 }
-
+                                
                                 /* Adiciona o L.A capturado */
                                 laList.add(la);
-
+                                
                             } // fim if flag
 
                         } // for personagens da página
 
-                    } catch (IOException e) {
+                    } catch (UnknownHostException e) {
                         /* Volta no índice que deu hostexception */
                         j--;
                         k -= INCREMENTOR_SKILLS;
 
-                    } catch (NumberFormatException | NoResultException e) {
-                        System.out.println("Error: " + e);
+                    } catch (IOException | NumberFormatException | NoResultException e) {
+                        System.out.println("Checkrank EXP error: " + e);
                         e.printStackTrace();
 
                     }
@@ -573,103 +575,6 @@ public class CheckRank {
         System.out.println("O tempo total para minerar todos  os servidores foi de "
                 + ((serverFinalTime - serverStartTime) / 1000)
                 + " segundos");
-
-        return laList;
-    }
-
-    public List<LevelAdvance> checkGlobalRankExperience(List<String> elementsList) {
-
-        List<LevelAdvance> laList = new ArrayList<>();
-
-        int j = 2;
-
-        for (j = FIRST_PAGE; j <= LAST_PAGE; j++) {
-            int k = 17;
-
-            try {
-
-                for (k = 0; k < elementsList.size(); k += INCREMENTOR_EXP) {
-
-                    LevelAdvance la0 = new LevelAdvanceDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
-
-                    /* flag para verificar se precisa vincular L.A com Player */
-                    boolean flagUpdate = false;
-                    LevelAdvance la = null;
-
-                    /* Conversão da exp String-> Long*/
-                    String strValue = elementsList.get(k + EXPERIENCE).replace(",", "");
-                    Long expValue = Long.valueOf(strValue);
-
-                    /* Não é o primeiro registro */
-                    if (la0 != null) {
-
-                        /* Esse if só faz ter um update por dia */
-                        if (DateUtil.sameDate(Calendar.getInstance(), la0.getLastUpdate()) != true
-                                && (!String.valueOf(la0.getLevelDay()).equals(elementsList.get(k + LEVEL))
-                                || !Objects.equals(la0.getExpDay(), expValue))) {
-
-                            la = new LevelAdvance(
-                                    expValue,
-                                    Integer.valueOf(elementsList.get(k + LEVEL)),
-                                    elementsList.get(k + NAME),
-                                    Calendar.getInstance());
-
-                            new AbstractDAO<>(LevelAdvance.class).insert(la);
-
-                            flagUpdate = true;
-
-                        }
-
-                    } else {
-
-                        la = new LevelAdvance(
-                                expValue,
-                                Integer.valueOf(elementsList.get(k + LEVEL)),
-                                elementsList.get(k + NAME),
-                                Calendar.getInstance());
-
-                        new AbstractDAO<>(LevelAdvance.class).insert(la);
-
-                        flagUpdate = true;
-                    }
-
-                    /* Regra para vincular L.A com Player */
-                    if (flagUpdate == true) {
-
-                        Player p = new PlayerDAO().returnCharacterByName(la.getPlayerName());
-
-                        /* Vincula L.A com Player*/
-                        if (p != null) {
-                            la.setPlayer(p);
-                            new AbstractDAO<>(LevelAdvance.class).update(la);
-
-                            /* Player não existe ou não foi atualizado */
-                        } else {
-
-                            FormerName pFN = new PlayerDAO().returnFormerNameByOldName(la.getPlayerName());
-
-                            /* Vincula L.A com player que teve seu nome alterado, busca o atual nick */
-                            if (pFN != null) {
-                                la.setPlayerName(pFN.getPlayer().getPlayerName());
-                                la.setPlayer(pFN.getPlayer());
-                                new AbstractDAO<>(LevelAdvance.class).update(la);
-                            }
-                        }
-
-                        /* Adiciona o L.A capturado */
-                        laList.add(la);
-
-                    } // fim if flag
-
-                } // for personagens da página
-
-            } catch (NumberFormatException | NoResultException e) {
-                System.out.println("Checkrank EXP error: " + e);
-                e.printStackTrace();
-
-            }
-
-        } // for das páginas
 
         return laList;
     }
