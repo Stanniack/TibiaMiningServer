@@ -529,14 +529,7 @@ public class CheckRank {
                                     new AbstractDAO<>(LevelAdvance.class).update(la);
 
                                 } else {
-                                    FormerName pFN = new PlayerDAO().returnFormerNameByOldName(la.getPlayerName());
-
-                                    /* Vincula L.A com player que teve seu nome alterado, busca o atual nick */
-                                    if (pFN != null) {
-                                        la.setPlayerName(pFN.getPlayer().getPlayerName());
-                                        la.setPlayer(pFN.getPlayer());
-                                        new AbstractDAO<>(LevelAdvance.class).update(la);
-                                    }
+                                    
                                 }
                                 
                                 /* Adiciona o L.A capturado */
