@@ -7,6 +7,7 @@ import model.FormerName;
 import model.LevelAdvance;
 import model.LoyaltyPoints;
 import model.Player;
+import model.PlayerSkills;
 import regrasdenegocio.CheckCharacter;
 import regrasdenegocio.CheckRank;
 
@@ -56,15 +57,6 @@ public class PopDatabaseUtil {
                     lp.setPlayer(p);
                     new AbstractDAO<>(LoyaltyPoints.class).update(lp);
 
-                } else {
-                    FormerName pFN = new PlayerDAO().returnFormerNameByOldName(lp.getPlayerName());
-
-                    /* Vincula L.P com player que teve seu nome alterado, busca o atual nick */
-                    if (pFN != null) {
-                        lp.setPlayerName(pFN.getPlayer().getPlayerName());
-                        lp.setPlayer(pFN.getPlayer());
-                        new AbstractDAO<>(LoyaltyPoints.class).update(lp);
-                    }
                 }
             }
         }
@@ -72,7 +64,25 @@ public class PopDatabaseUtil {
     }
 
     public static void popPlayersBySkillsRank() {
+        List<PlayerSkills> list = new CheckRank().checkGlobalRankSkills();
 
+        for (PlayerSkills ps : list) {
+            Long register = new AbstractDAO<>(Player.class).countRegistersByName(ps.getPlayerName());
+
+            /* Se não existir, captura o player */
+            if (register == 0) {
+                new CheckCharacter().discoverCharacter(ps.getPlayerName());
+
+                Player p = new PlayerDAO().returnCharacterByName(ps.getPlayerName());
+
+                /* Vincula L.P com Player*/
+                if (p != null) {
+                    ps.setPlayer(p);
+                    new AbstractDAO<>(PlayerSkills.class).update(ps);
+
+                }
+            }
+        }
     }
 
     /* - Problema ocorre ao procurar o lastRegister - : 
