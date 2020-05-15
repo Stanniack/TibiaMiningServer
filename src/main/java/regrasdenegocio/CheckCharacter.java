@@ -48,13 +48,11 @@ public class CheckCharacter {
             Elements chosenElements = document.getElementsByClass("Content");
             elementsList = chosenElements.get(0).getElementsByTag("td").eachText();
 
-
             /* Se não existe o char, retorna null */
-            if (elementsList.get(0).toLowerCase().equals("could not find character:")) {
+            if (elementsList.get(0).toLowerCase().equals("could not find character")) {
                 return null;
 
             } else {
-
                 /* Se o char existir, inicia as chamadas do banco */
                 player = new Player();
                 Player p = new Player();
@@ -513,12 +511,16 @@ public class CheckCharacter {
             elementsList = chosenElements.get(0).getElementsByTag("td").eachText();
 
             /* Se não existe o char, char foi deletado */
-            if (elementsList.get(0).toLowerCase().equals("could not find character:")) {
+            if (elementsList.get(0).toLowerCase().equals("could not find character")) {
 
+                System.out.println("entra aqui");
                 player = new PlayerDAO().returnCharacterByName(name);
-                player.setIsDeleted(true);
-                player.setDateDeleted(Calendar.getInstance());
-                new AbstractDAO<>(Player.class).update(player);
+
+                if (player != null) {
+                    player.setIsDeleted(true);
+                    player.setDateDeleted(Calendar.getInstance());
+                    new AbstractDAO<>(Player.class).update(player);
+                }
 
                 return null;
 

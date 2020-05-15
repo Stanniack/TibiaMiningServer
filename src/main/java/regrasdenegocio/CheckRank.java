@@ -61,20 +61,20 @@ public class CheckRank {
         List<String> skills = SkillsTibiaUtil.getSkillsTibia();
         List<PlayerSkills> psList = new ArrayList<>();
 
-        for (int x = 0; x < SkillsTibiaUtil.getSkillsTibia().size(); x++) {
+        for (int x = 0; x < 1; x++) {
 
             Long serverStartTime = System.currentTimeMillis();
 
-            for (int i = 0; i < worlds.size(); i++) {
+            for (int i = 0; i < 1; i++) {
 
                 Long worldStartTime = System.currentTimeMillis();
 
-                for (int n = 1; n <= PROFESSION; n++) {
+                for (int n = 1; n <= 1; n++) {
 
                     Long professionStartTime = System.currentTimeMillis();
                     int j = 2;
 
-                    for (j = FIRST_PAGE; j <= LAST_PAGE; j++) {
+                    for (j = FIRST_PAGE; j <= 1; j++) {
                         int k = 17;
 
                         try {
@@ -87,6 +87,7 @@ public class CheckRank {
 
                             for (k = CONTENT_START_SKILLS; k < elementsList.size() - TRASH_ELIMINATOR_SKILLS; k += INCREMENTOR_SKILLS) {
 
+                                System.out.println(elementsList.get(k + NAME));
                                 PlayerSkills ps0 = new PlayerSkillsDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
 
                                 PlayerSkills ps = new PlayerSkills();
@@ -213,15 +214,20 @@ public class CheckRank {
                                         break;
                                 }
 
-                                /* Regra para vincular L.A com Player */
+                                /*  */
+                                boolean flagUpdate2 = false;
+                                
+                                /* Regra para vincular P.S com Player */
                                 if (flagUpdate == true) {
 
                                     Player player = new PlayerDAO().returnCharacterByName(ps.getPlayerName());
 
                                     /* Player existe no bd - vincula L.A ao player */
                                     if (player != null) {
+                                        
                                         ps.setPlayer(player);
                                         new AbstractDAO<>(PlayerSkills.class).insert(ps);
+                                        flagUpdate2 = true;
 
                                         /* Player não existe ou não foi atualizado */
                                     } else {
@@ -237,9 +243,11 @@ public class CheckRank {
 
                                                 /* Char trocou de nick e não foi atualizado */
                                                 if (playerRank != null) {
+                                                    
                                                     ps.setPlayer(playerRank);
                                                     new AbstractDAO<>(PlayerSkills.class).insert(ps);
-
+                                                    flagUpdate2 = true;
+                                                    
                                                     /* Achou o nick no bd, pare o código*/
                                                     break;
                                                 }
@@ -249,6 +257,10 @@ public class CheckRank {
 
                                     }
 
+//                                    if (flagUpdate2 == false) {
+//                                        new AbstractDAO<>(PlayerSkills.class).insert(ps);
+//                                    }
+                                    
                                     /* Adiciona o L.A capturado */
                                     psList.add(ps);
 
@@ -459,7 +471,6 @@ public class CheckRank {
 
                             } else {
 
-                                System.out.println("N entra aqui");
                                 lp = new LoyaltyPoints(
                                         loyaltyValue,
                                         elementsList.get(k + NAME),

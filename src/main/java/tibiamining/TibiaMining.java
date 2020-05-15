@@ -30,7 +30,8 @@ import utils.WorldsTibiaUtil;
 public class TibiaMining {
 
     public static void main(String[] args) {
-        PopDatabaseUtil.popPlayersByLoyaltyRank();
+//        PopDatabaseUtil.popPlayersBySkillsRank();
+        new CheckCharacter().updateCharacter("sASDSSADAS");
 
     }
 
