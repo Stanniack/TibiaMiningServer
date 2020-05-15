@@ -12,19 +12,20 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class CharacterSkills implements Serializable {
+public class PlayerSkills implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCharacterSkills;
+    private Integer idPlayerSkills;
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)
     private Player player;
 
     @Temporal(TemporalType.DATE)
-    private Calendar registerDate;
+    private Calendar lastUpdate;
 
+    private String playerName;
     private int axeFighting;
     private int clubFighting;
     private int distanceFighting;
@@ -35,10 +36,11 @@ public class CharacterSkills implements Serializable {
     private int shielding;
     private int swordFighting;
 
-    public CharacterSkills() {
+    public PlayerSkills() {
     }
 
-    public CharacterSkills(int axeFighting, int clubFighting, int distanceFighting, int fishing, int fistFighting, int loyaltyPoints, int magicLevel, int shielding, int swordFighting) {
+    public PlayerSkills(String playerName, int axeFighting, int clubFighting, int distanceFighting, int fishing, int fistFighting, int loyaltyPoints, int magicLevel, int shielding, int swordFighting) {
+        this.playerName = playerName;
         this.axeFighting = axeFighting;
         this.clubFighting = clubFighting;
         this.distanceFighting = distanceFighting;
@@ -50,12 +52,12 @@ public class CharacterSkills implements Serializable {
         this.swordFighting = swordFighting;
     }
 
-    public Integer getIdCharacterSkills() {
-        return idCharacterSkills;
+    public Integer getIdPlayerSkills() {
+        return idPlayerSkills;
     }
 
-    public void setIdCharacterSkills(Integer idCharacterSkills) {
-        this.idCharacterSkills = idCharacterSkills;
+    public void setIdPlayerSkills(Integer idPlayerSkills) {
+        this.idPlayerSkills = idPlayerSkills;
     }
 
     public Player getPlayer() {
@@ -130,12 +132,12 @@ public class CharacterSkills implements Serializable {
         this.swordFighting = swordFighting;
     }
 
-    public Calendar getRegisterDate() {
-        return registerDate;
+    public Calendar getLastUpdate() {
+        return lastUpdate;
     }
 
-    public void setRegisterDate(Calendar registerDate) {
-        this.registerDate = registerDate;
+    public void setLastUpdate(Calendar lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     public int getFistFighting() {
@@ -144,6 +146,14 @@ public class CharacterSkills implements Serializable {
 
     public void setFistFighting(int fistFighting) {
         this.fistFighting = fistFighting;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
 }

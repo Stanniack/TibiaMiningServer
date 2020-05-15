@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tibiamining;
 
 import DAO.AbstractDAO;
@@ -28,13 +23,6 @@ public class Biridin {
 
     public static void main(String[] args) throws IOException {
 
-        //List<Integer> list = new LevelAdvanceDAO().returnAllIds();
-
-        //System.out.println(list.toString());
-        
-        for (LevelAdvance la : new LevelAdvanceDAO().returnAllRegisterById(1)) {
-            System.out.println();
-        }
     }
 
 }

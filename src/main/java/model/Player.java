@@ -69,7 +69,7 @@ public class Player implements Serializable {
     private List<House> houses;
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CharacterSkills> ranking;
+    private List<PlayerSkills> ranking;
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FormerName> formerNames;
@@ -167,11 +167,11 @@ public class Player implements Serializable {
         this.houses = houses;
     }
 
-    public List<CharacterSkills> getRanking() {
+    public List<PlayerSkills> getRanking() {
         return ranking;
     }
 
-    public void setRanking(List<CharacterSkills> ranking) {
+    public void setRanking(List<PlayerSkills> ranking) {
         this.ranking = ranking;
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
-import model.CharacterSkills;
+import model.PlayerSkills;
 import model.FormerName;
 import model.Guild;
 import model.House;
@@ -30,9 +30,7 @@ public class TibiaMining {
 
     public static void main(String[] args) throws IOException {
 
-        List<String> elementsList = Arrays.asList("1", "Creisim", "Elder Druid", "941", "102");
-
-        new CheckRank().checkGlobalRankExperience(elementsList);
+       
     }
 
 }

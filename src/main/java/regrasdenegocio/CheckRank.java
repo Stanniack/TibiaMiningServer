@@ -4,6 +4,7 @@ import DAO.AbstractDAO;
 import DAO.LevelAdvanceDAO;
 import DAO.LoyaltyPointsDAO;
 import DAO.PlayerDAO;
+import DAO.PlayerSkillsDAO;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import javax.persistence.NoResultException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import utils.WorldsTibiaUtil;
-import model.CharacterSkills;
+import model.PlayerSkills;
 import model.FormerName;
 import model.LevelAdvance;
 import model.LoyaltyPoints;
@@ -53,11 +54,12 @@ public class CheckRank {
     private static final int LAST_NICK = 1;
     private static final int ELEMENTS_LIST = 0;
 
-    public void checkGlobalRankSkills() {
+    public List<PlayerSkills> checkGlobalRankSkills() {
 
         Long startTime = System.currentTimeMillis();
         List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
         List<String> skills = SkillsTibiaUtil.getSkillsTibia();
+        List<PlayerSkills> psList = new ArrayList<>();
 
         for (int x = 0; x < SkillsTibiaUtil.getSkillsTibia().size(); x++) {
 
@@ -82,185 +84,175 @@ public class CheckRank {
 
                             Document htmlContent = Jsoup.connect(url).get();
                             List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
-                            Player p;
 
                             for (k = CONTENT_START_SKILLS; k < elementsList.size() - TRASH_ELIMINATOR_SKILLS; k += INCREMENTOR_SKILLS) {
 
-                                /* Busca último nick do personagem */
-                                List<Object> objects = new CheckCharacter().getNick(elementsList.get(k + NAME));
+                                PlayerSkills ps0 = new PlayerSkillsDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
 
-                                /* !(Char deletado ou não existe ou a net caiu) */
-                                if (objects != null) {
+                                PlayerSkills ps = new PlayerSkills();
 
-                                    String lastNick = objects.get(LAST_NICK).toString();
-                                    List<String> lastNickElementsList = (List<String>) objects.get(ELEMENTS_LIST);
+                                boolean flagUpdate = false;
 
-                                    Long isRegistered = new AbstractDAO<>(Player.class)
-                                            .countRegistersByName(elementsList.get(k + NAME));
+                                /* Não é o primeiro registro */
+                                if (ps0 != null) {
 
-                                    /* Nick trocado e char não existe no BD */
-                                    if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
-
-                                        new CheckCharacter().discoverCharacter(lastNickElementsList);
-                                        p = new PlayerDAO().returnCharacterByName(lastNick);
-
-                                        /* Nick trocado e char exite no BD */
-                                    } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
-
-                                        new CheckCharacter()
-                                                .updateCharacter(lastNick, lastNickElementsList);
-                                        p = new PlayerDAO().returnCharacterByName(lastNick);
-
-                                        /* Nick não foi trocado e char não existe no BD */
-                                    } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
-
-                                        new CheckCharacter().discoverCharacter(lastNickElementsList);
-                                        p = new PlayerDAO().returnCharacterByName(elementsList.get(k + NAME));
-
-                                        /* Nick não foi trocado e char existe no BD */
-                                    } else {
-                                        p = new PlayerDAO().returnCharacterByName(elementsList.get(k + NAME));
-
-                                    }
-
-                                    Long register = new AbstractDAO<>(CharacterSkills.class)
-                                            .countRegistersById(p.getIdCharacter());
-                                    CharacterSkills cs0;
-                                    CharacterSkills cs = new CharacterSkills();
-
-
-                                    /* Se tiver registro */
-                                    if (register > 0) {
-
-                                        cs0 = new AbstractDAO<>(CharacterSkills.class)
-                                                .returnLastRegisterDESC(p.getIdCharacter(), "registerDate");
-
-                                        /* Transfere todos os outros skills do registro anterior para o novo registro 
+                                    /* Transfere todos os outros skills do registro anterior para o novo registro 
                                              * Isso serve para caso um char esteja em mais de 1 ranking score */
-                                        cs = new CharacterSkills(
-                                                cs0.getAxeFighting(),
-                                                cs0.getClubFighting(),
-                                                cs0.getDistanceFighting(),
-                                                cs0.getFishing(),
-                                                cs0.getFistFighting(),
-                                                cs0.getLoyaltyPoints(),
-                                                cs0.getMagicLevel(),
-                                                cs0.getShielding(),
-                                                cs0.getSwordFighting()
-                                        );
+                                    ps = new PlayerSkills(
+                                            ps0.getPlayerName(),
+                                            ps0.getAxeFighting(),
+                                            ps0.getClubFighting(),
+                                            ps0.getDistanceFighting(),
+                                            ps0.getFishing(),
+                                            ps0.getFistFighting(),
+                                            ps0.getLoyaltyPoints(),
+                                            ps0.getMagicLevel(),
+                                            ps0.getShielding(),
+                                            ps0.getSwordFighting()
+                                    );
 
-                                        /* Então é o primeiro registro */
+                                } else {
+
+                                    ps0 = new PlayerSkills();
+
+                                    /* Coloca o nick do char dono */
+                                    ps.setPlayerName(elementsList.get(k + NAME));
+                                }
+
+                                /* Regras de negócio para cada skill */
+                                switch (skills.get(x).toLowerCase()) {
+
+                                    case "axe":
+
+                                        /* Se a skill se alterou */
+                                        if (!elementsList.get(k + POINTS).equals(String.valueOf(ps0.getAxeFighting()))) {
+                                            ps.setAxeFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+                                            flagUpdate = true;
+                                        }
+
+                                        break;
+
+                                    case "club":
+
+                                        /* Se a skill se alterou */
+                                        if (!elementsList.get(k + POINTS).equals(String.valueOf(ps0.getClubFighting()))) {
+                                            ps.setClubFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+                                            flagUpdate = true;
+
+                                        }
+
+                                        break;
+
+                                    case "distance":
+
+                                        /* Se a skill se alterou */
+                                        if (!elementsList.get(k + POINTS).equals(String.valueOf(ps0.getDistanceFighting()))) {
+                                            ps.setDistanceFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+                                            flagUpdate = true;
+
+                                        }
+
+                                        break;
+
+                                    case "fishing":
+
+                                        /* Se a skill se alterou */
+                                        if (!elementsList.get(k + POINTS).equals(String.valueOf(ps0.getFishing()))) {
+                                            ps.setFishing(Integer.valueOf(elementsList.get(k + POINTS)));
+                                            flagUpdate = true;
+
+                                        }
+
+                                        break;
+
+                                    case "fist":
+
+                                        /* Se a skill se alterou */
+                                        if (!elementsList.get(k + POINTS).equals(String.valueOf(ps0.getFistFighting()))) {
+                                            ps.setFistFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+                                            flagUpdate = true;
+
+                                        }
+
+                                        break;
+
+                                    case "magic":
+
+                                        /* Se a skill se alterou */
+                                        if (!elementsList.get(k + POINTS).equals(String.valueOf(ps0.getMagicLevel()))) {
+                                            ps.setMagicLevel(Integer.valueOf(elementsList.get(k + POINTS)));
+                                            flagUpdate = true;
+
+                                        }
+
+                                        break;
+
+                                    case "shielding":
+
+                                        /* Se a skill se alterou */
+                                        if (!elementsList.get(k + POINTS).equals(String.valueOf(ps0.getShielding()))) {
+                                            ps.setShielding(Integer.valueOf(elementsList.get(k + POINTS)));
+                                            flagUpdate = true;
+
+                                        }
+
+                                        break;
+
+                                    case "sword":
+
+                                        /* Se a skill se alterou */
+                                        if (!elementsList.get(k + POINTS).equals(String.valueOf(ps0.getSwordFighting()))) {
+                                            ps.setSwordFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+                                            flagUpdate = true;
+
+                                        }
+
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                /* Regra para vincular L.A com Player */
+                                if (flagUpdate == true) {
+
+                                    Player player = new PlayerDAO().returnCharacterByName(ps.getPlayerName());
+
+                                    /* Player existe no bd - vincula L.A ao player */
+                                    if (player != null) {
+                                        ps.setPlayer(player);
+                                        new AbstractDAO<>(PlayerSkills.class).insert(ps);
+
+                                        /* Player não existe ou não foi atualizado */
                                     } else {
 
-                                        cs0 = new CharacterSkills();
-                                        cs0.setPlayer(p);
-                                        new AbstractDAO<>(CharacterSkills.class).insert(cs0);
+                                        /* procura os former names do nick no bd */
+                                        List<String> fns = new CheckCharacter().getFormerNames(ps.getPlayerName());
+
+                                        /* Se não tiver former names, o char não existe */
+                                        if (fns != null) {
+
+                                            for (String nick : fns) {
+                                                Player playerRank = new PlayerDAO().returnCharacterByName(nick);
+
+                                                /* Char trocou de nick e não foi atualizado */
+                                                if (playerRank != null) {
+                                                    ps.setPlayer(playerRank);
+                                                    new AbstractDAO<>(PlayerSkills.class).insert(ps);
+
+                                                    /* Achou o nick no bd, pare o código*/
+                                                    break;
+                                                }
+                                            }
+
+                                        }
+
                                     }
 
-                                    boolean flagUpdate = false;
+                                    /* Adiciona o L.A capturado */
+                                    psList.add(ps);
 
-                                    /* Regras de negócio para cada skill */
-                                    switch (skills.get(x).toLowerCase()) {
-
-                                        case "axe":
-
-                                            /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getAxeFighting()))) {
-                                                cs.setAxeFighting(Integer.valueOf(elementsList.get(k + POINTS)));
-                                                flagUpdate = true;
-                                            }
-
-                                            break;
-
-                                        case "club":
-
-                                            /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getClubFighting()))) {
-                                                cs.setClubFighting(Integer.valueOf(elementsList.get(k + POINTS)));
-                                                flagUpdate = true;
-
-                                            }
-
-                                            break;
-
-                                        case "distance":
-
-                                            /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getDistanceFighting()))) {
-                                                cs.setDistanceFighting(Integer.valueOf(elementsList.get(k + POINTS)));
-                                                flagUpdate = true;
-
-                                            }
-
-                                            break;
-
-                                        case "fishing":
-
-                                            /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getFishing()))) {
-                                                cs.setFishing(Integer.valueOf(elementsList.get(k + POINTS)));
-                                                flagUpdate = true;
-
-                                            }
-
-                                            break;
-
-                                        case "fist":
-
-                                            /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getFistFighting()))) {
-                                                cs.setFistFighting(Integer.valueOf(elementsList.get(k + POINTS)));
-                                                flagUpdate = true;
-
-                                            }
-
-                                            break;
-
-                                        case "magic":
-
-                                            /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getMagicLevel()))) {
-                                                cs.setMagicLevel(Integer.valueOf(elementsList.get(k + POINTS)));
-                                                flagUpdate = true;
-
-                                            }
-
-                                            break;
-
-                                        case "shielding":
-
-                                            /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getShielding()))) {
-                                                cs.setShielding(Integer.valueOf(elementsList.get(k + POINTS)));
-                                                flagUpdate = true;
-
-                                            }
-
-                                            break;
-
-                                        case "sword":
-
-                                            /* Se a skill se alterou */
-                                            if (!elementsList.get(k + POINTS).equals(String.valueOf(cs0.getSwordFighting()))) {
-                                                cs.setSwordFighting(Integer.valueOf(elementsList.get(k + POINTS)));
-                                                flagUpdate = true;
-
-                                            }
-
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-
-                                    /* Caso algo tenha mudado */
-                                    if (flagUpdate == true) {
-                                        cs.setRegisterDate(Calendar.getInstance());
-                                        cs.setPlayer(p);
-                                        new AbstractDAO<>(CharacterSkills.class).update(cs);
-                                    }
-
-                                }
+                                } // fim if flag
 
                             } // for personagens da página
 
@@ -300,6 +292,114 @@ public class CheckRank {
 
         System.out.println("O tempo total para minerar todos os skills, servidores e profissões foram de: "
                 + ((finalTime - startTime) / 1000) + " segundos.");
+
+        return psList;
+
+    }
+
+    public List<PlayerSkills> checkGlobalRankSkills(List<String> elementsList) throws IOException {
+
+        List<PlayerSkills> psList = new ArrayList<>();
+
+        for (int j = FIRST_PAGE; j <= LAST_PAGE; j++) {
+            int k = 17;
+
+            try {
+
+                for (k = 0; k < elementsList.size(); k += INCREMENTOR_SKILLS) {
+
+                    PlayerSkills ps0 = new PlayerSkillsDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
+
+                    PlayerSkills ps = new PlayerSkills();
+
+                    boolean flagUpdate = false;
+
+                    /* Não é o primeiro registro */
+                    if (ps0 != null) {
+
+                        /* Transfere todos os outros skills do registro anterior para o novo registro 
+                                             * Isso serve para caso um char esteja em mais de 1 ranking score */
+                        ps = new PlayerSkills(
+                                ps0.getPlayerName(),
+                                ps0.getAxeFighting(),
+                                ps0.getClubFighting(),
+                                ps0.getDistanceFighting(),
+                                ps0.getFishing(),
+                                ps0.getFistFighting(),
+                                ps0.getLoyaltyPoints(),
+                                ps0.getMagicLevel(),
+                                ps0.getShielding(),
+                                ps0.getSwordFighting()
+                        );
+
+                    } else {
+
+                        ps0 = new PlayerSkills();
+
+                        /* Coloca o nick do char dono */
+                        ps.setPlayerName(elementsList.get(k + NAME));
+                    }
+
+
+                    /* Se a skill se alterou */
+                    if (!elementsList.get(k + POINTS).equals(String.valueOf(ps0.getAxeFighting()))) {
+                        ps.setAxeFighting(Integer.valueOf(elementsList.get(k + POINTS)));
+                        flagUpdate = true;
+                    }
+
+
+                    /* Regra para vincular L.A com Player */
+                    if (flagUpdate == true) {
+
+                        Player player = new PlayerDAO().returnCharacterByName(ps.getPlayerName());
+
+                        /* Player existe no bd - vincula L.A ao player */
+                        if (player != null) {
+                            ps.setPlayer(player);
+                            new AbstractDAO<>(PlayerSkills.class).insert(ps);
+
+                            /* Player não existe ou não foi atualizado */
+                        } else {
+
+                            /* procura os former names do nick no bd */
+                            List<String> fns = new CheckCharacter().getFormerNames(ps.getPlayerName());
+
+                            /* Se não tiver former names, o char não existe */
+                            if (fns != null) {
+
+                                for (String nick : fns) {
+                                    Player playerRank = new PlayerDAO().returnCharacterByName(nick);
+
+                                    /* Char trocou de nick e não foi atualizado */
+                                    if (playerRank != null) {
+                                        ps.setPlayer(playerRank);
+                                        new AbstractDAO<>(PlayerSkills.class).insert(ps);
+
+                                        /* Achou o nick no bd, pare o código*/
+                                        break;
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        /* Adiciona o L.A capturado */
+                        psList.add(ps);
+
+                    } // fim if flag
+
+                } // for personagens da página
+
+            } catch (NumberFormatException | NoResultException e) {
+                System.out.println("Error:: " + e);
+                e.printStackTrace();
+
+            }
+
+        } // for das páginas
+
+        return psList;
 
     }
 
@@ -446,6 +546,108 @@ public class CheckRank {
         return lpList;
     }
 
+    public List<LoyaltyPoints> checkGlobalRankLoyalty(List<String> elementsList) throws IOException {
+
+        List<LoyaltyPoints> lpList = new ArrayList<>();
+
+        for (int j = FIRST_PAGE; j <= LAST_PAGE; j++) {
+
+            try {
+
+                for (int k = 0; k < elementsList.size(); k += INCREMENTOR_LOYALTY) {
+
+                    /* Busca último registro */
+                    LoyaltyPoints lp0 = new LoyaltyPointsDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
+
+                    /* flag para verificar se precisa vincular L.A com Player */
+                    boolean flagUpdate = false;
+                    LoyaltyPoints lp = null;
+
+                    String strValue = elementsList.get(k + LOYALTY).replace(",", "");
+                    Integer loyaltyValue = Integer.valueOf(strValue);
+
+                    if (lp0 != null) {
+
+                        /* Esse if só faz ter um update por dia */
+                        if (DateUtil.sameDate(Calendar.getInstance(), lp0.getLastUpdate()) != true
+                                && !Objects.equals(lp0.getLoyaltyPoints(), loyaltyValue)) {
+
+                            lp = new LoyaltyPoints(
+                                    loyaltyValue,
+                                    elementsList.get(k + NAME),
+                                    Calendar.getInstance());
+
+                            new AbstractDAO<>(LoyaltyPoints.class).insert(lp);
+                            flagUpdate = true;
+                        }
+
+                    } else {
+
+                        lp = new LoyaltyPoints(
+                                loyaltyValue,
+                                elementsList.get(k + NAME),
+                                Calendar.getInstance());
+
+                        new AbstractDAO<>(LoyaltyPoints.class).insert(lp);
+                        flagUpdate = true;
+                    }
+
+                    if (flagUpdate == true) {
+                        /* Regra para vincular L.A com Player */
+                        if (flagUpdate == true) {
+
+                            Player player = new PlayerDAO().returnCharacterByName(lp.getPlayerName());
+
+                            /* Player existe no bd - vincula L.A ao player */
+                            if (player != null) {
+                                lp.setPlayer(player);
+                                new AbstractDAO<>(LoyaltyPoints.class).update(lp);
+
+                                /* Player não existe ou não foi atualizado */
+                            } else {
+
+                                /* procura os former names do nick no bd */
+                                List<String> fns = new CheckCharacter().getFormerNames(lp.getPlayerName());
+
+                                /* Se não tiver former names, o char não existe */
+                                if (fns != null) {
+
+                                    for (String nick : fns) {
+                                        Player playerRank = new PlayerDAO().returnCharacterByName(nick);
+
+                                        /* Char trocou de nick e não foi atualizado */
+                                        if (playerRank != null) {
+                                            lp.setPlayer(playerRank);
+                                            new AbstractDAO<>(LoyaltyPoints.class).update(lp);
+
+                                            /* Achou o nick no bd, pare o código*/
+                                            break;
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+                            /* Adiciona o L.A capturado */
+                            lpList.add(lp);
+
+                        } // fim if flag
+                    }
+
+                } // for personagens da página
+
+            } catch (NumberFormatException | NoResultException e) {
+                System.out.println("Error: " + e);
+                e.printStackTrace();
+
+            }
+
+        } // for das páginas
+
+        return lpList;
+    }
+
     public List<LevelAdvance> checkGlobalRankExperience() {
 
         Long startTime = System.currentTimeMillis();
@@ -476,11 +678,8 @@ public class CheckRank {
 
                         for (k = CONTENT_START_EXP; k < elementsList.size() - TRASH_ELIMINATOR_EXP; k += INCREMENTOR_EXP) {
 
-                            LevelAdvance la0 = null;
-
-
                             /* Busca último registro */
-                            la0 = new LevelAdvanceDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
+                            LevelAdvance la0 = new LevelAdvanceDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
 
                             /* flag para verificar se precisa vincular L.A com Player */
                             boolean flagUpdate = false;
