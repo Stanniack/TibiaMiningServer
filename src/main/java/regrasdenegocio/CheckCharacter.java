@@ -5,6 +5,7 @@ import DAO.PlayerDAO;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.NonUniqueResultException;
@@ -432,10 +433,53 @@ public class CheckCharacter {
                 if (elementsList.get(i).toLowerCase().equals("name:")) {
 
                     /* Retorna o atual nick do personagem */
-                    String[] splitName = elementsList.get(i + AFTER_TITLE).split(",");
-                    objectList.add(splitName[0]);
+                    String[] splitNames = elementsList.get(i + AFTER_TITLE).split(",");
+                    objectList.add(splitNames[0]);
 
                     return objectList;
+
+                } // fim switch
+
+            } // fim for
+
+        } // fim else
+
+
+        /* Implementar */
+        //objectList.add("NULL");
+        return null;
+    }
+
+    public List<String> getFormerNames(String name) throws IOException {
+        List<String> fns = new ArrayList<>();
+
+        List<String> elementsList;
+
+        String url = "https://www.tibia.com/community/?subtopic=characters&name=" + name;
+
+        /* Conecta com o domínio */
+        Document document = Jsoup.connect(url).get();
+
+        /* Coloca os itens numa lista */
+        Elements chosenElements = document.getElementsByClass("Content");
+        elementsList = chosenElements.get(0).getElementsByTag("td").eachText();
+
+        /* Se não existe o char, char foi deletado */
+        if (elementsList.get(0).toLowerCase().equals("could not find character:")) {
+            return null;
+
+        } else {
+
+            for (int i = 1; i < elementsList.size() - TRASH_ELIMINATOR; i++) {
+
+                if (elementsList.get(i).toLowerCase().equals("former names:")) {
+
+                    /* Retorna o atual nick do personagem */
+                    String[] splitNames = elementsList.get(i + AFTER_TITLE).split(",");
+
+                    fns.addAll(Arrays.asList(splitNames));
+
+                    return fns;
 
                 } // fim switch
 

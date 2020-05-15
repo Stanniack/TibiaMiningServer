@@ -27,8 +27,16 @@ import utils.PopDatabaseUtil;
 public class Biridin {
 
     public static void main(String[] args) throws IOException {
-        
-        PopDatabaseUtil.popPlayersByExpRank();
+
+        List<String> fns = new CheckCharacter().getFormerNames("Crimsix");
+
+        if (fns != null) {
+            for (String nick : fns) {
+                System.out.println("teste");
+
+            }
+        }
+
     }
 
 }

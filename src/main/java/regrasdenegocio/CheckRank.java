@@ -62,7 +62,7 @@ public class CheckRank {
 
             Long serverStartTime = System.currentTimeMillis();
 
-            for (int i = 0; i < WorldsTibiaUtil.getWorldsTibia().size(); i++) {
+            for (int i = 0; i < worlds.size(); i++) {
 
                 Long worldStartTime = System.currentTimeMillis();
 
@@ -309,7 +309,7 @@ public class CheckRank {
 
         Long serverStartTime = System.currentTimeMillis();
 
-        for (int i = 0; i < WorldsTibiaUtil.getWorldsTibia().size(); i++) {
+        for (int i = 0; i < worlds.size(); i++) {
 
             Long worldStartTime = System.currentTimeMillis();
 
@@ -468,14 +468,9 @@ public class CheckRank {
 
                             LevelAdvance la0 = null;
 
-                            try {
 
-                                /* Busca último registro */
-                                la0 = new LevelAdvanceDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
-
-                            } catch (NoResultException e) {
-
-                            }
+                            /* Busca último registro */
+                            la0 = new LevelAdvanceDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
 
                             /* flag para verificar se precisa vincular L.A com Player */
                             boolean flagUpdate = false;
@@ -521,20 +516,42 @@ public class CheckRank {
                             /* Regra para vincular L.A com Player */
                             if (flagUpdate == true) {
 
-                                Player p = new PlayerDAO().returnCharacterByName(la.getPlayerName());
+                                Player player = new PlayerDAO().returnCharacterByName(la.getPlayerName());
 
-                                /* Vincula L.A com Player*/
-                                if (p != null) {
-                                    la.setPlayer(p);
+                                /* Player existe no bd - vincula L.A ao player */
+                                if (player != null) {
+                                    la.setPlayer(player);
                                     new AbstractDAO<>(LevelAdvance.class).update(la);
 
+                                    /* Player não existe ou não foi atualizado */
                                 } else {
-                                    
+
+                                    /* procura os former names do nick no bd */
+                                    List<String> fns = new CheckCharacter().getFormerNames(la.getPlayerName());
+
+                                    /* Se não tiver former names, o char não existe */
+                                    if (fns != null) {
+
+                                        for (String nick : fns) {
+                                            Player playerRank = new PlayerDAO().returnCharacterByName(nick);
+
+                                            /* Char trocou de nick e não foi atualizado */
+                                            if (playerRank != null) {
+                                                la.setPlayer(playerRank);
+                                                new AbstractDAO<>(LevelAdvance.class).update(la);
+
+                                                /* Achou o nick no bd, pare o código*/
+                                                break;
+                                            }
+                                        }
+
+                                    }
+
                                 }
-                                
+
                                 /* Adiciona o L.A capturado */
                                 laList.add(la);
-                                
+
                             } // fim if flag
 
                         } // for personagens da página
@@ -572,4 +589,113 @@ public class CheckRank {
         return laList;
     }
 
+    public List<LevelAdvance> checkGlobalRankExperience(List<String> elementsList) throws IOException {
+
+        List<LevelAdvance> laList = new ArrayList<>();
+
+        int j = 2;
+
+        for (j = FIRST_PAGE; j <= LAST_PAGE; j++) {
+            int k = 17;
+
+            try {
+
+                for (k = 0; k < elementsList.size(); k += INCREMENTOR_EXP) {
+
+                    LevelAdvance la0 = new LevelAdvanceDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
+
+                    /* flag para verificar se precisa vincular L.A com Player */
+                    boolean flagUpdate = false;
+                    LevelAdvance la = null;
+
+                    /* Conversão da exp String-> Long*/
+                    String strValue = elementsList.get(k + EXPERIENCE).replace(",", "");
+                    Long expValue = Long.valueOf(strValue);
+
+                    /* Não é o primeiro registro */
+                    if (la0 != null) {
+
+                        /* Esse if só faz ter um update por dia */
+                        if (DateUtil.sameDate(Calendar.getInstance(), la0.getLastUpdate()) != true
+                                && (!String.valueOf(la0.getLevelDay()).equals(elementsList.get(k + LEVEL))
+                                || !Objects.equals(la0.getExpDay(), expValue))) {
+
+                            la = new LevelAdvance(
+                                    expValue,
+                                    Integer.valueOf(elementsList.get(k + LEVEL)),
+                                    elementsList.get(k + NAME),
+                                    Calendar.getInstance());
+
+                            new AbstractDAO<>(LevelAdvance.class).insert(la);
+
+                            flagUpdate = true;
+
+                        }
+
+                    } else {
+
+                        la = new LevelAdvance(
+                                expValue,
+                                Integer.valueOf(elementsList.get(k + LEVEL)),
+                                elementsList.get(k + NAME),
+                                Calendar.getInstance());
+
+                        new AbstractDAO<>(LevelAdvance.class).insert(la);
+
+                        flagUpdate = true;
+                    }
+
+                    /* Regra para vincular L.A com Player */
+                    if (flagUpdate == true) {
+
+                        Player player = new PlayerDAO().returnCharacterByName(la.getPlayerName());
+
+                        /* Player existe no bd - vincula L.A ao player */
+                        if (player != null) {
+                            la.setPlayer(player);
+                            new AbstractDAO<>(LevelAdvance.class).update(la);
+
+                            /* Player não existe ou não foi atualizado */
+                        } else {
+
+                            /* procura os former names do nick no bd */
+                            List<String> fns = new CheckCharacter().getFormerNames(la.getPlayerName());
+
+                            /* Se não tiver former names, o char não existe */
+                            if (fns != null) {
+
+                                for (String nick : fns) {
+                                    Player playerRank = new PlayerDAO().returnCharacterByName(nick);
+
+                                    /* Char trocou de nick e não foi atualizado */
+                                    if (playerRank != null) {
+                                        la.setPlayer(playerRank);
+                                        new AbstractDAO<>(LevelAdvance.class).update(la);
+
+                                        /* Achou o nick no bd, pare o código*/
+                                        break;
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        /* Adiciona o L.A capturado */
+                        laList.add(la);
+
+                    } // fim if flag
+
+                } // for personagens da página
+
+            } catch (NumberFormatException | NoResultException e) {
+                System.out.println("Checkrank EXP error: " + e);
+                e.printStackTrace();
+
+            }
+
+        } // for das páginas
+
+        return laList;
+    }
 }
