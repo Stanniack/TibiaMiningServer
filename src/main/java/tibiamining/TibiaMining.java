@@ -24,13 +24,14 @@ import org.jsoup.nodes.Document;
 import regrasdenegocio.CheckCharacter;
 import regrasdenegocio.CheckRank;
 import utils.DateUtil;
+import utils.PopDatabaseUtil;
 import utils.WorldsTibiaUtil;
 
 public class TibiaMining {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        PopDatabaseUtil.popPlayersByLoyaltyRank();
 
-       
     }
 
 }

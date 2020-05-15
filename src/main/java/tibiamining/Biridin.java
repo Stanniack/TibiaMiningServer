@@ -21,7 +21,7 @@ import utils.PopDatabaseUtil;
 
 public class Biridin {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
     }
 

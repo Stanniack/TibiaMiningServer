@@ -459,6 +459,7 @@ public class CheckRank {
 
                             } else {
 
+                                System.out.println("N entra aqui");
                                 lp = new LoyaltyPoints(
                                         loyaltyValue,
                                         elementsList.get(k + NAME),

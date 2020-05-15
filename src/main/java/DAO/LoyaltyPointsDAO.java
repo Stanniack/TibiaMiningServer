@@ -1,7 +1,9 @@
 package DAO;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import model.LevelAdvance;
 import model.LoyaltyPoints;
 import utils.JPAUtil;
 
@@ -16,7 +18,14 @@ public class LoyaltyPointsDAO {
         query.setParameter("pName", name);
         query.setMaxResults(1);
 
-        LoyaltyPoints obj = query.getSingleResult();
+        LoyaltyPoints obj = null;
+
+        try {
+            obj = query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+        }
         em.close();
 
         return obj;
