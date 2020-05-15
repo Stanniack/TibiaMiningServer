@@ -34,18 +34,6 @@ public class PopDatabaseUtil {
 
                 }
 
-            } else {
-                
-                new CheckCharacter().updateCharacter(la.getPlayerName());
-
-                Player p = new PlayerDAO().returnCharacterByName(la.getPlayerName());
-
-                /* Vincula L.A com Player*/
-                if (p != null) {
-                    la.setPlayer(p);
-                    new AbstractDAO<>(LevelAdvance.class).update(la);
-
-                }
             }
 
         }
@@ -84,6 +72,21 @@ public class PopDatabaseUtil {
     }
 
     public static void popPlayersBySkillsRank() {
+
+    }
+
+    /* - Problema ocorre ao procurar o lastRegister - : 
+     * Métodos para evitarem casos raros onde um player tem o mesmo nick que um outro char já teve,
+     * logo o personagem original tomaria os avanços de level/skill para ele. 
+     * Estes métodos podem ter períodos para serem invocados (Menos de 6 meses) */
+    public static void assignLevelAdvanceToItsOwner() {
+    }
+
+    public static void assignLoyalToItsOwner() {
+
+    }
+
+    public static void assignSkillsToItsOwner() {
 
     }
 }

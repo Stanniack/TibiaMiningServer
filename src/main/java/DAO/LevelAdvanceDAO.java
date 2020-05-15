@@ -67,4 +67,43 @@ public class LevelAdvanceDAO {
         return obj;
     }
 
+    public List<LevelAdvance> returnAllRegisterById(int id) {
+
+        EntityManager em = JPAUtil.getInstance();
+        String jpql = "SELECT t FROM LevelAdvance t WHERE idCharacter = :pId";
+
+        TypedQuery<LevelAdvance> query = em.createQuery(jpql, LevelAdvance.class);
+        query.setParameter("pId", id);
+
+        List<LevelAdvance> objects = null;
+
+        try {
+            objects = query.getResultList();
+        } catch (NoResultException e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+        }
+
+        return objects;
+    }
+
+    public List<Integer> returnAllIds() {
+
+        EntityManager em = JPAUtil.getInstance();
+        String jpql = "SELECT DISTINCT idCharacter FROM LevelAdvance t";
+
+        TypedQuery<Integer> query = em.createQuery(jpql, Integer.class);
+
+        List<Integer> objects = null;
+
+        try {
+            objects = query.getResultList();
+        } catch (NoResultException e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+        }
+
+        return objects;
+    }
+
 }

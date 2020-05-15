@@ -38,6 +38,15 @@ public class LoyaltyPoints implements Serializable {
         this.player = player;
     }
 
+    public LoyaltyPoints(Integer loyaltyPoints, String playerName, Calendar lastUpdate) {
+        this.loyaltyPoints = loyaltyPoints;
+        this.playerName = playerName;
+        this.lastUpdate = lastUpdate;
+    }
+
+    
+    
+
     public Integer getIdLoyaltyPoints() {
         return idLoyaltyPoints;
     }

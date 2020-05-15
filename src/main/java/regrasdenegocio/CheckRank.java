@@ -2,6 +2,7 @@ package regrasdenegocio;
 
 import DAO.AbstractDAO;
 import DAO.LevelAdvanceDAO;
+import DAO.LoyaltyPointsDAO;
 import DAO.PlayerDAO;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -302,11 +303,11 @@ public class CheckRank {
 
     }
 
-    public void checkGlobalRankLoyalty() {
+    public List<LoyaltyPoints> checkGlobalRankLoyalty() {
 
         Long startTime = System.currentTimeMillis();
         List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
-
+        List<LoyaltyPoints> lpList = new ArrayList<>();
         Long serverStartTime = System.currentTimeMillis();
 
         for (int i = 0; i < worlds.size(); i++) {
@@ -328,78 +329,86 @@ public class CheckRank {
 
                         Document htmlContent = Jsoup.connect(url).get();
                         List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
-                        Player p;
 
                         for (k = CONTENT_START_LOYALTY; k < elementsList.size() - TRASH_ELIMINATOR_LOYALTY; k += INCREMENTOR_LOYALTY) {
 
-                            /* Busca último nick do personagem */
-                            List<Object> objects = new CheckCharacter().getNick(elementsList.get(k + NAME));
+                            /* Busca último registro */
+                            LoyaltyPoints lp0 = new LoyaltyPointsDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
 
-                            /* !(Char deletado ou não existe ou a net caiu) */
-                            if (objects != null) {
+                            /* flag para verificar se precisa vincular L.A com Player */
+                            boolean flagUpdate = false;
+                            LoyaltyPoints lp = null;
 
-                                String lastNick = objects.get(LAST_NICK).toString();
-                                List<String> lastNickElementsList = (List<String>) objects.get(ELEMENTS_LIST);
+                            String strValue = elementsList.get(k + LOYALTY).replace(",", "");
+                            Integer loyaltyValue = Integer.valueOf(strValue);
 
-                                Long isRegistered = new AbstractDAO<>(Player.class)
-                                        .countRegistersByName(elementsList.get(k + NAME));
+                            if (lp0 != null) {
 
-                                /* Nick trocado e char não existe no BD */
-                                if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
+                                /* Esse if só faz ter um update por dia */
+                                if (DateUtil.sameDate(Calendar.getInstance(), lp0.getLastUpdate()) != true
+                                        && !Objects.equals(lp0.getLoyaltyPoints(), loyaltyValue)) {
 
-                                    new CheckCharacter().discoverCharacter(lastNickElementsList);
-                                    p = new PlayerDAO().returnCharacterByName(lastNick);
+                                    lp = new LoyaltyPoints(
+                                            loyaltyValue,
+                                            elementsList.get(k + NAME),
+                                            Calendar.getInstance());
 
-                                    /* Nick trocado e char exite no BD */
-                                } else if (!lastNick.equals(elementsList.get(k + NAME)) && isRegistered != 0) {
-
-                                    new CheckCharacter()
-                                            .updateCharacter(lastNick, lastNickElementsList);
-                                    p = new PlayerDAO().returnCharacterByName(lastNick);
-
-                                    /* Nick não foi trocado e char não existe no BD */
-                                } else if (lastNick.equals(elementsList.get(k + NAME)) && isRegistered == 0) {
-
-                                    new CheckCharacter().discoverCharacter(lastNickElementsList);
-                                    p = new PlayerDAO().returnCharacterByName(elementsList.get(k + NAME));
-
-                                    /* Nick não foi trocado e char existe no BD */
-                                } else {
-                                    p = new PlayerDAO().returnCharacterByName(elementsList.get(k + NAME));
-
+                                    new AbstractDAO<>(LoyaltyPoints.class).insert(lp);
+                                    flagUpdate = true;
                                 }
 
-                                Long register = new AbstractDAO<>(LoyaltyPoints.class)
-                                        .countRegistersById(p.getIdCharacter());
+                            } else {
 
-                                /* Se tiver registro */
-                                if (register > 0) {
+                                lp = new LoyaltyPoints(
+                                        loyaltyValue,
+                                        elementsList.get(k + NAME),
+                                        Calendar.getInstance());
 
-                                    LoyaltyPoints lp0 = new AbstractDAO<>(LoyaltyPoints.class)
-                                            .returnLastRegisterDESC(p.getIdCharacter(), "idLoyaltyPoints");
+                                new AbstractDAO<>(LoyaltyPoints.class).insert(lp);
+                                flagUpdate = true;
+                            }
 
-                                    String strValue = elementsList.get(k + LOYALTY).replace(",", "");
-                                    Integer loyaltyValue = Integer.valueOf(strValue);
+                            if (flagUpdate == true) {
+                                /* Regra para vincular L.A com Player */
+                                if (flagUpdate == true) {
 
-                                    if (!lp0.getLoyaltyPoints().equals(loyaltyValue)) {
+                                    Player player = new PlayerDAO().returnCharacterByName(lp.getPlayerName());
 
-                                        LoyaltyPoints lp = new LoyaltyPoints(p, loyaltyValue, Calendar.getInstance());
+                                    /* Player existe no bd - vincula L.A ao player */
+                                    if (player != null) {
+                                        lp.setPlayer(player);
+                                        new AbstractDAO<>(LoyaltyPoints.class).update(lp);
 
-                                        new AbstractDAO<>(LoyaltyPoints.class).insert(lp);
+                                        /* Player não existe ou não foi atualizado */
+                                    } else {
+
+                                        /* procura os former names do nick no bd */
+                                        List<String> fns = new CheckCharacter().getFormerNames(lp.getPlayerName());
+
+                                        /* Se não tiver former names, o char não existe */
+                                        if (fns != null) {
+
+                                            for (String nick : fns) {
+                                                Player playerRank = new PlayerDAO().returnCharacterByName(nick);
+
+                                                /* Char trocou de nick e não foi atualizado */
+                                                if (playerRank != null) {
+                                                    lp.setPlayer(playerRank);
+                                                    new AbstractDAO<>(LoyaltyPoints.class).update(lp);
+
+                                                    /* Achou o nick no bd, pare o código*/
+                                                    break;
+                                                }
+                                            }
+
+                                        }
 
                                     }
 
-                                    /* Então é o primeiro registro */
-                                } else {
+                                    /* Adiciona o L.A capturado */
+                                    lpList.add(lp);
 
-                                    String strValue = elementsList.get(k + LOYALTY).replace(",", "");
-                                    Integer loyaltyValue = Integer.valueOf(strValue);
-
-                                    LoyaltyPoints lp = new LoyaltyPoints(p, loyaltyValue, Calendar.getInstance());
-
-                                    new AbstractDAO<>(LoyaltyPoints.class).insert(lp);
-                                }
-
+                                } // fim if flag
                             }
 
                         } // for personagens da página
@@ -434,6 +443,7 @@ public class CheckRank {
                 + ((serverFinalTime - serverStartTime) / 1000)
                 + " segundos");
 
+        return lpList;
     }
 
     public List<LevelAdvance> checkGlobalRankExperience() {

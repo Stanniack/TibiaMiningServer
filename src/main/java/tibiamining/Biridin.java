@@ -28,15 +28,13 @@ public class Biridin {
 
     public static void main(String[] args) throws IOException {
 
-        List<String> fns = new CheckCharacter().getFormerNames("Crimsix");
+        //List<Integer> list = new LevelAdvanceDAO().returnAllIds();
 
-        if (fns != null) {
-            for (String nick : fns) {
-                System.out.println("teste");
-
-            }
+        //System.out.println(list.toString());
+        
+        for (LevelAdvance la : new LevelAdvanceDAO().returnAllRegisterById(1)) {
+            System.out.println();
         }
-
     }
 
 }
