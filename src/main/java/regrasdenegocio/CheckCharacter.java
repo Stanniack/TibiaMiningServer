@@ -31,6 +31,8 @@ public class CheckCharacter {
     private final int DOES_NOT_EXISTS = 6;
     /* Eliminar conteúdo lixo da lista de elementos */
     private final int TRASH_ELIMINATOR = 2;
+    /* Eliminar retorno de personagens com caracteres especiais */
+    private final int CHAR_ELIMINATOR = 3;
 
     public Player discoverCharacter(String name) {
         Player player = null;
@@ -48,8 +50,8 @@ public class CheckCharacter {
             Elements chosenElements = document.getElementsByClass("Content");
             elementsList = chosenElements.get(0).getElementsByTag("td").eachText();
 
-            /* Se não existe o char, retorna null */
-            if (elementsList.get(0).toLowerCase().equals("could not find character")) {
+            /* Se não existe o char ou é char com caractere especial retorna null */
+            if (elementsList.get(0).toLowerCase().equals("could not find character") || elementsList.size() == 3) {
                 return null;
 
             } else {
@@ -513,10 +515,11 @@ public class CheckCharacter {
             /* Se não existe o char, char foi deletado */
             if (elementsList.get(0).toLowerCase().equals("could not find character")) {
 
-                System.out.println("entra aqui");
                 player = new PlayerDAO().returnCharacterByName(name);
 
+                /* Se player existir é porque foi deletado, senão é porque o nick está errado. */
                 if (player != null) {
+
                     player.setIsDeleted(true);
                     player.setDateDeleted(Calendar.getInstance());
                     new AbstractDAO<>(Player.class).update(player);
