@@ -16,7 +16,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import utils.WorldsTibiaUtil;
 import model.PlayerSkills;
-import model.FormerName;
 import model.LevelAdvance;
 import model.LoyaltyPoints;
 import model.Player;
@@ -26,14 +25,15 @@ import utils.SkillsTibiaUtil;
 public class CheckRank {
 
     // Conteúdo na lista começa no índice 13 para skills, 14 para experience
-    private static final int CONTENT_START_SKILLS = 13;
-    private static final int CONTENT_START_EXP = 14;
-    private static final int CONTENT_START_LOYALTY = 14;
+    private static final int START_CONTENT_SKILLS = 13;
+    private static final int START_CONTENT_EXP = 14;
+    private static final int START_CONTENT_LOYALTY = 14;
 
-    // O último elemento da lista é lixo
+    /* Eliminação de elementos indesejávies */
     private static final int TRASH_ELIMINATOR_SKILLS = 1;
     private static final int TRASH_ELIMINATOR_EXP = 5;
     private static final int TRASH_ELIMINATOR_LOYALTY = 1;
+    
     /* O incrementador é 5 para skills, 4 para experience devido aos atributos de cada char */
     private static final int INCREMENTOR_SKILLS = 4;
     private static final int INCREMENTOR_EXP = 5;
@@ -85,7 +85,7 @@ public class CheckRank {
                             Document htmlContent = Jsoup.connect(url).get();
                             List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
 
-                            for (k = CONTENT_START_SKILLS; k < elementsList.size() - TRASH_ELIMINATOR_SKILLS; k += INCREMENTOR_SKILLS) {
+                            for (k = START_CONTENT_SKILLS; k < elementsList.size() - TRASH_ELIMINATOR_SKILLS; k += INCREMENTOR_SKILLS) {
 
                                 PlayerSkills ps0 = new PlayerSkillsDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
 
@@ -215,7 +215,7 @@ public class CheckRank {
 
                                 /*  */
                                 boolean flagUpdate2 = false;
-                                
+
                                 /* Regra para vincular P.S com Player */
                                 if (flagUpdate == true) {
 
@@ -223,7 +223,7 @@ public class CheckRank {
 
                                     /* Player existe no bd - vincula L.A ao player */
                                     if (player != null) {
-                                        
+
                                         ps.setPlayer(player);
                                         new AbstractDAO<>(PlayerSkills.class).insert(ps);
                                         flagUpdate2 = true;
@@ -242,11 +242,11 @@ public class CheckRank {
 
                                                 /* Char trocou de nick e não foi atualizado */
                                                 if (playerRank != null) {
-                                                    
+
                                                     ps.setPlayer(playerRank);
                                                     new AbstractDAO<>(PlayerSkills.class).insert(ps);
                                                     flagUpdate2 = true;
-                                                    
+
                                                     /* Achou o nick no bd, pare o código*/
                                                     break;
                                                 }
@@ -259,7 +259,6 @@ public class CheckRank {
 //                                    if (flagUpdate2 == false) {
 //                                        new AbstractDAO<>(PlayerSkills.class).insert(ps);
 //                                    }
-                                    
                                     /* Adiciona o L.A capturado */
                                     psList.add(ps);
 
@@ -441,7 +440,7 @@ public class CheckRank {
                         Document htmlContent = Jsoup.connect(url).get();
                         List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
 
-                        for (k = CONTENT_START_LOYALTY; k < elementsList.size() - TRASH_ELIMINATOR_LOYALTY; k += INCREMENTOR_LOYALTY) {
+                        for (k = START_CONTENT_LOYALTY; k < elementsList.size() - TRASH_ELIMINATOR_LOYALTY; k += INCREMENTOR_LOYALTY) {
 
                             /* Busca último registro */
                             LoyaltyPoints lp0 = new LoyaltyPointsDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
@@ -687,7 +686,7 @@ public class CheckRank {
                         Document htmlContent = Jsoup.connect(url).get();
                         List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
 
-                        for (k = CONTENT_START_EXP; k < elementsList.size() - TRASH_ELIMINATOR_EXP; k += INCREMENTOR_EXP) {
+                        for (k = START_CONTENT_EXP; k < elementsList.size() - TRASH_ELIMINATOR_EXP; k += INCREMENTOR_EXP) {
 
                             /* Busca último registro */
                             LevelAdvance la0 = new LevelAdvanceDAO().returnLastRegisterDESC(elementsList.get(k + NAME));

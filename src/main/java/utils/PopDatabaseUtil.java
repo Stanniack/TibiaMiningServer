@@ -3,7 +3,6 @@ package utils;
 import DAO.AbstractDAO;
 import DAO.PlayerDAO;
 import java.util.List;
-import model.FormerName;
 import model.LevelAdvance;
 import model.LoyaltyPoints;
 import model.Player;
