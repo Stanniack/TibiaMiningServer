@@ -1,13 +1,18 @@
 package regrasdenegocio;
 
+import DAO.AbstractDAO;
 import DAO.PlayerDAO;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import model.PlayersOnline;
+import model.TotalPlayers;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import utils.DateUtil;
 import utils.WorldsTibiaUtil;
 
 public class CheckOnline {
@@ -28,8 +33,11 @@ public class CheckOnline {
     public void getOnlinePlayers() {
 
         /* Pega a quantidade total de players por período de tempo: dia, semana, mês, etc */
-        Set<String> playersSet = new LinkedHashSet<>();
-        int hour;
+        Set<String> playersSetDay = new LinkedHashSet<>();
+        Set<String> playersSetMonth = new LinkedHashSet<>();
+        Set<String> playersSetYear = new LinkedHashSet<>();
+        int hour = 0;
+        int maxPlayersOnline = 0;
 
         try {
             /* Looping infinito para verificar personagens */
@@ -58,9 +66,19 @@ public class CheckOnline {
 
                 } // fim dor mundos
 
-                /* Verificar quantidade de players de hora em hora */
-                System.out.println("Players online agora: " + playersOnline);
-
+                /* Verificar quantidade de players online de hora em hora */
+                if (DateUtil.getHour() != hour || playersOnline > maxPlayersOnline) {
+                    new AbstractDAO<>(PlayersOnline.class)
+                            .insert(new PlayersOnline(Calendar.getInstance(), playersOnline));
+                    
+                    hour = DateUtil.getHour();
+                    maxPlayersOnline = playersOnline;
+                    
+                }
+                
+                /* Verificar quantidade total de players */
+                
+                
             }
 
         } catch (IOException ex) {

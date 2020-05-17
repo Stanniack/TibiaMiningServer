@@ -19,12 +19,12 @@ public class PlayersOnline implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar lastUpdate;
 
-    private Long online;
+    private int online;
 
     public PlayersOnline() {
     }
 
-    public PlayersOnline(Calendar lastUpdate, Long online) {
+    public PlayersOnline(Calendar lastUpdate, int online) {
         this.lastUpdate = lastUpdate;
         this.online = online;
     }
@@ -37,11 +37,11 @@ public class PlayersOnline implements Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    public Long getOnline() {
+    public int getOnline() {
         return online;
     }
 
-    public void setOnline(Long online) {
+    public void setOnline(int online) {
         this.online = online;
     }
 

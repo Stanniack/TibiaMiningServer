@@ -20,12 +20,12 @@ public class TotalPlayers implements Serializable {
     private Calendar lastUpdate;
 
     private DateType dateType;
-    private Long online;
+    private int online;
 
     public TotalPlayers() {
     }
 
-    public TotalPlayers(Calendar lastUpdate, DateType dateType, Long online) {
+    public TotalPlayers(Calendar lastUpdate, DateType dateType, int online) {
         this.lastUpdate = lastUpdate;
         this.dateType = dateType;
         this.online = online;
@@ -47,11 +47,11 @@ public class TotalPlayers implements Serializable {
         this.dateType = dateType;
     }
 
-    public Long getOnline() {
+    public int getOnline() {
         return online;
     }
 
-    public void setOnline(Long online) {
+    public void setOnline(int online) {
         this.online = online;
     }
 

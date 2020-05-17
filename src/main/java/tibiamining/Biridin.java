@@ -20,17 +20,13 @@ import org.jsoup.select.Elements;
 import regrasdenegocio.CheckCharacter;
 import regrasdenegocio.CheckOnline;
 import regrasdenegocio.CheckRank;
+import utils.DateUtil;
 import utils.PopDatabaseUtil;
 
 public class Biridin {
 
     public static void main(String[] args) {
-//        new CheckOnline().getOnlinePlayers();
-
-        Calendar c = new GregorianCalendar();
-
-        System.out.println(Calendar.HOUR_OF_DAY);
-
+        System.out.println(DateUtil.getYear());
     }
 
 }

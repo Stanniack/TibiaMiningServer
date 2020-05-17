@@ -16,4 +16,27 @@ public class DateUtil {
         return dateFormat.format(c0.getTime()).equals(dateFormat.format(c1.getTime()));
     }
 
+    public static Integer getHour() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH");
+        
+        return Integer.valueOf(sdf.format(Calendar.getInstance().getTime()));
+    }
+
+    public static Integer getDay() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd");
+        
+        return Integer.valueOf(sdf.format(Calendar.getInstance().getTime()));
+    }
+    
+    public static Integer getMonth() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM");
+        
+        return Integer.valueOf(sdf.format(Calendar.getInstance().getTime()));
+    }
+    
+    public static Integer getYear() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yy");
+        
+        return Integer.valueOf(sdf.format(Calendar.getInstance().getTime()));
+    }
 }
