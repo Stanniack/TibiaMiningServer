@@ -1,10 +1,14 @@
 package regrasdenegocio;
 
+import DAO.PlayerDAO;
 import java.io.IOException;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import utils.WorldsTibiaUtil;
 
 public class CheckOnline {
 
@@ -22,24 +26,49 @@ public class CheckOnline {
     private final int PROFESSION = 2;
 
     public void getOnlinePlayers() {
-        String url = "https://www.tibia.com/community/?subtopic=worlds&world=" + "Antica";
+
+        /* Pega a quantidade total de players por período de tempo: dia, semana, mês, etc */
+        Set<String> playersSet = new LinkedHashSet<>();
+        int hour;
 
         try {
+            /* Looping infinito para verificar personagens */
+            while (true) {
 
-            Document contentElements = Jsoup.connect(url).get();
-            Elements chosenElements = contentElements.getElementsByClass("InnerTableContainer");
+                int playersOnline = 0;
 
-            List<String> elementsList = chosenElements.get(PLAYERS_CONTENT).getElementsByTag("td").eachText();
-            int z = 0;
+                for (String world : WorldsTibiaUtil.getWorldsTibia()) {
 
-            for (int i = 0; i < elementsList.size(); i += PLAYER_INCREMENTOR) {
-                System.out.println(elementsList.get(i));
-                z++;
+                    String url = "https://www.tibia.com/community/?subtopic=worlds&world=" + world;
+                    Document contentElements = Jsoup.connect(url).get();
+                    Elements chosenElements = contentElements.getElementsByClass("InnerTableContainer");
+                    List<String> elementsList = chosenElements.get(PLAYERS_CONTENT).getElementsByTag("td").eachText();
+
+                    /* Players */
+                    for (int i = 0; i < elementsList.size(); i += PLAYER_INCREMENTOR) {
+                        playersOnline++;
+
+                        /* Adiciona players */
+                        if (new PlayerDAO().returnCharacterByName(elementsList.get(i)) == null) {
+                            //System.out.println(elementsList.get(i));
+
+                        }
+
+                    }
+
+                } // fim dor mundos
+
+                /* Verificar quantidade de players de hora em hora */
+                System.out.println("Players online agora: " + playersOnline);
+
             }
-
-            System.out.println(z);
 
         } catch (IOException ex) {
         }
+    }
+
+    /* Verifica a qrd de players por tempo */
+    public void verifyPlayers() {
+
     }
 }

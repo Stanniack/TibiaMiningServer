@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 import javax.persistence.NoResultException;
 import model.FormerName;
 import model.LevelAdvance;
@@ -23,7 +25,11 @@ import utils.PopDatabaseUtil;
 public class Biridin {
 
     public static void main(String[] args) {
-        new CheckOnline().getOnlinePlayers();
+//        new CheckOnline().getOnlinePlayers();
+
+        Calendar c = new GregorianCalendar();
+
+        System.out.println(Calendar.HOUR_OF_DAY);
 
     }
 
