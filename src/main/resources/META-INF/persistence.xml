@@ -16,6 +16,8 @@
     <class>model.LoyaltyPoints</class>
     <class>model.Player</class>
     <class>model.PlayerSkills</class>
+    <class>model.TotalPlayers</class>
+    <class>model.PlayersOnline</class>
     <properties>
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

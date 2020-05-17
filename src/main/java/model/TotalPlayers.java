@@ -19,6 +19,9 @@ public class TotalPlayers implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar lastUpdate;
 
+    private int day;
+    private int month;
+    private int year;
     private DateType dateType;
     private int online;
 

@@ -19,14 +19,16 @@ public class PlayersOnline implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar lastUpdate;
 
+    private String hourAndMinute;
     private int online;
 
     public PlayersOnline() {
     }
 
-    public PlayersOnline(Calendar lastUpdate, int online) {
+    public PlayersOnline(Calendar lastUpdate, String hourAndMinute, int online) {
         this.lastUpdate = lastUpdate;
         this.online = online;
+        this.hourAndMinute = hourAndMinute;
     }
 
     public Calendar getLastUpdate() {
@@ -44,5 +46,15 @@ public class PlayersOnline implements Serializable {
     public void setOnline(int online) {
         this.online = online;
     }
+
+    public String getHourAndMinute() {
+        return hourAndMinute;
+    }
+
+    public void setHourAndMinute(String hourAndMinute) {
+        this.hourAndMinute = hourAndMinute;
+    }
+    
+    
 
 }

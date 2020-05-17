@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import model.DateType;
 import model.PlayersOnline;
 import model.TotalPlayers;
 import org.jsoup.Jsoup;
@@ -33,11 +34,15 @@ public class CheckOnline {
     public void getOnlinePlayers() {
 
         /* Pega a quantidade total de players por período de tempo: dia, semana, mês, etc */
-        Set<String> playersSetDay = new LinkedHashSet<>();
-        Set<String> playersSetMonth = new LinkedHashSet<>();
-        Set<String> playersSetYear = new LinkedHashSet<>();
+        Set<String> setDay = new LinkedHashSet<>();
+        Set<String> setMonth = new LinkedHashSet<>();
+        Set<String> setYear = new LinkedHashSet<>();
+
+        int day = 0;
+        int month = 0;
+        int year = 0;
         int hour = 0;
-        int maxPlayersOnline = 0;
+        int maxPlayersOnlineDay = 0;
 
         try {
             /* Looping infinito para verificar personagens */
@@ -55,11 +60,13 @@ public class CheckOnline {
                     /* Players */
                     for (int i = 0; i < elementsList.size(); i += PLAYER_INCREMENTOR) {
                         playersOnline++;
+                        setDay.add(elementsList.get(i));
+                        setMonth.add(elementsList.get(i));
+                        setYear.add(elementsList.get(i));
 
                         /* Adiciona players */
                         if (new PlayerDAO().returnCharacterByName(elementsList.get(i)) == null) {
-                            //System.out.println(elementsList.get(i));
-
+                            new CheckCharacter().discoverCharacter(elementsList.get(i));
                         }
 
                     }
@@ -67,26 +74,56 @@ public class CheckOnline {
                 } // fim dor mundos
 
                 /* Verificar quantidade de players online de hora em hora */
-                if (DateUtil.getHour() != hour || playersOnline > maxPlayersOnline) {
+                if (DateUtil.getHour() != hour || playersOnline > maxPlayersOnlineDay) {
                     new AbstractDAO<>(PlayersOnline.class)
-                            .insert(new PlayersOnline(Calendar.getInstance(), playersOnline));
-                    
+                            .insert(new PlayersOnline(Calendar.getInstance(), DateUtil.getHourAndMinute(), playersOnline));
+
                     hour = DateUtil.getHour();
-                    maxPlayersOnline = playersOnline;
-                    
+                    maxPlayersOnlineDay = playersOnline;
+
                 }
-                
-                /* Verificar quantidade total de players */
-                
-                
+
+                /* Total de player por dia */
+                if (DateUtil.getDay() != day) {
+                    new AbstractDAO<>(TotalPlayers.class)
+                            .insert(new TotalPlayers(Calendar.getInstance(), DateType.DAY, setDay.size()));
+
+                    maxPlayersOnlineDay = 0;
+                    day = DateUtil.getDay();
+                    setDay.clear();
+
+                }
+
+                /* Total de player por mês */
+                if (DateUtil.getMonth() != month) {
+                    new AbstractDAO<>(TotalPlayers.class)
+                            .insert(new TotalPlayers(Calendar.getInstance(), DateType.MONTH, setMonth.size()));
+
+                    month = DateUtil.getMonth();
+                    setMonth.clear();
+
+                }
+
+                /* Total de player por semestre - coleta no primeiro dia do mês 7 */
+                if (DateUtil.getMonth() == 7) {
+                    new AbstractDAO<>(TotalPlayers.class)
+                            .insert(new TotalPlayers(Calendar.getInstance(), DateType.SEMESTER, setYear.size()));
+
+                }
+
+                /* Total de player por ano */
+                if (DateUtil.getYear() != year) {
+                    new AbstractDAO<>(TotalPlayers.class)
+                            .insert(new TotalPlayers(Calendar.getInstance(), DateType.YEAR, setYear.size()));
+
+                    year = DateUtil.getYear();
+                    setYear.clear();
+
+                }
             }
 
         } catch (IOException ex) {
         }
     }
 
-    /* Verifica a qrd de players por tempo */
-    public void verifyPlayers() {
-
-    }
 }
