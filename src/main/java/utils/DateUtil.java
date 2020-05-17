@@ -21,6 +21,12 @@ public class DateUtil {
         
         return Integer.valueOf(sdf.format(Calendar.getInstance().getTime()));
     }
+    
+    public static String getHourAndMinute() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        
+        return String.valueOf(sdf.format(Calendar.getInstance().getTime()));
+    }
 
     public static Integer getDay() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd");

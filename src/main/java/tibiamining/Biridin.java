@@ -26,7 +26,7 @@ import utils.PopDatabaseUtil;
 public class Biridin {
 
     public static void main(String[] args) {
-        System.out.println(DateUtil.getYear());
+        System.out.println(DateUtil.getHourAndMinute());
     }
 
 }
