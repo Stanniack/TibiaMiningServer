@@ -44,7 +44,7 @@ public class Player implements Serializable {
     /* Data que o player foi deletado */
     @Temporal(TemporalType.DATE)
     private Calendar dateDeleted;
-    
+
     /* Último update */
     @Temporal(TemporalType.DATE)
     private Calendar lastUpdate;
@@ -73,6 +73,9 @@ public class Player implements Serializable {
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FormerName> formerNames;
+
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OnlineTime> onlineTime;
 
     public Player() {
         this.deaths = new ArrayList<>();
@@ -269,6 +272,14 @@ public class Player implements Serializable {
 
     public void setLastUpdate(Calendar lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public List<OnlineTime> getOnlineTime() {
+        return onlineTime;
+    }
+
+    public void setOnlineTime(List<OnlineTime> onlineTime) {
+        this.onlineTime = onlineTime;
     }
 
 }

@@ -18,6 +18,8 @@
     <class>model.PlayerSkills</class>
     <class>model.TotalPlayers</class>
     <class>model.PlayersOnline</class>
+    <class>model.OnlineTime</class>
+    
     <properties>
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

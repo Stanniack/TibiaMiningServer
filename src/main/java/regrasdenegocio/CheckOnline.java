@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.DateType;
+import model.OnlineTime;
+import model.Player;
 import model.PlayersOnline;
 import model.TotalPlayers;
 import org.jsoup.Jsoup;
@@ -119,8 +121,9 @@ public class CheckOnline {
             for (Object[] player : onlinePlayersList1) {
 
                 if (onlinePlayersList2.contains(String.valueOf(player[0]))) {
-                    player[1] = (long) player[1] + (System.currentTimeMillis() - onlineTimeStart);
-                    System.out.println(String.valueOf(player[0]) + " - " + (long) player[1] / 1000 + " secs on");
+                    /* Tempo em segundos */
+                    player[1] = (long) player[1] + ((System.currentTimeMillis() - onlineTimeStart) / 1000);
+                    //System.out.println(String.valueOf(player[0]) + " - " + (long) player[1] / 1000 + " secs on");
                 }
             }
 
@@ -141,6 +144,16 @@ public class CheckOnline {
 
                 /* Reseta a variável máx dia */
                 maxPlayersOnlineDay = 0;
+
+                /* Persiste dados de tempo online por player */
+                for (Object[] player : onlinePlayersList1) {
+                    Player p = new PlayerDAO().returnCharacterByName(String.valueOf(player[0]));
+                    
+                    if (p != null) {
+                        new AbstractDAO<>(OnlineTime.class)
+                                .insert(new OnlineTime(p, (long) player[1], Calendar.getInstance()));
+                    }
+                }
 
                 /* Reseta a onlinePlayersList1 */
                 onlinePlayersList1.clear();
