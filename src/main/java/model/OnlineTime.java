@@ -15,7 +15,7 @@ public class OnlineTime implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idHouse;
+    private Integer idOnlineTime;
 
     @ManyToOne
     @JoinColumn(name = "idCharacter", nullable = true)

@@ -22,8 +22,8 @@ public class PlayerSkillsDAO {
         try {
             obj = query.getSingleResult();
         } catch (NoResultException e) {
-            System.out.println("Error: " + e);
-            e.printStackTrace();
+            //System.out.println("Error: " + e);
+            //e.printStackTrace();
         }
 
         em.close();

@@ -87,6 +87,7 @@ public class Player implements Serializable {
         this.houses = new ArrayList<>();
         this.ranking = new ArrayList<>();
         this.formerNames = new ArrayList<>();
+        this.onlineTime = new ArrayList<>();
 
     }
 

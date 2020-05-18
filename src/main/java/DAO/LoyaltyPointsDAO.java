@@ -24,7 +24,7 @@ public class LoyaltyPointsDAO {
             obj = query.getSingleResult();
         } catch (NoResultException e) {
             System.out.println("Error: " + e);
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         em.close();
 

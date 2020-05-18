@@ -15,7 +15,7 @@ public class PopDatabaseUtil {
 
     /* Popula ou atualiza todos os personagens contidos na lista dos ranks*/
     public static void popPlayersByExpRank() {
-        List<LevelAdvance> list = new CheckRank().checkGlobalRankExperience();
+        List<LevelAdvance> list = new CheckRank().getRankExperience();
 
         for (LevelAdvance la : list) {
 
@@ -40,7 +40,7 @@ public class PopDatabaseUtil {
     }
 
     public static void popPlayersByLoyaltyRank() {
-        List<LoyaltyPoints> list = new CheckRank().checkGlobalRankLoyalty();
+        List<LoyaltyPoints> list = new CheckRank().getRankLoyalty();
 
         for (LoyaltyPoints lp : list) {
             Long register = new AbstractDAO<>(Player.class).countRegistersByName(lp.getPlayerName());
@@ -63,7 +63,7 @@ public class PopDatabaseUtil {
     }
 
     public static void popPlayersBySkillsRank() {
-        List<PlayerSkills> list = new CheckRank().checkGlobalRankSkills();
+        List<PlayerSkills> list = new CheckRank().getRankSkills();
 
         for (PlayerSkills ps : list) {
             Long register = new AbstractDAO<>(Player.class).countRegistersByName(ps.getPlayerName());

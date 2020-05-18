@@ -30,7 +30,6 @@ public class Biridin {
 
     public static void main(String[] args) {
         new CheckOnline().getOnlinePlayers();
-
     }
 
 }

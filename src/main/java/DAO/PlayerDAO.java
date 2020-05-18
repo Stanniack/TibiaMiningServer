@@ -42,7 +42,7 @@ public class PlayerDAO {
         try {
             player = query.getSingleResult();
         } catch (NoResultException e) {
-            System.out.println("returnCharacterByName: Não possui resultados para este nome em player: " + string);
+            //System.out.println("returnCharacterByName: Não possui resultados para este nome em player: " + string);
         }
 
         em.close();

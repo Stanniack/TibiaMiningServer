@@ -48,7 +48,7 @@ public class CheckOnline {
         int day = 17;
         int month = 5;
         int year = 20;
-        int hour = 1;
+        int hour = 23;
         int maxPlayersOnlineDay = 0;
 
         List<Object[]> onlinePlayersList1 = new ArrayList<>();
@@ -148,7 +148,7 @@ public class CheckOnline {
                 /* Persiste dados de tempo online por player */
                 for (Object[] player : onlinePlayersList1) {
                     Player p = new PlayerDAO().returnCharacterByName(String.valueOf(player[0]));
-                    
+
                     if (p != null) {
                         new AbstractDAO<>(OnlineTime.class)
                                 .insert(new OnlineTime(p, (long) player[1], Calendar.getInstance()));

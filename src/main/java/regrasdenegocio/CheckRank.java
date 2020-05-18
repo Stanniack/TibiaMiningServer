@@ -54,7 +54,7 @@ public class CheckRank {
     private static final int LAST_NICK = 1;
     private static final int ELEMENTS_LIST = 0;
 
-    public List<PlayerSkills> checkGlobalRankSkills() {
+    public List<PlayerSkills> getRankSkills() {
 
         Long startTime = System.currentTimeMillis();
         List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
@@ -307,7 +307,7 @@ public class CheckRank {
 
     }
 
-    public List<PlayerSkills> checkGlobalRankSkills(List<String> elementsList) throws IOException {
+    public List<PlayerSkills> getRankSkills(List<String> elementsList) throws IOException {
 
         List<PlayerSkills> psList = new ArrayList<>();
 
@@ -413,7 +413,7 @@ public class CheckRank {
 
     }
 
-    public List<LoyaltyPoints> checkGlobalRankLoyalty() {
+    public List<LoyaltyPoints> getRankLoyalty() {
 
         Long startTime = System.currentTimeMillis();
         List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
@@ -556,7 +556,7 @@ public class CheckRank {
         return lpList;
     }
 
-    public List<LoyaltyPoints> checkGlobalRankLoyalty(List<String> elementsList) throws IOException {
+    public List<LoyaltyPoints> getRankLoyalty(List<String> elementsList) throws IOException {
 
         List<LoyaltyPoints> lpList = new ArrayList<>();
 
@@ -658,7 +658,7 @@ public class CheckRank {
         return lpList;
     }
 
-    public List<LevelAdvance> checkGlobalRankExperience() {
+    public List<LevelAdvance> getRankExperience() {
 
         Long startTime = System.currentTimeMillis();
         List<LevelAdvance> laList = new ArrayList<>();
@@ -808,7 +808,7 @@ public class CheckRank {
         return laList;
     }
 
-    public List<LevelAdvance> checkGlobalRankExperience(List<String> elementsList) throws IOException {
+    public List<LevelAdvance> getRankExperience(List<String> elementsList) throws IOException {
 
         List<LevelAdvance> laList = new ArrayList<>();
 
