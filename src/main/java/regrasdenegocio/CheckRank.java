@@ -14,13 +14,12 @@ import java.util.Objects;
 import javax.persistence.NoResultException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import utils.WorldsTibiaUtil;
+import utils.TibiaUtil;
 import model.PlayerSkills;
 import model.LevelAdvance;
 import model.LoyaltyPoints;
 import model.Player;
 import utils.DateUtil;
-import utils.SkillsTibiaUtil;
 
 public class CheckRank {
 
@@ -33,7 +32,7 @@ public class CheckRank {
     private static final int TRASH_ELIMINATOR_SKILLS = 1;
     private static final int TRASH_ELIMINATOR_EXP = 5;
     private static final int TRASH_ELIMINATOR_LOYALTY = 1;
-    
+
     /* O incrementador é 5 para skills, 4 para experience devido aos atributos de cada char */
     private static final int INCREMENTOR_SKILLS = 4;
     private static final int INCREMENTOR_EXP = 5;
@@ -57,8 +56,8 @@ public class CheckRank {
     public List<PlayerSkills> getRankSkills() {
 
         Long startTime = System.currentTimeMillis();
-        List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
-        List<String> skills = SkillsTibiaUtil.getSkillsTibia();
+        List<String> worlds = TibiaUtil.getWorldsTibia();
+        List<String> skills = TibiaUtil.getSkillsTibia();
         List<PlayerSkills> psList = new ArrayList<>();
 
         for (int x = 0; x < skills.size(); x++) {
@@ -416,7 +415,7 @@ public class CheckRank {
     public List<LoyaltyPoints> getRankLoyalty() {
 
         Long startTime = System.currentTimeMillis();
-        List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
+        List<String> worlds = TibiaUtil.getWorldsTibia();
         List<LoyaltyPoints> lpList = new ArrayList<>();
         Long serverStartTime = System.currentTimeMillis();
 
@@ -662,7 +661,7 @@ public class CheckRank {
 
         Long startTime = System.currentTimeMillis();
         List<LevelAdvance> laList = new ArrayList<>();
-        List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
+        List<String> worlds = TibiaUtil.getWorldsTibia();
 
         Long serverStartTime = System.currentTimeMillis();
 

@@ -20,7 +20,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import utils.DateUtil;
-import utils.WorldsTibiaUtil;
+import utils.TibiaUtil;
 
 public class CheckOnline {
 
@@ -52,7 +52,7 @@ public class CheckOnline {
         int maxPlayersOnlineDay = 0;
 
         List<Object[]> onlinePlayersList1 = new ArrayList<>();
-        List<String> worlds = WorldsTibiaUtil.getWorldsTibia();
+        List<String> worlds = TibiaUtil.getWorldsTibia();
 
         boolean flag1 = true;
         boolean flag2 = false;

@@ -1,12 +1,26 @@
-
 package utils;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class WorldsTibiaUtil {
-    
-    public static List<String> getWorldsTibia(){
+public class TibiaUtil {
+
+    public static List<String> getSkillsTibia() {
+        List<String> skills = Arrays.asList(
+                "axe",
+                "club",
+                "distance",
+                "fishing",
+                "fist",
+                "magic",
+                "shielding",
+                "sword"
+        );
+
+        return skills;
+    }
+
+    public static List<String> getWorldsTibia() {
         List<String> worlds = Arrays.asList(
                 "Antica",
                 "Assombra",
@@ -81,12 +95,9 @@ public class WorldsTibiaUtil {
                 "Xandebra",
                 "Zuna",
                 "Zunera"
-                
         );
-        
+
         return worlds;
     }
-    
-    
     
 }

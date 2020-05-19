@@ -25,7 +25,7 @@ import regrasdenegocio.CheckCharacter;
 import regrasdenegocio.CheckRank;
 import utils.DateUtil;
 import utils.PopDatabaseUtil;
-import utils.WorldsTibiaUtil;
+import utils.TibiaUtil;
 
 public class TibiaMining {
 
