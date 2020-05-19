@@ -52,7 +52,7 @@ public class CheckOnline {
         int maxPlayersOnlineDay = 0;
 
         List<Object[]> onlinePlayersList1 = new ArrayList<>();
-        List<String> worlds = TibiaUtil.getWorldsTibia();
+        List<String> worlds = TibiaUtil.getWorlds();
 
         boolean flag1 = true;
         boolean flag2 = false;

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TibiaUtil {
 
-    public static List<String> getSkillsTibia() {
+    public static List<String> getSkills() {
         List<String> skills = Arrays.asList(
                 "axe",
                 "club",
@@ -20,7 +20,7 @@ public class TibiaUtil {
         return skills;
     }
 
-    public static List<String> getWorldsTibia() {
+    public static List<String> getWorlds() {
         List<String> worlds = Arrays.asList(
                 "Antica",
                 "Assombra",
@@ -99,5 +99,36 @@ public class TibiaUtil {
 
         return worlds;
     }
-    
+
+    public static List<String> getCities() {
+        List<String> cities = Arrays.asList(
+                "ab'dendriel",
+                "ankrahmun",
+                "carlin",
+                "darashia",
+                "edron",
+                "farmine",
+                "gray beach",
+                "issavi",
+                "kazordoon",
+                "liberty bay",
+                "port hope",
+                "rathleton",
+                "svargrond",
+                "thais",
+                "venore",
+                "yalahar"
+        );
+
+        return cities;
+    }
+
+    public static List<String> typeHouse() {
+        List<String> types = Arrays.asList(
+                "houses",
+                "guildhalls"
+        );
+
+        return types;
+    }
 }
