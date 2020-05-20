@@ -9,14 +9,15 @@ import utils.JPAUtil;
 
 public class HouseInfoDAO {
     
-    public HouseInfo returnHouseInfoByName(String string) {
+    public HouseInfo returnHouseInfoByName(String name, String world) {
 
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT t FROM HouseInfo t WHERE houseName = :pString";
+        String jpql = "SELECT t FROM HouseInfo t WHERE houseName = :pString AND world = :pWorld";
 
         TypedQuery<HouseInfo> query = em.createQuery(jpql, HouseInfo.class);
-        query.setParameter("pString", string);
+        query.setParameter("pString", name);
+        query.setParameter("pWorld", world);
 
         HouseInfo houseInfo = null;
 

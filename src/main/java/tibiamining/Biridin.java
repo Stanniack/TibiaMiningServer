@@ -1,6 +1,7 @@
 package tibiamining;
 
 import DAO.AbstractDAO;
+import DAO.HouseInfoDAO;
 import DAO.LevelAdvanceDAO;
 import DAO.PlayerDAO;
 import java.io.IOException;
@@ -33,4 +34,4 @@ public class Biridin {
         new CheckHouse().getHouses();
     }
 
-}
+    }

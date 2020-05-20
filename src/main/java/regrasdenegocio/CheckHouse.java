@@ -24,7 +24,7 @@ public class CheckHouse {
 
     /* Adiciona e atualiza as casas */
     public void getHouses() {
-        
+
         Long start = System.currentTimeMillis();
 
         for (String world : TibiaUtil.getWorlds()) {
@@ -43,16 +43,15 @@ public class CheckHouse {
 
                         for (int i = CONTENT_START; i < elementsList.size() - TRASH_ELIMINATOR; i += INCREMENTOR) {
 
-                            HouseInfo houseInfo = new HouseInfoDAO().returnHouseInfoByName(elementsList.get(i + NAME));
+                            HouseInfo houseInfo = new HouseInfoDAO().returnHouseInfoByName(elementsList.get(i + NAME), world);
 
                             if (houseInfo != null) {
 
                                 /* Verifica atualizações */
-                                if ((!houseInfo.getHouseName().equals(elementsList.get(i + NAME))
+                                if (!houseInfo.getHouseName().equals(elementsList.get(i + NAME))
                                         || !houseInfo.getSqm().equals(elementsList.get(i + SQM))
                                         || !houseInfo.getRent().equals(elementsList.get(i + RENT))
-                                        || !houseInfo.getStatus().equals(elementsList.get(i + STATUS)))
-                                        && houseInfo.getWorld().equals(world)) {
+                                        || !houseInfo.getStatus().equals(elementsList.get(i + STATUS))) {
 
                                     new AbstractDAO<>(HouseInfo.class)
                                             .insert(new HouseInfo(
@@ -90,10 +89,10 @@ public class CheckHouse {
 
                 }
             }
-            
+
             System.out.println(world);
         }
-        
+
         System.out.println((System.currentTimeMillis() - start) / 1000 + " secs");
     }
 
