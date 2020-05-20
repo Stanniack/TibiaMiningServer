@@ -21,6 +21,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import regrasdenegocio.CheckCharacter;
+import regrasdenegocio.CheckHouse;
 import regrasdenegocio.CheckOnline;
 import regrasdenegocio.CheckRank;
 import utils.DateUtil;
@@ -29,7 +30,7 @@ import utils.PopDatabaseUtil;
 public class Biridin {
 
     public static void main(String[] args) {
-        new CheckOnline().getOnlinePlayers();
+        new CheckHouse().getHouses();
     }
 
 }

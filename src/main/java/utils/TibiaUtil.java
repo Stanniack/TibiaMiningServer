@@ -102,28 +102,28 @@ public class TibiaUtil {
 
     public static List<String> getCities() {
         List<String> cities = Arrays.asList(
-                "ab'dendriel",
-                "ankrahmun",
-                "carlin",
-                "darashia",
-                "edron",
-                "farmine",
-                "gray beach",
-                "issavi",
-                "kazordoon",
-                "liberty bay",
-                "port hope",
-                "rathleton",
-                "svargrond",
-                "thais",
-                "venore",
-                "yalahar"
+                "Ab'Dendriel",
+                "Ankrahmun",
+                "Carlin",
+                "Darashia",
+                "Edron",
+                "Farmine",
+                "Gray Beach",
+                "Issavi",
+                "Kazordoon",
+                "Liberty Bay",
+                "Port Hope",
+                "Rathleton",
+                "Svargrond",
+                "Thais",
+                "Venore",
+                "Yalahar"
         );
 
         return cities;
     }
 
-    public static List<String> typeHouse() {
+    public static List<String> houseType() {
         List<String> types = Arrays.asList(
                 "houses",
                 "guildhalls"

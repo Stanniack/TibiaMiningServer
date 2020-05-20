@@ -69,8 +69,8 @@ public class CheckOnline {
 
                     String url = "https://www.tibia.com/community/?subtopic=worlds&world=" + worlds.get(n);
 
-                    Document contentElements = Jsoup.connect(url).get();
-                    Elements chosenElements = contentElements.getElementsByClass("InnerTableContainer");
+                    Document htmlContents = Jsoup.connect(url).get();
+                    Elements chosenElements = htmlContents.getElementsByClass("InnerTableContainer");
                     List<String> elementsList = chosenElements.get(PLAYERS_CONTENT).getElementsByTag("td").eachText();
 
                     /* Players */
