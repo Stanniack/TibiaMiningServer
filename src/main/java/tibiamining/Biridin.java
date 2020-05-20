@@ -32,6 +32,8 @@ public class Biridin {
 
     public static void main(String[] args) {
         new CheckHouse().getHouses();
+//        System.out.println(new HouseInfoDAO().returnHouseInfoByName("Coastwood 1", "antica").getHouseName());
+        
     }
 
-    }
+}

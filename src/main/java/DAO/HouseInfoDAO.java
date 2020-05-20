@@ -13,11 +13,12 @@ public class HouseInfoDAO {
 
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT t FROM HouseInfo t WHERE houseName = :pString AND world = :pWorld";
+        String jpql = "SELECT t FROM HouseInfo t WHERE houseName = :pString AND world = :pWorld ORDER BY idHouseInfo DESC";
 
         TypedQuery<HouseInfo> query = em.createQuery(jpql, HouseInfo.class);
         query.setParameter("pString", name);
         query.setParameter("pWorld", world);
+        query.setMaxResults(1);
 
         HouseInfo houseInfo = null;
 

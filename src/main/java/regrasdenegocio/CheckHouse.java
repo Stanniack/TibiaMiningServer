@@ -64,6 +64,8 @@ public class CheckHouse {
                                                     houseType,
                                                     Calendar.getInstance())
                                             );
+                                    
+                                    System.out.println(elementsList.get(i + NAME));  
                                 }
 
                             } else {
