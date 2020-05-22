@@ -27,7 +27,7 @@ public class CheckHouse {
 
         Long start = System.currentTimeMillis();
 
-        for (String world : TibiaUtil.getWorlds()) {
+        for (String world : TibiaUtil.getAllWorlds()) {
 
             for (String city : TibiaUtil.getCities()) {
 

@@ -20,7 +20,7 @@ public class TibiaUtil {
         return skills;
     }
 
-    public static List<String> getWorlds() {
+    public static List<String> getAllWorlds() {
         List<String> worlds = Arrays.asList(
                 "Antica",
                 "Assombra",
@@ -95,6 +95,100 @@ public class TibiaUtil {
                 "Xandebra",
                 "Zuna",
                 "Zunera"
+        );
+
+        return worlds;
+    }
+
+    public static List<String> getSouthAmericaWorlds() {
+        List<String> worlds = Arrays.asList(
+                "Assombra",
+                "Belobra",
+                "Celebra",
+                "Descubra",
+                "Dibra",
+                "Ferobra",
+                "Gentebra",
+                "Honbra",
+                "Inabra",
+                "Javibra",
+                "Kalibra",
+                "Lutabra",
+                "Macabra",
+                "Nossobra",
+                "Ombra",
+                "Pacembra",
+                "Quelibra",
+                "Relembra",
+                "Serdebra",
+                "Serenebra",
+                "Venebra",
+                "Xandebra"
+        );
+
+        return worlds;
+    }
+
+    public static List<String> getNorthAmericaWorlds() {
+        List<String> worlds = Arrays.asList(
+                "Astera",
+                "Calmera",
+                "Carnera",
+                "Cosera",
+                "Emera",
+                "Firmera",
+                "Funera",
+                "Garnera",
+                "Gladera",
+                "Helera",
+                "Impera",
+                "Jonera",
+                "Lobera",
+                "Luminera",
+                "Menera",
+                "Mitigera",
+                "Nefera",
+                "Noctera",
+                "Olera",
+                "Pacera",
+                "Quintera",
+                "Solidera",
+                "Talera",
+                "Torpera",
+                "Wintera",
+                "Zunera"
+        );
+
+        return worlds;
+    }
+
+    public static List<String> getEuropeWorlds() {
+        List<String> worlds = Arrays.asList(
+                "Antica",
+                "Belluma",
+                "Bona",
+                "Celesta",
+                "Concorda",
+                "Damora",
+                "Duna",
+                "Epoca",
+                "Estela",
+                "Faluna",
+                "Furia",
+                "Harmonia",
+                "Kenora",
+                "Monza",
+                "Peloria",
+                "Premia",
+                "Pyra",
+                "Refugia",
+                "Relania",
+                "Secura",
+                "Tortura",
+                "Unica",
+                "Vita",
+                "Vunira",
+                "Zuna"
         );
 
         return worlds;

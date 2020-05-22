@@ -56,7 +56,7 @@ public class CheckRank {
     public List<PlayerSkills> getRankSkills() {
 
         Long startTime = System.currentTimeMillis();
-        List<String> worlds = TibiaUtil.getWorlds();
+        List<String> worlds = TibiaUtil.getAllWorlds();
         List<String> skills = TibiaUtil.getSkills();
         List<PlayerSkills> psList = new ArrayList<>();
 
@@ -415,7 +415,7 @@ public class CheckRank {
     public List<LoyaltyPoints> getRankLoyalty() {
 
         Long startTime = System.currentTimeMillis();
-        List<String> worlds = TibiaUtil.getWorlds();
+        List<String> worlds = TibiaUtil.getAllWorlds();
         List<LoyaltyPoints> lpList = new ArrayList<>();
         Long serverStartTime = System.currentTimeMillis();
 
@@ -661,7 +661,7 @@ public class CheckRank {
 
         Long startTime = System.currentTimeMillis();
         List<LevelAdvance> laList = new ArrayList<>();
-        List<String> worlds = TibiaUtil.getWorlds();
+        List<String> worlds = TibiaUtil.getAllWorlds();
 
         Long serverStartTime = System.currentTimeMillis();
 
