@@ -1,7 +1,14 @@
 package utils;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 public class TibiaUtil {
 
@@ -225,8 +232,8 @@ public class TibiaUtil {
 
         return types;
     }
-    
-    public static List<String> getTaskBosses(){
+
+    public static List<String> getTaskBosses() {
         List<String> taskBosses = Arrays.asList(
                 "The Snapper",
                 "Hide",
@@ -259,10 +266,34 @@ public class TibiaUtil {
                 "Tiquandas Revenge",
                 "Demodras"
         );
-        
+
         return taskBosses;
     }
-    
+
     /* Pega as informações de todos os bosses no TibiaWiki */
-    
+    public static List<String> getAllBosses() {
+
+        List<String> bosses = new ArrayList<>();
+        int CONTENT_START = 2;
+        int INCREMENTOR = 8;
+        int BOSS = 1;
+
+        try {
+
+            String url = "https://guildstats.eu/bosses?lang=pt";
+            Document htmlContent = Jsoup.connect(url).get();
+            Element element = htmlContent.getElementById("myTable");
+            List<String> elementsList = element.getElementsByTag("td").eachText();
+
+            for (int i = CONTENT_START; i < elementsList.size(); i += INCREMENTOR) {
+
+                System.out.println(elementsList.get(i + BOSS));
+            }
+
+        } catch (IOException ex) {
+            System.out.println("Error TibiaUtil - getAllBosses: " + ex);
+        }
+
+        return bosses;
+    }
 }

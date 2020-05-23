@@ -21,13 +21,12 @@ public class CheckKillStatistics {
 
     public void getBossesStatistics() {
 
-        Document htmlContent;
         try {
 
             for (String world : TibiaUtil.getAllWorlds()) {
 
                 String url = "https://www.tibia.com/community/?subtopic=killstatistics&world=" + world;
-                htmlContent = Jsoup.connect(url).get();
+                Document htmlContent = Jsoup.connect(url).get();
                 List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
                 int flag = 0;
 
@@ -46,6 +45,5 @@ public class CheckKillStatistics {
         }
 
     }
-
 
 }

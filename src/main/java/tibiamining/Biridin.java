@@ -33,7 +33,8 @@ import utils.TibiaUtil;
 public class Biridin {
 
     public static void main(String[] args) {
-        new CheckKillStatistics().getBossesStatistics();
+//        new CheckKillStatistics().getBossesStatistics();
+        TibiaUtil.getAllBosses();
     }
 
 }
