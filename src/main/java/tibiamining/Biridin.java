@@ -23,17 +23,17 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import regrasdenegocio.CheckCharacter;
 import regrasdenegocio.CheckHouse;
+import regrasdenegocio.CheckKillStatistics;
 import regrasdenegocio.CheckOnline;
 import regrasdenegocio.CheckRank;
 import utils.DateUtil;
 import utils.PopDatabaseUtil;
+import utils.TibiaUtil;
 
 public class Biridin {
 
     public static void main(String[] args) {
-        new CheckHouse().getHouses();
-//        System.out.println(new HouseInfoDAO().returnHouseInfoByName("Coastwood 1", "antica").getHouseName());
-        
+        new CheckKillStatistics().getKillStatistics();
     }
 
 }

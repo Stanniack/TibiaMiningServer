@@ -225,4 +225,6 @@ public class TibiaUtil {
 
         return types;
     }
+    
+    /* Pega as informações de todos os bosses no TibiaWiki */
 }
