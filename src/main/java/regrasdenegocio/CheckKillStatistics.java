@@ -19,7 +19,7 @@ public class CheckKillStatistics {
     private final int KILLED_PLAYERS = 1;
     private final int KILLED_BY_PLAYERS = 2;
 
-    public void getKillStatistics() {
+    public void getBossesStatistics() {
 
         Document htmlContent;
         try {
@@ -33,7 +33,7 @@ public class CheckKillStatistics {
 
                 for (int i = CONTENT_START; i < elementsList.size() - TRASH_ELIMINATOR; i += INCREMENTOR) {
 
-                    if (elementsList.get(i + CREATURE).equals("Old Widow")) {
+                    if (elementsList.get(i + CREATURE).equals("The Old Widow")) {
                         System.out.println(elementsList.get(i + CREATURE) + " " + elementsList.get(i + KILLED_BY_PLAYERS));
                     }
 
@@ -46,4 +46,6 @@ public class CheckKillStatistics {
         }
 
     }
+
+
 }

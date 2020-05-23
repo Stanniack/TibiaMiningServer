@@ -226,5 +226,43 @@ public class TibiaUtil {
         return types;
     }
     
+    public static List<String> getTaskBosses(){
+        List<String> taskBosses = Arrays.asList(
+                "The Snapper",
+                "Hide",
+                "Deathbine",
+                "The Bloodtusk",
+                "Shardhead",
+                "Esmeralda",
+                "Fleshcrawler",
+                "Ribstride",
+                "The Bloodweb",
+                "Thul",
+                "The Old Widow",
+                "Hemming",
+                "Tormentor",
+                "Flameborn",
+                "Fazzrah",
+                "Tromphonyte",
+                "Sulphur Scuttler",
+                "Bruise Payne",
+                "The Many",
+                "Paiz the Pauperizer",
+                "Bretzecutioner",
+                "The Noxious Spawn",
+                "Gorgo",
+                "Stonecracker",
+                "Leviathan",
+                "Kerberos",
+                "Ethershreck",
+                "Zanakeph",
+                "Tiquandas Revenge",
+                "Demodras"
+        );
+        
+        return taskBosses;
+    }
+    
     /* Pega as informações de todos os bosses no TibiaWiki */
+    
 }
