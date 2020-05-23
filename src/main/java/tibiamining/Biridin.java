@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 import javax.persistence.NoResultException;
+import model.Boss;
 import model.FormerName;
 import model.LevelAdvance;
 import model.Player;
@@ -33,8 +34,9 @@ import utils.TibiaUtil;
 public class Biridin {
 
     public static void main(String[] args) {
-//        new CheckKillStatistics().getBossesStatistics();
         TibiaUtil.getAllBosses();
+        new CheckKillStatistics().getBossesStatistics();
+
     }
 
 }

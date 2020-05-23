@@ -23,6 +23,7 @@
         <class>model.PlayersOnline</class>
         <class>model.OnlineTime</class>
         <class>model.HouseInfo</class>
+        <class>model.Boss</class>
     
         <properties>
         

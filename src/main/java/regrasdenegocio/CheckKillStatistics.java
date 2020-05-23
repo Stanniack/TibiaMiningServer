@@ -1,9 +1,13 @@
 package regrasdenegocio;
 
+import DAO.AbstractDAO;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Boss;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import utils.TibiaUtil;
@@ -20,6 +24,8 @@ public class CheckKillStatistics {
     private final int KILLED_BY_PLAYERS = 2;
 
     public void getBossesStatistics() {
+        List<String> bosses = new AbstractDAO<>(Boss.class).listAll("bossName");
+        List<String> taskBosses = TibiaUtil.getIgnoredBosses();
 
         try {
 
@@ -32,8 +38,25 @@ public class CheckKillStatistics {
 
                 for (int i = CONTENT_START; i < elementsList.size() - TRASH_ELIMINATOR; i += INCREMENTOR) {
 
-                    if (elementsList.get(i + CREATURE).equals("The Old Widow")) {
-                        System.out.println(elementsList.get(i + CREATURE) + " " + elementsList.get(i + KILLED_BY_PLAYERS));
+                    if (bosses.contains(elementsList.get(i + CREATURE))) {
+
+                        /* Se o boss matou ou foi morto em no último dia e não está na lista de boss que não é preciso checar */
+                        if (!taskBosses.contains(elementsList.get(i + CREATURE)) 
+                                && (Integer.valueOf(elementsList.get(i + KILLED_PLAYERS)) != 0
+                                || Integer.valueOf(elementsList.get(i + KILLED_BY_PLAYERS)) != 0)) {
+
+                            /* Persiste boss */
+                            new AbstractDAO<>(Boss.class).insert(
+                                    new Boss(
+                                            elementsList.get(i + CREATURE),
+                                            Integer.valueOf(elementsList.get(i + KILLED_PLAYERS)),
+                                            Integer.valueOf(elementsList.get(i + KILLED_BY_PLAYERS)),
+                                            world,
+                                            Calendar.getInstance()
+                                    ));
+
+                        }
+
                     }
 
                 } // fim página

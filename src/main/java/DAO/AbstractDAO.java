@@ -161,5 +161,20 @@ public class AbstractDAO<Generic> {
 
         return lista;
     }
+    
+    public List<String> listAll(String column) {
+        EntityManager em = JPAUtil.getInstance();
+
+        String jpql = "SELECT DISTINCT " + column + " FROM " + className.getName();
+
+        TypedQuery<String> query = em.createQuery(jpql, String.class);
+
+        List<String> lista = query.getResultList();
+
+        em.close();
+
+        return lista;
+    }
+    
 
 }

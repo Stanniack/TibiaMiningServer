@@ -1,11 +1,13 @@
 package utils;
 
+import DAO.AbstractDAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Boss;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -233,7 +235,8 @@ public class TibiaUtil {
         return types;
     }
 
-    public static List<String> getTaskBosses() {
+    /* Bosses que devem ser ignorados na captura */
+    public static List<String> getIgnoredBosses() {
         List<String> taskBosses = Arrays.asList(
                 "The Snapper",
                 "Hide",
@@ -286,8 +289,7 @@ public class TibiaUtil {
             List<String> elementsList = element.getElementsByTag("td").eachText();
 
             for (int i = CONTENT_START; i < elementsList.size(); i += INCREMENTOR) {
-
-                System.out.println(elementsList.get(i + BOSS));
+                new AbstractDAO<>(Boss.class).insert(new Boss(elementsList.get(i + BOSS)));
             }
 
         } catch (IOException ex) {
