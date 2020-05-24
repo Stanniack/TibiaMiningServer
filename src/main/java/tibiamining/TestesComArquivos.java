@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import regrasdenegocio.CheckCharacter;
+import businessrules.CheckCharacter;
 
 public class TestesComArquivos {
 

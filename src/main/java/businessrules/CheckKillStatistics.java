@@ -1,4 +1,4 @@
-package regrasdenegocio;
+package businessrules;
 
 import DAO.AbstractDAO;
 import java.io.IOException;

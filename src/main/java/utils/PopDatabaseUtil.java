@@ -7,8 +7,8 @@ import model.LevelAdvance;
 import model.LoyaltyPoints;
 import model.Player;
 import model.PlayerSkills;
-import regrasdenegocio.CheckCharacter;
-import regrasdenegocio.CheckRank;
+import businessrules.CheckCharacter;
+import businessrules.CheckRank;
 
 /* Classe contendo método para popular o banco de dados inicialmente. */
 public class PopDatabaseUtil {

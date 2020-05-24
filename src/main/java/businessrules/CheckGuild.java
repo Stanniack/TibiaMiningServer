@@ -1,4 +1,4 @@
-package regrasdenegocio;
+package businessrules;
 
 public class CheckGuild {
 
