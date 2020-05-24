@@ -23,11 +23,11 @@ public class CheckHouse {
     private final int STATUS = 3;
 
     /* Adiciona e atualiza as casas */
-    public void getHouses() {
+    public void getHouses(List<String> worlds) {
 
         Long start = System.currentTimeMillis();
 
-        for (String world : TibiaUtil.getAllWorlds()) {
+        for (String world : worlds) {
 
             for (String city : TibiaUtil.getCities()) {
 

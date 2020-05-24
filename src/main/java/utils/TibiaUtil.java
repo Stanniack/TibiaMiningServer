@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Boss;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -273,7 +271,7 @@ public class TibiaUtil {
         return taskBosses;
     }
 
-    /* Pega as informações de todos os bosses no TibiaWiki */
+    /* Pega as informações de todos os bosses no Guildstats - Deve ser rodado apenas 1x antes de começar a popular o bd */
     public static List<String> getAllBosses() {
 
         List<String> bosses = new ArrayList<>();

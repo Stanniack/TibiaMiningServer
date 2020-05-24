@@ -37,7 +37,7 @@ public class CheckOnline {
     private final int LEVEL = 1;
     private final int PROFESSION = 2;
 
-    public void getOnlinePlayers() {
+    public void getOnlinePlayers(List<String> worlds) {
 
         /* Pega a quantidade total de players por período de tempo: dia, semana, mês, etc */
         Set<String> setDay = new HashSet<>();
@@ -52,7 +52,6 @@ public class CheckOnline {
         int maxPlayersOnlineDay = 0;
 
         List<Object[]> onlinePlayersList1 = new ArrayList<>();
-        List<String> worlds = TibiaUtil.getAllWorlds();
 
         boolean flag1 = true;
         boolean flag2 = false;

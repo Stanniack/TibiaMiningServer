@@ -4,9 +4,6 @@ import DAO.AbstractDAO;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Boss;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,13 +20,14 @@ public class CheckKillStatistics {
     private final int KILLED_PLAYERS = 1;
     private final int KILLED_BY_PLAYERS = 2;
 
-    public void getBossesStatistics() {
+    /* Método não tem lastUpdate, por isso deve ser rodado apenas 1x por dia */
+    public void getBossesStatistics(List<String> worlds) {
         List<String> bosses = new AbstractDAO<>(Boss.class).listAll("bossName");
         List<String> taskBosses = TibiaUtil.getIgnoredBosses();
 
         try {
 
-            for (String world : TibiaUtil.getAllWorlds()) {
+            for (String world : worlds) {
 
                 String url = "https://www.tibia.com/community/?subtopic=killstatistics&world=" + world;
                 Document htmlContent = Jsoup.connect(url).get();
