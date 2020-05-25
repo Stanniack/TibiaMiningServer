@@ -7,6 +7,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 public class CheckGuild {
+    
+    private final int START_CONTENT = 3;
 
     public void getInfoGuilds(List<String> worlds) {
 
@@ -15,10 +17,12 @@ public class CheckGuild {
             String url = "https://www.tibia.com/community/?subtopic=guilds&world=Zuna";
 
             Document document = Jsoup.connect(url).get();
-            Elements elements = document.getElementsByClass("TableContentContainer");
-            List<String> elementsList = elements.get(0).getElementsByTag("b").eachText();
-            System.out.println(elementsList.size());
-            elementsList.forEach(System.out::println);
+            Elements chosenElements = document.getElementsByClass("TableContentContainer");
+            List<String> elementsList = chosenElements.get(0).getElementsByTag("b").eachText();
+            
+            for (int i = START_CONTENT; i < elementsList.size(); i++) {
+                System.out.println(elementsList.get(i));
+            }
             
 
         } catch (IOException ex) {

@@ -38,10 +38,10 @@ public class AbstractDAO<Generic> {
         em.close();
     }
 
-    public Generic returnObjectById(int id) {
+    public Generic returnObjectById(int idCharacter) {
 
         EntityManager em = JPAUtil.getInstance();
-        Generic obj = em.find(className, id);
+        Generic obj = em.find(className, idCharacter);
         em.close();
 
         return obj;
@@ -62,11 +62,11 @@ public class AbstractDAO<Generic> {
 
     }
 
-    public Generic returnLastRegisterDESC(int id, String column) {
+    public Generic returnLastRegisterDESC(int idCharacter, String column) {
 
         EntityManager em = JPAUtil.getInstance();
         String jpql = "SELECT t FROM " + className.getName() + " t WHERE idCharacter = "
-                + id + "order by " + column + " DESC";
+                + idCharacter + "order by " + column + " DESC";
 
         TypedQuery<Generic> query = em.createQuery(jpql, className);
         query.setMaxResults(1);
@@ -77,11 +77,11 @@ public class AbstractDAO<Generic> {
         return obj;
     }
 
-    public Generic returnLastRegisterASC(int id, String column) {
+    public Generic returnLastRegisterASC(int idCharacter, String column) {
 
         EntityManager em = JPAUtil.getInstance();
         String jpql = "SELECT t FROM " + className.getName() + " t WHERE idCharacter = "
-                + id + "order by " + column + " ASC";
+                + idCharacter + "order by " + column + " ASC";
 
         TypedQuery<Generic> query = em.createQuery(jpql, className);
         query.setMaxResults(1);
@@ -147,7 +147,7 @@ public class AbstractDAO<Generic> {
         return list;
     }
 
-    public List<String> listAll(String idCharacter, String column) {
+    public List<String> listAll(int idCharacter, String column) {
         EntityManager em = JPAUtil.getInstance();
 
         String jpql = "SELECT " + column + " FROM " + className.getName() + " t where idCharacter = :pId";
@@ -162,10 +162,24 @@ public class AbstractDAO<Generic> {
         return lista;
     }
     
-    public List<String> listAll(String column) {
+    public List<String> listAll(String columnName) {
         EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT DISTINCT " + column + " FROM " + className.getName();
+        String jpql = "SELECT DISTINCT " + columnName + " FROM " + className.getName();
+
+        TypedQuery<String> query = em.createQuery(jpql, String.class);
+
+        List<String> lista = query.getResultList();
+
+        em.close();
+
+        return lista;
+    }
+    
+    public List<String> listAll(String columnName, String world) {
+        EntityManager em = JPAUtil.getInstance();
+
+        String jpql = "SELECT DISTINCT " + columnName + " FROM " + className.getName() + " WHERE world = " + world;
 
         TypedQuery<String> query = em.createQuery(jpql, String.class);
 

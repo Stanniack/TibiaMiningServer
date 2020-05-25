@@ -31,8 +31,7 @@ import utils.TibiaUtil;
 public class TibiaMining {
 
     public static void main(String[] args) {
-//        new CheckGuild().getInfoGuilds(TibiaUtil.getAllWorlds());
-new CheckCharacter().discoverCharacter("Wynchesther");
+        new CheckGuild().getInfoGuilds(TibiaUtil.getAllWorlds());
     }
 
 }

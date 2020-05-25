@@ -15,6 +15,7 @@ public class GuildInfo {
     private Integer idGuildInfo;
 
     private String guildName;
+    private String world;
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateBegin;
@@ -28,12 +29,21 @@ public class GuildInfo {
     public GuildInfo() {
     }
 
-    public GuildInfo(String guildName, Calendar dateBegin, Calendar lastUpdate) {
+    public GuildInfo(String guildName, String world, Calendar dateBegin, Calendar lastUpdate) {
         this.guildName = guildName;
+        this.world = world;
         this.dateBegin = dateBegin;
         this.lastUpdate = lastUpdate;
     }
 
+    public String getWorld() {
+        return world;
+    }
+
+    public void setWorld(String world) {
+        this.world = world;
+    }
+    
     public String getGuildName() {
         return guildName;
     }
