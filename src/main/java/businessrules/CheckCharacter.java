@@ -708,7 +708,8 @@ public class CheckCharacter {
 
                                 flagUpdate = 1;
 
-                            } /* Se a guilda for igual e a posição do membro for diferente, é porque a posição foi alterada */ else if (oldGuild.getGuildName().equals(guildInfo[1])
+                            } /* Se a guilda for igual e a posição do membro for diferente, é porque a posição foi alterada */ 
+                            else if (oldGuild.getGuildName().equals(guildInfo[1])
                                     && !oldGuild.getMemberPositionGuild().equals(guildInfo[0])) {
 
                                 /* Atualiza nova posição na guilda */

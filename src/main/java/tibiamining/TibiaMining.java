@@ -22,6 +22,7 @@ import model.Player;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import businessrules.CheckCharacter;
+import businessrules.CheckGuild;
 import businessrules.CheckRank;
 import utils.DateUtil;
 import utils.PopDatabaseUtil;
@@ -30,7 +31,8 @@ import utils.TibiaUtil;
 public class TibiaMining {
 
     public static void main(String[] args) {
-        
+//        new CheckGuild().getInfoGuilds(TibiaUtil.getAllWorlds());
+new CheckCharacter().discoverCharacter("Wynchesther");
     }
 
 }
