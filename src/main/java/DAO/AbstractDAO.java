@@ -147,7 +147,7 @@ public class AbstractDAO<Generic> {
         return list;
     }
 
-    public List<String> listAll(int idCharacter, String column) {
+    public List<String> listAll(String idCharacter, String column) {
         EntityManager em = JPAUtil.getInstance();
 
         String jpql = "SELECT " + column + " FROM " + className.getName() + " t where idCharacter = :pId";
@@ -161,7 +161,7 @@ public class AbstractDAO<Generic> {
 
         return lista;
     }
-    
+
     public List<String> listAll(String columnName) {
         EntityManager em = JPAUtil.getInstance();
 
@@ -175,20 +175,7 @@ public class AbstractDAO<Generic> {
 
         return lista;
     }
-    
-    public List<String> listAll(String columnName, String world) {
-        EntityManager em = JPAUtil.getInstance();
 
-        String jpql = "SELECT DISTINCT " + columnName + " FROM " + className.getName() + " WHERE world = " + world;
-
-        TypedQuery<String> query = em.createQuery(jpql, String.class);
-
-        List<String> lista = query.getResultList();
-
-        em.close();
-
-        return lista;
-    }
     
 
 }

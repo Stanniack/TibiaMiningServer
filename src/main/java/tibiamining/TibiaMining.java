@@ -1,6 +1,7 @@
 package tibiamining;
 
 import DAO.AbstractDAO;
+import DAO.GuildDAO;
 import DAO.LevelAdvanceDAO;
 import DAO.PlayerDAO;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import org.jsoup.nodes.Document;
 import businessrules.CheckCharacter;
 import businessrules.CheckGuild;
 import businessrules.CheckRank;
+import model.GuildInfo;
 import utils.DateUtil;
 import utils.PopDatabaseUtil;
 import utils.TibiaUtil;
@@ -31,7 +33,20 @@ import utils.TibiaUtil;
 public class TibiaMining {
 
     public static void main(String[] args) {
-        new CheckGuild().getInfoGuilds(TibiaUtil.getAllWorlds());
+
+        List<String> guilds = new GuildDAO().listAll("Zuna");
+
+        List<String> list = Arrays.asList(
+                "Alt Eff Four",
+                "Evil Geniuses",
+                "Highheels",
+                "Noname",
+                "Paladin Syndicate",
+                "Zuna Lovers",
+                "Zunera Cartel"
+        );
+
+        new CheckGuild().getInfoGuilds(TibiaUtil.getAllWorlds(), list);
     }
 
 }

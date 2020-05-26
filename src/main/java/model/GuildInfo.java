@@ -23,17 +23,13 @@ public class GuildInfo {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateEnd;
 
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar lastUpdate;
-
     public GuildInfo() {
     }
 
-    public GuildInfo(String guildName, String world, Calendar dateBegin, Calendar lastUpdate) {
+    public GuildInfo(String guildName, String world, Calendar dateBegin) {
         this.guildName = guildName;
         this.world = world;
         this.dateBegin = dateBegin;
-        this.lastUpdate = lastUpdate;
     }
 
     public String getWorld() {
@@ -43,7 +39,7 @@ public class GuildInfo {
     public void setWorld(String world) {
         this.world = world;
     }
-    
+
     public String getGuildName() {
         return guildName;
     }
@@ -66,14 +62,6 @@ public class GuildInfo {
 
     public void setDateEnd(Calendar dateEnd) {
         this.dateEnd = dateEnd;
-    }
-
-    public Calendar getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Calendar lastUpdate) {
-        this.lastUpdate = lastUpdate;
     }
 
 }
