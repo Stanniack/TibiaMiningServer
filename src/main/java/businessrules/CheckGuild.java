@@ -27,7 +27,7 @@ public class CheckGuild {
             Elements chosenElements = document.getElementsByClass("TableContentContainer");
             List<String> elementsList = chosenElements.get(0).getElementsByTag("b").eachText();
 
-            List<String> guilds = new GuildDAO().listAll("Zuna");
+            List<String> guilds = new GuildDAO().listAllGuildNames("Zuna");
             List<String> thisWorldGuilds = new ArrayList<>();
 
             for (int i = START_CONTENT; i < elementsList.size(); i++) {
@@ -41,6 +41,19 @@ public class CheckGuild {
                                     elementsList.get(i),
                                     "Zuna",
                                     Calendar.getInstance()));
+                } else {
+
+                    GuildInfo newGuild = new GuildDAO().returnGuildByWorld("zuna", elementsList.get(i));
+
+                    /* A guilda é nova mas já existiu no passado */
+                    if (newGuild != null && newGuild.getDateEnd() != null) {
+
+                        new AbstractDAO<>(GuildInfo.class).insert(
+                                new GuildInfo(
+                                        elementsList.get(i),
+                                        "Zuna",
+                                        Calendar.getInstance()));
+                    }
                 }
 
                 /* Add guilda para regras posteriores */
@@ -57,8 +70,8 @@ public class CheckGuild {
                     /* Verifica se a guild deletada já foi capturada anteriormente */
                     GuildInfo deletedGuild = new GuildDAO().returnGuildByWorld("Zuna", guild);
 
-                    /* Se a data de encerramente não existir, atualiza */
-                    if (deletedGuild.getDateEnd() != null) {
+                    /* Se a data de encerramento não existir, atualiza */
+                    if (deletedGuild.getDateEnd() == null) {
 
                         deletedGuild.setDateEnd(Calendar.getInstance());
                         new AbstractDAO<>(GuildInfo.class).update(deletedGuild);
@@ -78,7 +91,7 @@ public class CheckGuild {
     public void getInfoGuilds(List<String> worlds, List<String> elementsList) {
 
         String url = "https://www.tibia.com/community/?subtopic=guilds&world=" + "Zuna";
-        List<String> guilds = new GuildDAO().listAll("Zuna");
+        List<String> guilds = new GuildDAO().listAllGuildNames("Zuna");
         List<String> thisWorldGuilds = new ArrayList<>();
 
         for (int i = 0; i < elementsList.size(); i++) {
@@ -92,6 +105,20 @@ public class CheckGuild {
                                 elementsList.get(i),
                                 "Zuna",
                                 Calendar.getInstance()));
+
+            } else {
+
+                GuildInfo newGuild = new GuildDAO().returnGuildByWorld("Zuna", elementsList.get(i));
+
+                /* A guilda é nova mas já existiu no passado */
+                if (newGuild != null && newGuild.getDateEnd() != null) {
+
+                    new AbstractDAO<>(GuildInfo.class).insert(
+                            new GuildInfo(
+                                    elementsList.get(i),
+                                    "Zuna",
+                                    Calendar.getInstance()));
+                }
             }
 
             /* Add guilda para regras posteriores */

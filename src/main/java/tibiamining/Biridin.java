@@ -36,6 +36,7 @@ public class Biridin {
     public static void main(String[] args) {
         TibiaUtil.getAllBosses();
         new CheckKillStatistics().getBossesStatistics(TibiaUtil.getAllWorlds());
+        System.out.println("test");
 
     }
 

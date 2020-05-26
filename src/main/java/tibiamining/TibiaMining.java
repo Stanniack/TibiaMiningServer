@@ -34,7 +34,7 @@ public class TibiaMining {
 
     public static void main(String[] args) {
 
-        List<String> guilds = new GuildDAO().listAll("Zuna");
+        List<String> guilds = new GuildDAO().listAllGuildNames("Zuna");
 
         List<String> list = Arrays.asList(
                 "Alt Eff Four",
@@ -42,7 +42,6 @@ public class TibiaMining {
                 "Highheels",
                 "Noname",
                 "Paladin Syndicate",
-                "Zuna Lovers",
                 "Zunera Cartel"
         );
 
