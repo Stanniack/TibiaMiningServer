@@ -100,6 +100,10 @@ public class TibiaUtil {
                 "Vunira",
                 "Wintera",
                 "Xandebra",
+                "Xylona",
+                "Yonabra",
+                "Ysolera",
+                "Zenobra",
                 "Zuna",
                 "Zunera"
         );
@@ -130,7 +134,9 @@ public class TibiaUtil {
                 "Serdebra",
                 "Serenebra",
                 "Venebra",
-                "Xandebra"
+                "Yonabra",
+                "Xandebra",
+                "Zenobra"
         );
 
         return worlds;
@@ -163,6 +169,7 @@ public class TibiaUtil {
                 "Talera",
                 "Torpera",
                 "Wintera",
+                "Ysolera",
                 "Zunera"
         );
 
@@ -195,6 +202,7 @@ public class TibiaUtil {
                 "Unica",
                 "Vita",
                 "Vunira",
+                "Xylona",
                 "Zuna"
         );
 
