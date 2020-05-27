@@ -2,6 +2,7 @@ package businessrules;
 
 import DAO.AbstractDAO;
 import DAO.GuildDAO;
+import DAO.PlayerDAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,7 +32,7 @@ public class CheckGuild {
                 Elements chosenElements = document.getElementsByClass("TableContentContainer");
                 List<String> elementsList = chosenElements.get(0).getElementsByTag("b").eachText();
 
-                List<String> guilds = new GuildDAO().listAllGuildNames(world);
+                List<String> guilds = new GuildDAO().listAllGuildNamesByWorld(world);
                 List<String> thisWorldGuilds = new ArrayList<>();
 
                 for (int i = START_CONTENT_GUILDS_INFO; i < elementsList.size(); i++) {
@@ -97,7 +98,7 @@ public class CheckGuild {
 
     public void getInfoGuilds(List<String> worlds, List<String> elementsList) {
 
-        List<String> guilds = new GuildDAO().listAllGuildNames("Zuna");
+        List<String> guilds = new GuildDAO().listAllGuildNamesByWorld("Zuna");
         List<String> thisWorldGuilds = new ArrayList<>();
 
         for (int i = 0; i < elementsList.size(); i++) {
@@ -158,21 +159,37 @@ public class CheckGuild {
      * ESTE MÉTODO NÃO É DIÁRIO */
     public void getPlayersGuilds() {
 
+        Long startTime = System.currentTimeMillis();
+
         try {
 
-            String url = "https://www.tibia.com/community/?subtopic=guilds&page=view&GuildName=Ahjar Dilenox";
-            Document document = Jsoup.connect(url).get();
-            Elements chosenElements = document.getElementsByClass("TableContentContainer");
+            for (String guild : new GuildDAO().listAllExistingGuildNames()) {
 
-            /*Se for maior que 0 é pq tem conteúdo a ser analisado */
-            if (chosenElements.size() > 0) {
-                List<String> elementsList = chosenElements.get(0).getElementsByTag("a").eachText();
-                elementsList.forEach(System.out::println);
+                String url = "https://www.tibia.com/community/?subtopic=guilds&page=view&GuildName=" + guild;
+                Document document = Jsoup.connect(url).get();
+                Elements chosenElements = document.getElementsByClass("TableContentContainer");
+
+                /*Se for maior que 0 é pq tem conteúdo a ser analisado */
+                if (chosenElements.size() > 0) {
+                    List<String> elementsList = chosenElements.get(0).getElementsByTag("a").eachText();
+
+                    for (int i = START_CONTENT_GET_PLAYERS; i < elementsList.size(); i++) {
+
+                        /* Se não existir é pq não tem no bd */
+                        if (new PlayerDAO().doesPlayerExists(elementsList.get(i)) == 0) {
+                            /*Persiste player*/
+                            new CheckCharacter().discoverCharacter(elementsList.get(i));
+                        }
+                    }
+
+                }
             }
 
         } catch (IOException ex) {
             System.out.println("Error - CheckGuild - getPlayerGuilds: " + ex);
         }
+
+        System.out.println((System.currentTimeMillis() - startTime) / 1000 + " secs");
 
     }
 }

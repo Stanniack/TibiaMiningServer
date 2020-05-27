@@ -27,6 +27,24 @@ public class PlayerDAO {
 
         return idReturn;
     }
+    
+    public Long doesPlayerExists(String name) {
+        EntityManager em = JPAUtil.getInstance();
+
+        String jpql = "SELECT count(*) FROM Player p where playerName = :pName";
+
+        TypedQuery<Long> query = em.createQuery(jpql, Long.class);
+
+        query.setParameter("pName", name);
+
+        Long count;
+
+        count = query.getSingleResult();
+
+        em.close();
+
+        return count;
+    }
 
     public Player returnCharacterByName(String string) {
 

@@ -10,7 +10,7 @@ import utils.JPAUtil;
 
 public class GuildDAO {
 
-    public List<String> listAllGuildNames(String world) {
+    public List<String> listAllGuildNamesByWorld(String world) {
 
         EntityManager em = JPAUtil.getInstance();
 
@@ -18,6 +18,27 @@ public class GuildDAO {
 
         TypedQuery<String> query = em.createQuery(jpql, String.class);
         query.setParameter("pWorld", world);
+
+        List<String> list = new ArrayList<>();
+
+        try {
+            list = query.getResultList();
+        } catch (NoResultException ex) {
+            System.out.println("Error - GuildDao - listAll: " + ex);
+        }
+
+        em.close();
+
+        return list;
+    }
+
+    public List<String> listAllExistingGuildNames() {
+
+        EntityManager em = JPAUtil.getInstance();
+
+        String jpql = "SELECT DISTINCT guildName FROM GuildInfo g WHERE dateEnd IS NULL";
+
+        TypedQuery<String> query = em.createQuery(jpql, String.class);
 
         List<String> list = new ArrayList<>();
 
