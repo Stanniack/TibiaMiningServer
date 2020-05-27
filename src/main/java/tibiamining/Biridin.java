@@ -34,10 +34,13 @@ import utils.TibiaUtil;
 public class Biridin {
 
     public static void main(String[] args) {
-        TibiaUtil.getAllBosses();
-        new CheckKillStatistics().getBossesStatistics(TibiaUtil.getAllWorlds());
-        System.out.println("test");
-
+        String t = "God Of The War Of The Entempt";
+        String[] v = t.split("Of The");
+        
+        for (String x : v) {
+            System.out.println(x);
+        }
+        
     }
 
 }

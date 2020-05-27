@@ -34,18 +34,18 @@ public class TibiaMining {
 
     public static void main(String[] args) {
 
-        List<String> guilds = new GuildDAO().listAllGuildNames("Zuna");
+//        List<String> guilds = new GuildDAO().listAllGuildNames("Zuna");
+//
+//        List<String> list = Arrays.asList(
+//                "Alt Eff Four",
+//                "Evil Geniuses",
+//                "Highheels",
+//                "Noname",
+//                "Paladin Syndicate",
+//                "Zunera Cartel"
+//        );
 
-        List<String> list = Arrays.asList(
-                "Alt Eff Four",
-                "Evil Geniuses",
-                "Highheels",
-                "Noname",
-                "Paladin Syndicate",
-                "Zunera Cartel"
-        );
-
-        new CheckGuild().getInfoGuilds(TibiaUtil.getAllWorlds(), list);
+        new CheckGuild().getInfoGuilds(TibiaUtil.getAllWorlds());
     }
 
 }
