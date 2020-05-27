@@ -45,7 +45,7 @@ public class TibiaMining {
 //                "Zunera Cartel"
 //        );
 
-        new CheckGuild().getInfoGuilds(TibiaUtil.getAllWorlds());
+        new CheckGuild().getPlayersGuilds();
     }
 
 }

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.GuildInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,7 +18,7 @@ public class CheckGuild {
     private final int START_CONTENT = 3;
 
     /* Deve ser rodado uma vez por dia */
-    public void getInfoGuilds(List<String> worlds) {
+    public void getGuildsInfo(List<String> worlds) {
 
         Long startTime = System.currentTimeMillis();
 
@@ -87,7 +89,7 @@ public class CheckGuild {
             } // for world
 
         } catch (IOException ex) {
-            System.out.println("Error - CheckGuild: " + ex);
+            System.out.println("Error - CheckGuild - getGuildsInfo: " + ex);
         }
 
         System.out.println("Método terminado com " + ((System.currentTimeMillis() - startTime) / 1000) + " secs");
@@ -155,7 +157,22 @@ public class CheckGuild {
 
     /* Captura todos os personagens membros de uma guilda de acordo com as listas de guildas existentes 
      * ESTE MÉTODO NÃO É DIÁRIO */
-    public void getPlayerGuilds() {
+    public void getPlayersGuilds() {
+
+        try {
+            String url = "https://www.tibia.com/community/?subtopic=guilds&page=view&GuildName=Ahjar Dilenox";
+            Document document = Jsoup.connect(url).get();
+            Elements chosenElements = document.getElementsByClass("TableContentContainer");
+
+            /*Se for maior que 0 é pq tem conteúdo a ser analisado */
+            if (chosenElements.size() > 0) {
+                List<String> elementsList = chosenElements.get(0).getElementsByTag("a").eachText();
+                elementsList.forEach(System.out::println);
+            }
+
+        } catch (IOException ex) {
+            System.out.println("Error - CheckGuild - getPlayerGuilds: " + ex);
+        }
 
     }
 }
