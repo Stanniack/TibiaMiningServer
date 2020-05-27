@@ -26,13 +26,13 @@ import org.jsoup.select.Elements;
 public class CheckCharacter {
 
     /* afterTitle = o conteúdo após o título do elemento */
-    private final int AFTER_TITLE = 1;
+    private static final int AFTER_TITLE = 1;
     /* Tamanho da lista quando não é o conteúdo que procuro */
-    private final int DOES_NOT_EXISTS = 6;
+    private static final int DOES_NOT_EXISTS = 6;
     /* Eliminar conteúdo lixo da lista de elementos */
-    private final int TRASH_ELIMINATOR = 2;
+    private static final int TRASH_ELIMINATOR = 2;
     /* Eliminar retorno de personagens com caracteres especiais */
-    private final int CHAR_ELIMINATOR = 3;
+    private static final int CHAR_ELIMINATOR = 3;
 
     public Player discoverCharacter(String name) {
         Player player = null;
@@ -708,8 +708,7 @@ public class CheckCharacter {
 
                                 flagUpdate = 1;
 
-                            } /* Se a guilda for igual e a posição do membro for diferente, é porque a posição foi alterada */ 
-                            else if (oldGuild.getGuildName().equals(guildInfo[1])
+                            } /* Se a guilda for igual e a posição do membro for diferente, é porque a posição foi alterada */ else if (oldGuild.getGuildName().equals(guildInfo[1])
                                     && !oldGuild.getMemberPositionGuild().equals(guildInfo[0])) {
 
                                 /* Atualiza nova posição na guilda */

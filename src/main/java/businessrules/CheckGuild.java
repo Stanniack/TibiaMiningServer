@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.GuildInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,7 +13,8 @@ import org.jsoup.select.Elements;
 
 public class CheckGuild {
 
-    private final int START_CONTENT = 3;
+    private static final int START_CONTENT_GUILDS_INFO = 3;
+    private static final int START_CONTENT_GET_PLAYERS = 3;
 
     /* Deve ser rodado uma vez por dia */
     public void getGuildsInfo(List<String> worlds) {
@@ -35,7 +34,7 @@ public class CheckGuild {
                 List<String> guilds = new GuildDAO().listAllGuildNames(world);
                 List<String> thisWorldGuilds = new ArrayList<>();
 
-                for (int i = START_CONTENT; i < elementsList.size(); i++) {
+                for (int i = START_CONTENT_GUILDS_INFO; i < elementsList.size(); i++) {
 
                     /* Se não tem é porque a guilda é nova */
                     if (!guilds.contains(elementsList.get(i))) {
@@ -160,6 +159,7 @@ public class CheckGuild {
     public void getPlayersGuilds() {
 
         try {
+
             String url = "https://www.tibia.com/community/?subtopic=guilds&page=view&GuildName=Ahjar Dilenox";
             Document document = Jsoup.connect(url).get();
             Elements chosenElements = document.getElementsByClass("TableContentContainer");

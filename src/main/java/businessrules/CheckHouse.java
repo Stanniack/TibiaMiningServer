@@ -12,15 +12,15 @@ import utils.TibiaUtil;
 
 public class CheckHouse {
 
-    private final int CONTENT_START = 6;
-    private final int TRASH_ELIMINATOR = 10;
-    private final int INCREMENTOR = 4;
+    private static final int CONTENT_START = 6;
+    private static final int TRASH_ELIMINATOR = 10;
+    private static final int INCREMENTOR = 4;
 
     /* Atributos*/
-    private final int NAME = 0;
-    private final int SQM = 1;
-    private final int RENT = 2;
-    private final int STATUS = 3;
+    private static final int NAME = 0;
+    private static final int SQM = 1;
+    private static final int RENT = 2;
+    private static final int STATUS = 3;
 
     /* Adiciona e atualiza as casas */
     public void getHouses(List<String> worlds) {
@@ -64,8 +64,8 @@ public class CheckHouse {
                                                     houseType,
                                                     Calendar.getInstance())
                                             );
-                                    
-                                    System.out.println(elementsList.get(i + NAME));  
+
+                                    System.out.println(elementsList.get(i + NAME));
                                 }
 
                             } else {

@@ -6,11 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.DateType;
 import model.OnlineTime;
 import model.Player;
@@ -20,22 +17,21 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import utils.DateUtil;
-import utils.TibiaUtil;
 
 public class CheckOnline {
 
 
     /* Elemento da lista que contém os players online */
-    private final int PLAYERS_CONTENT = 2;
+    private static final int PLAYERS_CONTENT = 2;
     /* Início do conteúdo que procuro */
-    private final int START_CONTENT = 2;
+    private static final int START_CONTENT = 2;
     /* Eliminação de elemtentos na lista indesejáveis */
-    private final int PLAYER_INCREMENTOR = 3;
+    private static final int PLAYER_INCREMENTOR = 3;
 
     /* Atributos */
-    private final int NAME = 0;
-    private final int LEVEL = 1;
-    private final int PROFESSION = 2;
+    private static final int NAME = 0;
+    private static final int LEVEL = 1;
+    private static final int PROFESSION = 2;
 
     public void getOnlinePlayers(List<String> worlds) {
 

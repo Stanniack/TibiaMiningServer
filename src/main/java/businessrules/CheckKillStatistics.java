@@ -11,14 +11,14 @@ import utils.TibiaUtil;
 
 public class CheckKillStatistics {
 
-    private final int CONTENT_START = 12;
-    private final int INCREMENTOR = 5;
-    private final int TRASH_ELIMINATOR = 5;
+    private static final int CONTENT_START = 12;
+    private static final int INCREMENTOR = 5;
+    private static final int TRASH_ELIMINATOR = 5;
 
     /* Atributos */
-    private final int CREATURE = 0;
-    private final int KILLED_PLAYERS = 1;
-    private final int KILLED_BY_PLAYERS = 2;
+    private static final int CREATURE = 0;
+    private static final int KILLED_PLAYERS = 1;
+    private static final int KILLED_BY_PLAYERS = 2;
 
     /* Método não tem lastUpdate, por isso deve ser rodado apenas 1x por dia */
     public void getBossesStatistics(List<String> worlds) {
@@ -39,7 +39,7 @@ public class CheckKillStatistics {
                     if (bosses.contains(elementsList.get(i + CREATURE))) {
 
                         /* Se o boss matou ou foi morto em no último dia e não está na lista de boss que não é preciso checar */
-                        if (!taskBosses.contains(elementsList.get(i + CREATURE)) 
+                        if (!taskBosses.contains(elementsList.get(i + CREATURE))
                                 && (Integer.valueOf(elementsList.get(i + KILLED_PLAYERS)) != 0
                                 || Integer.valueOf(elementsList.get(i + KILLED_BY_PLAYERS)) != 0)) {
 
