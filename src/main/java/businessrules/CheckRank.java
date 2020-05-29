@@ -412,10 +412,9 @@ public class CheckRank {
 
     }
 
-    public List<LoyaltyPoints> getRankLoyalty() {
+    public List<LoyaltyPoints> getRankLoyalty(List<String> worlds) {
 
         Long startTime = System.currentTimeMillis();
-        List<String> worlds = TibiaUtil.getAllWorlds();
         List<LoyaltyPoints> lpList = new ArrayList<>();
         Long serverStartTime = System.currentTimeMillis();
 
@@ -555,7 +554,7 @@ public class CheckRank {
         return lpList;
     }
 
-    public List<LoyaltyPoints> getRankLoyalty(List<String> elementsList) throws IOException {
+    public List<LoyaltyPoints> getRankLoyalty(List<String> elementsList, List<String> worlds) throws IOException {
 
         List<LoyaltyPoints> lpList = new ArrayList<>();
 
@@ -657,11 +656,10 @@ public class CheckRank {
         return lpList;
     }
 
-    public List<LevelAdvance> getRankExperience() {
+    public List<LevelAdvance> getRankExperience(List<String> worlds) {
 
         Long startTime = System.currentTimeMillis();
         List<LevelAdvance> laList = new ArrayList<>();
-        List<String> worlds = TibiaUtil.getAllWorlds();
 
         Long serverStartTime = System.currentTimeMillis();
 
@@ -807,7 +805,7 @@ public class CheckRank {
         return laList;
     }
 
-    public List<LevelAdvance> getRankExperience(List<String> elementsList) throws IOException {
+    public List<LevelAdvance> getRankExperience(List<String> elementsList, List<String> worlds) throws IOException {
 
         List<LevelAdvance> laList = new ArrayList<>();
 

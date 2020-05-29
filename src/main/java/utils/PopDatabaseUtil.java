@@ -15,7 +15,7 @@ public class PopDatabaseUtil {
 
     /* Popula ou atualiza todos os personagens contidos na lista dos ranks*/
     public static void popPlayersByExpRank() {
-        List<LevelAdvance> list = new CheckRank().getRankExperience();
+        List<LevelAdvance> list = new CheckRank().getRankExperience(TibiaUtil.getAllWorlds());
 
         for (LevelAdvance la : list) {
 
@@ -40,7 +40,7 @@ public class PopDatabaseUtil {
     }
 
     public static void popPlayersByLoyaltyRank() {
-        List<LoyaltyPoints> list = new CheckRank().getRankLoyalty();
+        List<LoyaltyPoints> list = new CheckRank().getRankLoyalty(TibiaUtil.getAllWorlds());
 
         for (LoyaltyPoints lp : list) {
             Long register = new AbstractDAO<>(Player.class).countRegistersByName(lp.getPlayerName());
