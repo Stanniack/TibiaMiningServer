@@ -30,9 +30,9 @@ public class AchievementPoints implements Serializable {
     public AchievementPoints() {
     }
 
-    public AchievementPoints(Player player, Integer achievmentPoints, Calendar registerDate) {
+    public AchievementPoints(Player player, Integer achievementPoints, Calendar registerDate) {
         this.player = player;
-        this.achievementPoints = achievmentPoints;
+        this.achievementPoints = achievementPoints;
         this.registerDate = registerDate;
     }
 
@@ -40,8 +40,8 @@ public class AchievementPoints implements Serializable {
         return achievementPoints;
     }
 
-    public void setAchievementPoints(Integer achievmentPoints) {
-        this.achievementPoints = achievmentPoints;
+    public void setAchievementPoints(Integer achievementPoints) {
+        this.achievementPoints = achievementPoints;
     }
 
     public Calendar getRegisterDate() {
