@@ -43,11 +43,12 @@ public class CheckRank {
     private static final int FIRST_PAGE = 1;
     private static final int LAST_PAGE = 20;
     private static final int NAME = 2;
+    private static final int NAME_LOYALTY = 3;
     private static final int VOCATION = 3;
     private static final int LEVEL = 5;
     private static final int POINTS = 5;
     private static final int EXPERIENCE = 6;
-    private static final int LOYALTY = 6;
+    private static final int LOYALTY = 8;
 
     /* Para a lista objects */
     private static final int LAST_NICK = 1;
@@ -433,15 +434,17 @@ public class CheckRank {
                     try {
 
                         String url = "https://www.tibia.com/community/?subtopic=highscores&world="
-                                + worlds.get(i) + "&list=" + "loyalty" + "&profession=" + n + "&currentpage=" + j;
+                                + worlds.get(i) + "&category=" + "10" + "&profession=" + n + "&currentpage=" + j;
 
                         Document htmlContent = Jsoup.connect(url).get();
                         List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
 
                         for (k = START_CONTENT_LOYALTY; k < elementsList.size() - TRASH_ELIMINATOR_LOYALTY; k += INCREMENTOR_LOYALTY) {
 
+                            System.out.println(elementsList.get(k + NAME_LOYALTY));
+                            System.out.println(elementsList.get(k + LOYALTY));
                             /* Busca último registro */
-                            LoyaltyPoints lp0 = new LoyaltyPointsDAO().returnLastRegisterDESC(elementsList.get(k + NAME));
+                            LoyaltyPoints lp0 = new LoyaltyPointsDAO().returnLastRegisterDESC(elementsList.get(k + NAME_LOYALTY));
 
                             /* flag para verificar se precisa vincular L.A com Player */
                             boolean flagUpdate = false;
@@ -458,7 +461,7 @@ public class CheckRank {
 
                                     lp = new LoyaltyPoints(
                                             loyaltyValue,
-                                            elementsList.get(k + NAME),
+                                            elementsList.get(k + NAME_LOYALTY),
                                             Calendar.getInstance());
 
                                     new AbstractDAO<>(LoyaltyPoints.class).insert(lp);
@@ -469,7 +472,7 @@ public class CheckRank {
 
                                 lp = new LoyaltyPoints(
                                         loyaltyValue,
-                                        elementsList.get(k + NAME),
+                                        elementsList.get(k + NAME_LOYALTY),
                                         Calendar.getInstance());
 
                                 new AbstractDAO<>(LoyaltyPoints.class).insert(lp);

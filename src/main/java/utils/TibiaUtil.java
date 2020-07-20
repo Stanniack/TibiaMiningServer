@@ -14,14 +14,16 @@ public class TibiaUtil {
 
     public static List<String> getSkills() {
         List<String> skills = Arrays.asList(
-                "axe",
-                "club",
-                "distance",
-                "fishing",
-                "fist",
-                "magic",
-                "shielding",
-                "sword"
+                "2",
+                "3",
+                "4",
+                "5",
+                "7",
+                "8",
+                "9",
+                "11",
+                "12",
+                "13"
         );
 
         return skills;

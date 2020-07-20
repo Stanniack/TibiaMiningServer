@@ -34,12 +34,7 @@ import utils.TibiaUtil;
 public class Biridin {
 
     public static void main(String[] args) {
-        String t = "God Of The War Of The Entempt";
-        String[] v = t.split("Of The");
-        
-        for (String x : v) {
-            System.out.println(x);
-        }
+        new CheckRank().getRankLoyalty(TibiaUtil.getAllWorlds());
         
     }
 
