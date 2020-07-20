@@ -34,20 +34,20 @@ public class CheckRank {
     private static final int TRASH_ELIMINATOR_LOYALTY = 1;
 
     /* O incrementador é 5 para skills, 4 para experience devido aos atributos de cada char */
-    private static final int INCREMENTOR_SKILLS = 4;
-    private static final int INCREMENTOR_EXP = 5;
-    private static final int INCREMENTOR_LOYALTY = 5;
+    private static final int INCREMENTOR_SKILLS = 6;
+    private static final int INCREMENTOR_EXP = 6;
+    private static final int INCREMENTOR_LOYALTY = 7;
 
     /* Atribuição */
-    private static final int PROFESSION = 4;
+    private static final int PROFESSION = 5;
     private static final int FIRST_PAGE = 1;
-    private static final int LAST_PAGE = 12;
-    private static final int NAME = 1;
-    private static final int VOCATION = 2;
-    private static final int LEVEL = 3;
-    private static final int POINTS = 3;
-    private static final int EXPERIENCE = 4;
-    private static final int LOYALTY = 4;
+    private static final int LAST_PAGE = 20;
+    private static final int NAME = 2;
+    private static final int VOCATION = 3;
+    private static final int LEVEL = 5;
+    private static final int POINTS = 5;
+    private static final int EXPERIENCE = 6;
+    private static final int LOYALTY = 6;
 
     /* Para a lista objects */
     private static final int LAST_NICK = 1;
@@ -678,7 +678,7 @@ public class CheckRank {
                     try {
 
                         String url = "https://www.tibia.com/community/?subtopic=highscores&world="
-                                + worlds.get(i) + "&list=" + "experience" + "&profession=" + n + "&currentpage=" + j;
+                                + worlds.get(i) + "&category=" + "6" + "&profession=" + n + "&currentpage=" + j;
 
                         Document htmlContent = Jsoup.connect(url).get();
                         List<String> elementsList = htmlContent.getElementsByTag("td").eachText();
