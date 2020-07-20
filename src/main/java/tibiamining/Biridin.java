@@ -33,9 +33,10 @@ import utils.TibiaUtil;
 
 public class Biridin {
 
-    public static void main(String[] args) {
-        new CheckRank().getRankLoyalty(TibiaUtil.getAllWorlds());
+    public static void main(String[] args) throws IOException {
         
+        new CheckRank().getRankSkills(TibiaUtil.getAllWorlds());
+
     }
 
 }

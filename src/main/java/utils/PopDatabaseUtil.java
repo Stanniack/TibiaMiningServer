@@ -63,7 +63,7 @@ public class PopDatabaseUtil {
     }
 
     public static void popPlayersBySkillsRank() {
-        List<PlayerSkills> list = new CheckRank().getRankSkills();
+        List<PlayerSkills> list = new CheckRank().getRankSkills(TibiaUtil.getAllWorlds());
 
         for (PlayerSkills ps : list) {
             Long register = new AbstractDAO<>(Player.class).countRegistersByName(ps.getPlayerName());

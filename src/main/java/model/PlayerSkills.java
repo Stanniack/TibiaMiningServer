@@ -27,10 +27,12 @@ public class PlayerSkills implements Serializable {
 
     private String playerName;
     private int axeFighting;
+    private int charmPoints;
     private int clubFighting;
     private int distanceFighting;
     private int fishing;
     private int fistFighting;
+    private int goshnarTaint;
     private int loyaltyPoints;
     private int magicLevel;
     private int shielding;
@@ -39,13 +41,15 @@ public class PlayerSkills implements Serializable {
     public PlayerSkills() {
     }
 
-    public PlayerSkills(String playerName, int axeFighting, int clubFighting, int distanceFighting, int fishing, int fistFighting, int loyaltyPoints, int magicLevel, int shielding, int swordFighting) {
+    public PlayerSkills(String playerName, int axeFighting, int charmPoints, int clubFighting, int distanceFighting, int fishing, int fistFighting, int goshnarTaint, int loyaltyPoints, int magicLevel, int shielding, int swordFighting) {
         this.playerName = playerName;
         this.axeFighting = axeFighting;
         this.clubFighting = clubFighting;
+        this.charmPoints = charmPoints;
         this.distanceFighting = distanceFighting;
         this.fishing = fishing;
         this.fistFighting = fistFighting;
+        this.goshnarTaint = goshnarTaint;
         this.loyaltyPoints = loyaltyPoints;
         this.magicLevel = magicLevel;
         this.shielding = shielding;
@@ -154,6 +158,22 @@ public class PlayerSkills implements Serializable {
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
+    }
+
+    public int getCharmPoints() {
+        return charmPoints;
+    }
+
+    public void setCharmPoints(int charmPoints) {
+        this.charmPoints = charmPoints;
+    }
+
+    public int getGoshnarTaint() {
+        return goshnarTaint;
+    }
+
+    public void setGoshnarTaint(int goshnarTaint) {
+        this.goshnarTaint = goshnarTaint;
     }
 
 }
