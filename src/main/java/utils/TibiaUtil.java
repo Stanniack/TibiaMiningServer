@@ -31,6 +31,7 @@ public class TibiaUtil {
 
     public static List<String> getAllWorlds() {
         List<String> worlds = Arrays.asList(
+                "Adra",
                 "Antica",
                 "Assombra",
                 "Astera",
@@ -99,10 +100,12 @@ public class TibiaUtil {
                 "Tortura",
                 "Torpera",
                 "Unica",
+                "Utobra",
                 "Venebra",
                 "Vita",
                 "Vunira",
                 "Wintera",
+                "Wizera",
                 "Xandebra",
                 "Xylona",
                 "Yonabra",
@@ -139,6 +142,7 @@ public class TibiaUtil {
                 "Serdebra",
                 "Serenebra",
                 "Venebra",
+                "Utobra",
                 "Yonabra",
                 "Xandebra",
                 "Zenobra"
@@ -174,6 +178,7 @@ public class TibiaUtil {
                 "Talera",
                 "Torpera",
                 "Wintera",
+                "Wizera",
                 "Ysolera",
                 "Zunera"
         );
@@ -183,6 +188,7 @@ public class TibiaUtil {
 
     public static List<String> getEuropeWorlds() {
         List<String> worlds = Arrays.asList(
+                "Adra",
                 "Antica",
                 "Belluma",
                 "Bona",
